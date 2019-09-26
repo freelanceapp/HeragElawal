@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Herag Elawal</string>
+    <string name="notifications">Notifications</string>
+    <string name="ok">OK</string>
+    <string name="please_sign_in_or_sign_up">Please Sign In or Sign Up</string>
+    <string name="cancel">Cancel</string>
+    <string name="sign_in">Sign In</string>
+    <string name="signup">Sign Up</string>
+    <string name="field_req">Field required</string>
+    <string name="inv_email">Invalid email</string>
+    <string name="pass_short">Password to short</string>
+
+</resources>
