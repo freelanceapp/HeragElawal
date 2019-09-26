@@ -159,6 +159,9 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     android:src="@drawable/ic_right_arrow"
+                    android:rotation='@{lang.equals("ar")?180:0}'
+                    android:onClick="@{()->showCountryListener.showDialog()}"
+
                     />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
