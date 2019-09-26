@@ -3,7 +3,7 @@ package com.creative.share.apps.heragelawal.interfaces;
 public interface Listeners {
 
     interface LoginListener {
-        void checkDataLogin(String user_name, String password);
+        void checkDataLogin();
     }
 
     interface SkipListener

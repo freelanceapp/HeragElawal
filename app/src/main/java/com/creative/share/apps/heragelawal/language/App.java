@@ -14,8 +14,7 @@ public class App extends MultiDexApplication {
         super.attachBaseContext(LanguageHelper.updateResources(base,"en"));
     }
 
-    @Override
-    public void onCreate() {
+   /* public void onCreate() {
         super.onCreate();
 
         TypefaceUtil.setDefaultFont(this, "DEFAULT", "fonts/ar_font.ttf");
@@ -25,5 +24,5 @@ public class App extends MultiDexApplication {
 
 
 
-    }
+    }*/
 }

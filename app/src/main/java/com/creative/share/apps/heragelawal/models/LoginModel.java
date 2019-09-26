@@ -12,86 +12,82 @@ import com.creative.share.apps.heragelawal.R;
 
 public class LoginModel extends BaseObservable {
 
-    private String username;
-    private String password;
-    public ObservableField<String> error_user_name = new ObservableField<>();
-    public ObservableField<String> error_password = new ObservableField<>();
+    private String phone_code;
+    private String phone;
+    private ObservableField<String> error_phone_code = new ObservableField<>();
+    private ObservableField<String> error_phone = new ObservableField<>();
+
 
 
     public LoginModel() {
-        this.username="";
-        this.password="";
+        this.phone_code = "";
+        this.phone="";
     }
 
-    public LoginModel(String username, String password) {
-        this.username = username;
-        notifyPropertyChanged(BR.username);
-        this.password = password;
-        notifyPropertyChanged(BR.password);
-        
+    public LoginModel(String phone_code, String phone) {
+        this.phone_code = phone_code;
+        notifyPropertyChanged(BR.phone_code);
+        this.phone = phone;
+        notifyPropertyChanged(BR.phone);
 
-
-    }
-
-
-    @Bindable
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-        notifyPropertyChanged(BR.username);
 
 
     }
 
     @Bindable
-    public String getPassword() {
-        return password;
+    public String getPhone_code() {
+        return phone_code;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
-        notifyPropertyChanged(BR.password);
+    public void setPhone_code(String phone_code) {
+        this.phone_code = phone_code;
+        notifyPropertyChanged(BR.phone_code);
 
     }
+
+    @Bindable
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+        notifyPropertyChanged(BR.phone);
+
+    }
+
 
     public boolean isDataValid(Context context)
     {
-        if (!TextUtils.isEmpty(username)&&
-                password.length()>=6
+        if (!TextUtils.isEmpty(phone_code)&&
+                !TextUtils.isEmpty(phone)
         )
         {
-            error_user_name.set(null);
-            error_password.set(null);
-           // Log.e("lll","lllll");
+            error_phone_code.set(null);
+            error_phone.set(null);
+
             return true;
         }else
+        {
+            if (phone_code.isEmpty())
             {
-                if (username.isEmpty())
-                {
-                    error_user_name.set(context.getString(R.string.field_req));
-                }else
-                    {
-                        error_user_name.set(null);
-                    }
-
-
-
-                if (password.isEmpty())
-                {
-                    error_password.set(context.getString(R.string.field_req));
-                }else if (password.length()<6)
-                {
-                    error_password.set(context.getString(R.string.pass_short));
-                }else
-                    {
-                        error_password.set(null);
-
-                    }
-                return false;
+                error_phone_code.set(context.getString(R.string.field_req));
+            }else
+            {
+                error_phone_code.set(null);
             }
+
+            if (phone.isEmpty())
+            {
+                error_phone.set(context.getString(R.string.field_req));
+            }else
+            {
+                error_phone.set(null);
+            }
+
+
+            return false;
+        }
     }
 
 

@@ -25,6 +25,7 @@ public class SignInActivity extends AppCompatActivity {
     private Fragment_Language fragment_language;
 
     private Preferences preferences;
+    private Fragment_Sign_In fragment_sign_in;
 
 
     @Override
@@ -56,7 +57,13 @@ public class SignInActivity extends AppCompatActivity {
 
     }
 
+    public void displayFragmentSignIn() {
+        fragment_count++;
+        fragment_sign_in = Fragment_Sign_In.newInstance();
 
+        manager.beginTransaction().add(R.id.fragment_sign_in_container, fragment_sign_in, "fragment_sign_in").addToBackStack("fragment_sign_in").commit();
+
+    }
 
     public void refreshActivity(String lang) {
         Paper.init(this);

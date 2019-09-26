@@ -9,5 +9,11 @@
     <string name="field_req">Field required</string>
     <string name="inv_email">Invalid email</string>
     <string name="pass_short">Password to short</string>
+    <string name="add_phone_number">Add phone Number</string>
+    <string name="before_using_this_service_please_register_with_your_mobile_number_within_the_kingdom_of_saudi_arabia">Before using this service, please register with your mobile number within the Kingdom of Saudi Arabia</string>
+    <string name="code">code</string>
+    <string name="user_phone">Phone</string>
+    <string name="enter_your_number_without_the_country_code_in_english">Enter your number without the country code in English</string>
+    <string name="next">Next</string>
 
 </resources>
