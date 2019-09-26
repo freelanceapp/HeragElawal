@@ -42,7 +42,7 @@ public class SignInActivity extends AppCompatActivity {
         preferences = Preferences.newInstance();
         if (savedInstanceState == null) {
             if (preferences.isLangSelected(this)) {
-               // displayFragmentSignIn();
+                displayFragmentSignIn();
 
             } else {
                 displayFragmentLanguage();

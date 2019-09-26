@@ -15,5 +15,6 @@
     <string name="user_phone">Phone</string>
     <string name="enter_your_number_without_the_country_code_in_english">Enter your number without the country code in English</string>
     <string name="next">Next</string>
+    <string name="skip">skip</string>
 
 </resources>

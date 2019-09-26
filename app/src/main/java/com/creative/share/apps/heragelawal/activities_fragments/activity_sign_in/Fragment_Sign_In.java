@@ -118,8 +118,11 @@ public class Fragment_Sign_In extends Fragment implements Listeners.LoginListene
 
     @Override
     public void skip() {
-
-
+        binding.tvSkip.setEnabled(false);
+       /* Intent intent = new Intent(activity, HomeActivity.class);
+        startActivity(intent);
+        activity.finish();
+*/
 
     }
 
