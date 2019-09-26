@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">حراج الاول</string>
+
+    <string name="signup">إنشاء حساب جديد</string>
+
+    <string name="notifications">الاشعارات</string>
+    <string name="ok">اقبل</string>
+
+    <string name="skip">تخطي</string>
+    <string name="field_req">الحقل مطلوب</string>
+    <string name="inv_email">البريد الالكتروني غير صحيح</string>
+
+
+    <string name="sign_in">تسجيل الدخول</string>
+    <string name="please_sign_in_or_sign_up">برجاء تسجيل الدخول أو إنشاء حساب جديد.</string>
+    <string name="cancel">إلغاء</string>
+    <string name="add_phone_number">ادخل رقم الجوال</string>
+    <string name="before_using_this_service_please_register_with_your_mobile_number_within_the_kingdom_of_saudi_arabia">يتم التسجيل قبل استخدام هذه الخدمة ، يرجى التسجيل برقم جوالك داخل المملكه العربية السعودية</string>
+    <string name="code">كود</string>
+    <string name="user_phone">رقم الجوال</string>
+    <string name="enter_your_number_without_the_country_code_in_english">ادخل رقمك من غير كود البلد باللغة الانجليزية</string>
+    <string name="next">التالى</string>
+
+
+
+</resources>

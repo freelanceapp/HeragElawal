@@ -142,7 +142,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginTop="5dp"
                     android:layout_marginBottom="5dp"
-                    android:background="@color/gray4"
+                    android:background="@color/prestage"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@id/image_phone_code"
                     app:layout_constraintTop_toTopOf="parent" />
