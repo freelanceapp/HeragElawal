@@ -91,21 +91,7 @@
             android:layout_height="match_parent"
             android:layout_gravity="start">
 
-            <Li
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
 
-                <include
-                    android:id="@+id/navigation_drawer_header_include"
-                    layout="@layout/navigation_drawer_header" />
-
-                <Re
-                    android:id="@+id/navigation_drawer_list"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_below="@id/navigation_drawer_header_include"/>
-
-            </Li>
 
         </android.support.design.widget.NavigationView>
 
