@@ -15,5 +15,17 @@
     <string name="enter_your_number_without_the_country_code_in_english">Enter your number without the country code in English</string>
     <string name="next">Next</string>
     <string name="skip">skip</string>
+    <string name="advertise_now_for_free">Advertise now for free</string>
+    <string name="search_in_that_department">search in that department</string>
+    <string name="no_adversiment_found">No Adversiment Found</string>
+    <string name="Categories">Categories</string>
+    <string name="companies">companies</string>
+    <string name="my_Advdersiment">My Advdersiment</string>
+    <string name="favourite">favourite</string>
+    <string name="chat">Chat</string>
+    <string name="name">name</string>
+    <string name="comments">Comment</string>
+    <string name="companies_category">Companies category</string>
+    <string name="no_company_found">No Company Found</string>
 
 </resources>

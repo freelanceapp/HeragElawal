@@ -28,6 +28,10 @@
             android:configChanges="screenSize|orientation|keyboardHidden"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
         <activity
+            android:name=".activities_fragments.activity_home.activity.HomeActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan" />
+        <activity
             android:name=".activities_fragments.activity_splash.SplashActivity"
             android:configChanges="screenSize|orientation|keyboardHidden"
             android:windowSoftInputMode="stateAlwaysHidden">

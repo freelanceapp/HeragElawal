@@ -19,6 +19,7 @@ import androidx.fragment.app.Fragment;
 
 
 import com.creative.share.apps.heragelawal.R;
+import com.creative.share.apps.heragelawal.activities_fragments.activity_home.activity.HomeActivity;
 import com.creative.share.apps.heragelawal.databinding.DialogAlertBinding;
 import com.creative.share.apps.heragelawal.databinding.FragmentSignInBinding;
 import com.creative.share.apps.heragelawal.interfaces.Listeners;
@@ -119,10 +120,10 @@ public class Fragment_Sign_In extends Fragment implements Listeners.LoginListene
     @Override
     public void skip() {
         binding.tvSkip.setEnabled(false);
-       /* Intent intent = new Intent(activity, HomeActivity.class);
+        Intent intent = new Intent(activity, HomeActivity.class);
         startActivity(intent);
         activity.finish();
-*/
+
 
     }
 

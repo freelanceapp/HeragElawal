@@ -21,7 +21,18 @@
     <string name="user_phone">رقم الجوال</string>
     <string name="enter_your_number_without_the_country_code_in_english">ادخل رقمك من غير كود البلد باللغة الانجليزية</string>
     <string name="next">التالى</string>
-
+    <string name="advertise_now_for_free">اعلن الان مجانا</string>
+    <string name="search_in_that_department">ابحث فى هذا القسم</string>
+    <string name="no_adversiment_found">لا يوجد اعلانات</string>
+    <string name="Categories">فئات</string>
+    <string name="companies">شركات</string>
+    <string name="my_Advdersiment">اعلاناتى</string>
+    <string name="favourite">المفضلة</string>
+    <string name="chat">دردشه</string>
+    <string name="name">الاسم</string>
+    <string name="comments">تعليق</string>
+    <string name="companies_category">فئة الشركات</string>
+    <string name="no_company_found">لا يوجد شركه</string>
 
 
 </resources>
