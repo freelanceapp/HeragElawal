@@ -33,6 +33,15 @@
     <string name="comments">تعليق</string>
     <string name="companies_category">فئة الشركات</string>
     <string name="no_company_found">لا يوجد شركه</string>
+    <string name="number_of_ads">عدد الاعلانات</string>
+    <string name="call">اتصال</string>
+    <string name="messge">رسالة</string>
+    <string name="location">موقع</string>
+    <string name="share">شارك</string>
+    <string name="edit">تعديل</string>
+    <string name="price">سعر</string>
+    <string name="delete">حذف</string>
+    <string name="type_a_messge">اكتب رسالة</string>
 
 
 </resources>

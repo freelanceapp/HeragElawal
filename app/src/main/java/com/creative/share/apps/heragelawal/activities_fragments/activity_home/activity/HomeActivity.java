@@ -17,6 +17,7 @@ import androidx.fragment.app.FragmentManager;
 
 
 import com.creative.share.apps.heragelawal.R;
+import com.creative.share.apps.heragelawal.activities_fragments.activity_home.fragments.Fragment_Chat;
 import com.creative.share.apps.heragelawal.activities_fragments.activity_home.fragments.Fragment_Company;
 import com.creative.share.apps.heragelawal.activities_fragments.activity_home.fragments.Fragment_Favourite;
 import com.creative.share.apps.heragelawal.activities_fragments.activity_home.fragments.Fragment_Home;
@@ -50,6 +51,7 @@ public class HomeActivity extends AppCompatActivity {
 private Fragment_Company fragment_company;
 private Fragment_My_Adversiment fragment_my_adversiment;
 private Fragment_Favourite fragment_favourite;
+private Fragment_Chat fragment_chat;
     private Preferences preferences;
     private UserModel userModel;
 
@@ -120,6 +122,9 @@ if(fragment_company!=null&&fragment_company.isAdded()){
         if(fragment_favourite!=null&&fragment_favourite.isAdded()){
             fragmentManager.beginTransaction().hide(fragment_favourite).commit();
         }
+        if(fragment_chat!=null&&fragment_chat.isAdded()){
+            fragmentManager.beginTransaction().hide(fragment_chat).commit();
+        }
 
         if (fragment_main.isAdded()) {
             fragmentManager.beginTransaction().show(fragment_main).commit();
@@ -146,6 +151,9 @@ if(fragment_company!=null&&fragment_company.isAdded()){
         }
         if(fragment_favourite!=null&&fragment_favourite.isAdded()){
             fragmentManager.beginTransaction().hide(fragment_favourite).commit();
+        }
+        if(fragment_chat!=null&&fragment_chat.isAdded()){
+            fragmentManager.beginTransaction().hide(fragment_chat).commit();
         }
         if (fragment_company.isAdded()) {
             fragmentManager.beginTransaction().show(fragment_company).commit();
@@ -174,6 +182,9 @@ if(fragment_company!=null&&fragment_company.isAdded()){
         if(fragment_favourite!=null&&fragment_favourite.isAdded()){
             fragmentManager.beginTransaction().hide(fragment_favourite).commit();
         }
+        if(fragment_chat!=null&&fragment_chat.isAdded()){
+            fragmentManager.beginTransaction().hide(fragment_chat).commit();
+        }
         if (fragment_my_adversiment.isAdded()) {
             fragmentManager.beginTransaction().show(fragment_my_adversiment).commit();
 
@@ -200,6 +211,9 @@ if(fragment_company!=null&&fragment_company.isAdded()){
         if(fragment_company!=null&&fragment_company.isAdded()){
             fragmentManager.beginTransaction().hide(fragment_company).commit();
         }
+        if(fragment_chat!=null&&fragment_chat.isAdded()){
+            fragmentManager.beginTransaction().hide(fragment_chat).commit();
+        }
         if (fragment_favourite.isAdded()) {
             fragmentManager.beginTransaction().show(fragment_favourite).commit();
 
@@ -212,7 +226,35 @@ if(fragment_company!=null&&fragment_company.isAdded()){
         }
 
     }
+    public void DisplayFragmentChat()
+    {
+        if (fragment_chat == null) {
+            fragment_chat = Fragment_Chat.newInstance();
+        }
+        if(fragment_main!=null&&fragment_main.isAdded()){
+            fragmentManager.beginTransaction().hide(fragment_main).commit();
+        }
+        if(fragment_my_adversiment!=null&&fragment_my_adversiment.isAdded()){
+            fragmentManager.beginTransaction().hide(fragment_my_adversiment).commit();
+        }
+        if(fragment_company!=null&&fragment_company.isAdded()){
+            fragmentManager.beginTransaction().hide(fragment_company).commit();
+        }
+        if(fragment_favourite!=null&&fragment_favourite.isAdded()){
+            fragmentManager.beginTransaction().hide(fragment_favourite).commit();
+        }
+        if (fragment_chat.isAdded()) {
+            fragmentManager.beginTransaction().show(fragment_chat).commit();
 
+        } else {
+            fragmentManager.beginTransaction().add(R.id.fragment_home_container, fragment_chat, "fragment_chat").addToBackStack("fragment_chat").commit();
+
+        }
+        if (fragment_home != null && fragment_home.isAdded()) {
+            fragment_home.updateBottomNavigationPosition(4);
+        }
+
+    }
     public void onBackPressed() {
         Back();
     }

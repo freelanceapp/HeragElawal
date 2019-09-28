@@ -17,4 +17,6 @@
 
     <color name="transparent">#00000000</color>
 <color name="prestage">#70dde0</color>
+    <color name="green">#34790e</color>
+    <color name="red">#920a0c</color>
 </resources>

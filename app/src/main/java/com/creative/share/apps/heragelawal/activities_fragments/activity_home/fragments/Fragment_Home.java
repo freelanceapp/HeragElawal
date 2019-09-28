@@ -56,18 +56,16 @@ public class Fragment_Home extends Fragment {
                     activity.DisplayFragmentCompany();
                     break;
                 case 2:
-                    if (userModel != null) {
                         activity.DisplayFragmentMyadvesriment();
-                    } else {
-                    }
+
 
                     break;
                 case 3:
-                    if (userModel != null) {
                         activity.DisplayFragmentFavourite();
-                    } else {
 
-                    }
+                    break;
+                case 4:
+                    activity.DisplayFragmentChat();
                     break;
 
             }

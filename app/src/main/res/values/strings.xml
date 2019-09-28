@@ -27,5 +27,14 @@
     <string name="comments">Comment</string>
     <string name="companies_category">Companies category</string>
     <string name="no_company_found">No Company Found</string>
+    <string name="number_of_ads">Number of ads</string>
+    <string name="call">Call</string>
+    <string name="messge">Messge</string>
+    <string name="location">Location</string>
+    <string name="share">share</string>
+    <string name="edit">Edit</string>
+    <string name="price">Price</string>
+    <string name="delete">Delete</string>
+    <string name="type_a_messge">Type A Messge</string>
 
 </resources>
