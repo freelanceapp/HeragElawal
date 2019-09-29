@@ -36,5 +36,9 @@
     <string name="price">Price</string>
     <string name="delete">Delete</string>
     <string name="type_a_messge">Type A Messge</string>
+    <string name="main_menue">Main Menue</string>
+    <string name="add_your_adversiment_for_free">Add Your Adversiment For Free</string>
+    <string name="change_language">Change language</string>
+    <string name="about_herage">About Herage</string>
 
 </resources>

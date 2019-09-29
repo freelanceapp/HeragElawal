@@ -42,6 +42,10 @@
     <string name="price">سعر</string>
     <string name="delete">حذف</string>
     <string name="type_a_messge">اكتب رسالة</string>
+    <string name="main_menue">القائمه الرئيسيه</string>
+    <string name="add_your_adversiment_for_free">اضف اعلانك مجانا</string>
+    <string name="change_language">تغير اللغه</string>
+    <string name="about_herage">عن حراج</string>
 
 
 </resources>
