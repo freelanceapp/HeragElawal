@@ -63,7 +63,7 @@ catohries_modelList=new ArrayList<>();
 
         side_catogry_adapter = new Companies_Adapter(catohries_modelList, activity);
         company_ads_type_adapter = new Company_Ads_Type_Adapter(catohries_modelList, activity);
-
+binding.recStores.setNestedScrollingEnabled(false);
         binding.recStores.setLayoutManager(new GridLayoutManager(activity, 3));
         binding.recStores.setAdapter(side_catogry_adapter);
         manager=new GridLayoutManager(activity,2,GridLayoutManager.HORIZONTAL,false);
