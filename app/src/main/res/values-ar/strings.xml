@@ -68,9 +68,9 @@
     <string name="sections">الاقسام الفرعيه</string>
     <string name="about">حول</string>
     <string name="all_rights_reserved_for_herage_elawal">جميع الحقوق محفوظة لمنصة حراج الاول</string>
-    <string name="send_us_a_message">Send us a message</string>
-    <string name="send_us_email">Send Us Email</string>
-    <string name="instructions_for_use">Instructions for use</string>
+    <string name="send_us_a_message">ارسل لنا رساله</string>
+    <string name="send_us_email">ارسل لنا بريد</string>
+    <string name="instructions_for_use">تعليمات الاستخدام</string>
 
 
 </resources>
