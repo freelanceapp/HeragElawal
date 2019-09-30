@@ -104,6 +104,13 @@ public class Fragment_Home extends Fragment {
                 }
             }
         });
+        binding.llAbout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                binding.drawerLayout.closeDrawers();
+                activity.DisplayFragmentAbout();
+            }
+        });
 
     }
 

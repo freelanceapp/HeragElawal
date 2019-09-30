@@ -1,4 +1,4 @@
-package com.creative.share.apps.heragelawal.activities_fragments.activity_home.fragments.fragment_company;
+package com.creative.share.apps.heragelawal.activities_fragments.activity_home.fragments;
 
 import android.graphics.PorterDuff;
 import android.os.Bundle;
@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment;
 
 import com.creative.share.apps.heragelawal.R;
 import com.creative.share.apps.heragelawal.activities_fragments.activity_home.activity.HomeActivity;
+import com.creative.share.apps.heragelawal.databinding.FragmentAboutBinding;
 import com.creative.share.apps.heragelawal.databinding.FragmentCompanyBinding;
 import com.creative.share.apps.heragelawal.models.UserModel;
 import com.creative.share.apps.heragelawal.preferences.Preferences;
@@ -22,16 +23,16 @@ import java.util.Locale;
 
 import io.paperdb.Paper;
 
-public class Fragment_Company extends Fragment {
+public class Fragment_About extends Fragment {
     private HomeActivity activity;
-    private FragmentCompanyBinding binding;
+    private FragmentAboutBinding binding;
     private Preferences preferences;
     private UserModel userModel;
     private String lang;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_company, container, false);
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_about, container, false);
 
 
         initView();
@@ -45,23 +46,14 @@ public class Fragment_Company extends Fragment {
         userModel = preferences.getUserData(activity);
         Paper.init(activity);
         lang = Paper.book().read("lang", Locale.getDefault().getLanguage());
-        binding.progBar.getIndeterminateDrawable().setColorFilter(ContextCompat.getColor(activity, R.color.colorPrimary), PorterDuff.Mode.SRC_IN);
 
-        binding.progBar2.getIndeterminateDrawable().setColorFilter(ContextCompat.getColor(activity, R.color.colorPrimary), PorterDuff.Mode.SRC_IN);
-        binding.progBar3.getIndeterminateDrawable().setColorFilter(ContextCompat.getColor(activity, R.color.colorPrimary), PorterDuff.Mode.SRC_IN);
-        binding.tvAds.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                activity.DisplayFragmentAddads();
-            }
-        });
 
 
     }
 
 
-    public static Fragment_Company newInstance() {
-        return new Fragment_Company();
+    public static Fragment_About newInstance() {
+        return new Fragment_About();
     }
 
 

@@ -9,6 +9,7 @@ import androidx.fragment.app.FragmentManager;
 
 
 import com.creative.share.apps.heragelawal.R;
+import com.creative.share.apps.heragelawal.activities_fragments.activity_home.fragments.Fragment_About;
 import com.creative.share.apps.heragelawal.activities_fragments.activity_home.fragments.fragment_company.Fragment_Add_Company;
 import com.creative.share.apps.heragelawal.activities_fragments.activity_home.fragments.Fragment_Add_ads;
 import com.creative.share.apps.heragelawal.activities_fragments.activity_home.fragments.Fragment_Chat;
@@ -45,6 +46,7 @@ private Fragment_Chat fragment_chat;
     private Fragment_Add_Company fragment_add_company;
     private Fragment_Add_ads fragment_add_ads;
     private Fragment_Company fragment_company;
+    private Fragment_About fragment_about;
 
 
     @Override
@@ -136,6 +138,21 @@ private Fragment_Chat fragment_chat;
 
         } else {
             fragmentManager.beginTransaction().add(R.id.fragment_app_container, fragment_add_ads, "fragment_add_ads").addToBackStack("fragment_add_ads").commit();
+
+        }
+
+    }
+    public void DisplayFragmentAbout() {
+        fragment_count += 1;
+
+        fragment_about = Fragment_About.newInstance();
+
+
+        if (fragment_about.isAdded()) {
+            fragmentManager.beginTransaction().show(fragment_about).commit();
+
+        } else {
+            fragmentManager.beginTransaction().add(R.id.fragment_app_container, fragment_about, "fragment_about").addToBackStack("fragment_about").commit();
 
         }
 
