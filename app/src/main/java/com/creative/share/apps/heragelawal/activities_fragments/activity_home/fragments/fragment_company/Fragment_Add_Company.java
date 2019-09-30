@@ -1,7 +1,6 @@
-package com.creative.share.apps.heragelawal.activities_fragments.activity_home.fragments;
+package com.creative.share.apps.heragelawal.activities_fragments.activity_home.fragments.fragment_company;
 
 import android.content.Context;
-import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.telephony.TelephonyManager;
 import android.view.LayoutInflater;
@@ -10,14 +9,12 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 
 import com.creative.share.apps.heragelawal.R;
 import com.creative.share.apps.heragelawal.activities_fragments.activity_home.activity.HomeActivity;
 import com.creative.share.apps.heragelawal.databinding.FragmentAddCompanyBinding;
-import com.creative.share.apps.heragelawal.databinding.FragmentMainBinding;
 import com.creative.share.apps.heragelawal.interfaces.Listeners;
 import com.creative.share.apps.heragelawal.models.UserModel;
 import com.creative.share.apps.heragelawal.preferences.Preferences;

@@ -1,48 +1,32 @@
 package com.creative.share.apps.heragelawal.activities_fragments.activity_home.activity;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.util.Log;
-import android.view.LayoutInflater;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 
 import com.creative.share.apps.heragelawal.R;
-import com.creative.share.apps.heragelawal.activities_fragments.activity_home.fragments.Fragment_Add_Company;
+import com.creative.share.apps.heragelawal.activities_fragments.activity_home.fragments.fragment_company.Fragment_Add_Company;
 import com.creative.share.apps.heragelawal.activities_fragments.activity_home.fragments.Fragment_Add_ads;
 import com.creative.share.apps.heragelawal.activities_fragments.activity_home.fragments.Fragment_Chat;
-import com.creative.share.apps.heragelawal.activities_fragments.activity_home.fragments.Fragment_Company;
+import com.creative.share.apps.heragelawal.activities_fragments.activity_home.fragments.fragment_company.Fragment_Companies;
 import com.creative.share.apps.heragelawal.activities_fragments.activity_home.fragments.Fragment_Favourite;
 import com.creative.share.apps.heragelawal.activities_fragments.activity_home.fragments.Fragment_Home;
 import com.creative.share.apps.heragelawal.activities_fragments.activity_home.fragments.Fragment_Main;
 import com.creative.share.apps.heragelawal.activities_fragments.activity_home.fragments.Fragment_My_Adversiment;
+import com.creative.share.apps.heragelawal.activities_fragments.activity_home.fragments.fragment_company.Fragment_Company;
 import com.creative.share.apps.heragelawal.databinding.ActivityHomeBinding;
 import com.creative.share.apps.heragelawal.language.LanguageHelper;
 import com.creative.share.apps.heragelawal.models.UserModel;
 import com.creative.share.apps.heragelawal.preferences.Preferences;
 
 
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 
 import io.paperdb.Paper;
-import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class HomeActivity extends AppCompatActivity {
     private ActivityHomeBinding binding;
@@ -50,7 +34,7 @@ public class HomeActivity extends AppCompatActivity {
     private int fragment_count = 0;
     private Fragment_Home fragment_home;
     private Fragment_Main fragment_main;
-private Fragment_Company fragment_company;
+private Fragment_Companies fragment_companies;
 private Fragment_My_Adversiment fragment_my_adversiment;
 private Fragment_Favourite fragment_favourite;
 private Fragment_Chat fragment_chat;
@@ -60,6 +44,7 @@ private Fragment_Chat fragment_chat;
     private String lang;
     private Fragment_Add_Company fragment_add_company;
     private Fragment_Add_ads fragment_add_ads;
+    private Fragment_Company fragment_company;
 
 
     @Override
@@ -125,6 +110,21 @@ private Fragment_Chat fragment_chat;
         }
 
     }
+    public void DisplayFragmentshowCompany() {
+        fragment_count += 1;
+
+        fragment_company = Fragment_Company.newInstance();
+
+
+        if (fragment_company.isAdded()) {
+            fragmentManager.beginTransaction().show(fragment_company).commit();
+
+        } else {
+            fragmentManager.beginTransaction().add(R.id.fragment_app_container, fragment_company, "fragment_company").addToBackStack("fragment_company").commit();
+
+        }
+
+    }
     public void DisplayFragmentAddads() {
         fragment_count += 1;
 
@@ -146,8 +146,8 @@ private Fragment_Chat fragment_chat;
         if (fragment_main == null) {
             fragment_main = Fragment_Main.newInstance();
         }
-if(fragment_company!=null&&fragment_company.isAdded()){
-    fragmentManager.beginTransaction().hide(fragment_company).commit();
+if(fragment_companies !=null&& fragment_companies.isAdded()){
+    fragmentManager.beginTransaction().hide(fragment_companies).commit();
 }
         if(fragment_my_adversiment!=null&&fragment_my_adversiment.isAdded()){
             fragmentManager.beginTransaction().hide(fragment_my_adversiment).commit();
@@ -171,10 +171,10 @@ if(fragment_company!=null&&fragment_company.isAdded()){
         }
 
     }
-    public void DisplayFragmentCompany()
+    public void DisplayFragmentCompanies()
     {
-        if (fragment_company == null) {
-            fragment_company = Fragment_Company.newInstance();
+        if (fragment_companies == null) {
+            fragment_companies = Fragment_Companies.newInstance();
         }
         if(fragment_main!=null&&fragment_main.isAdded()){
             fragmentManager.beginTransaction().hide(fragment_main).commit();
@@ -188,11 +188,11 @@ if(fragment_company!=null&&fragment_company.isAdded()){
         if(fragment_chat!=null&&fragment_chat.isAdded()){
             fragmentManager.beginTransaction().hide(fragment_chat).commit();
         }
-        if (fragment_company.isAdded()) {
-            fragmentManager.beginTransaction().show(fragment_company).commit();
+        if (fragment_companies.isAdded()) {
+            fragmentManager.beginTransaction().show(fragment_companies).commit();
 
         } else {
-            fragmentManager.beginTransaction().add(R.id.fragment_home_container, fragment_company, "fragment_company").addToBackStack("fragment_company").commit();
+            fragmentManager.beginTransaction().add(R.id.fragment_home_container, fragment_companies, "fragment_companies").addToBackStack("fragment_companies").commit();
 
         }
         if (fragment_home != null && fragment_home.isAdded()) {
@@ -209,8 +209,8 @@ if(fragment_company!=null&&fragment_company.isAdded()){
         if(fragment_main!=null&&fragment_main.isAdded()){
             fragmentManager.beginTransaction().hide(fragment_main).commit();
         }
-        if(fragment_company!=null&&fragment_company.isAdded()){
-            fragmentManager.beginTransaction().hide(fragment_company).commit();
+        if(fragment_companies !=null&& fragment_companies.isAdded()){
+            fragmentManager.beginTransaction().hide(fragment_companies).commit();
         }
         if(fragment_favourite!=null&&fragment_favourite.isAdded()){
             fragmentManager.beginTransaction().hide(fragment_favourite).commit();
@@ -241,8 +241,8 @@ if(fragment_company!=null&&fragment_company.isAdded()){
         if(fragment_my_adversiment!=null&&fragment_my_adversiment.isAdded()){
             fragmentManager.beginTransaction().hide(fragment_my_adversiment).commit();
         }
-        if(fragment_company!=null&&fragment_company.isAdded()){
-            fragmentManager.beginTransaction().hide(fragment_company).commit();
+        if(fragment_companies !=null&& fragment_companies.isAdded()){
+            fragmentManager.beginTransaction().hide(fragment_companies).commit();
         }
         if(fragment_chat!=null&&fragment_chat.isAdded()){
             fragmentManager.beginTransaction().hide(fragment_chat).commit();
@@ -270,8 +270,8 @@ if(fragment_company!=null&&fragment_company.isAdded()){
         if(fragment_my_adversiment!=null&&fragment_my_adversiment.isAdded()){
             fragmentManager.beginTransaction().hide(fragment_my_adversiment).commit();
         }
-        if(fragment_company!=null&&fragment_company.isAdded()){
-            fragmentManager.beginTransaction().hide(fragment_company).commit();
+        if(fragment_companies !=null&& fragment_companies.isAdded()){
+            fragmentManager.beginTransaction().hide(fragment_companies).commit();
         }
         if(fragment_favourite!=null&&fragment_favourite.isAdded()){
             fragmentManager.beginTransaction().hide(fragment_favourite).commit();

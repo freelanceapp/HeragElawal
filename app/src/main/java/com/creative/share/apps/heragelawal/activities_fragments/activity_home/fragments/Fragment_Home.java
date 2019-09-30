@@ -1,6 +1,5 @@
 package com.creative.share.apps.heragelawal.activities_fragments.activity_home.fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,7 +22,6 @@ import com.creative.share.apps.heragelawal.databinding.FragmentHomeBinding;
 import com.creative.share.apps.heragelawal.models.Catohries_Model;
 import com.creative.share.apps.heragelawal.models.UserModel;
 import com.creative.share.apps.heragelawal.preferences.Preferences;
-import com.creative.share.apps.heragelawal.tags.Tags;
 
 
 import java.util.ArrayList;
@@ -71,7 +69,7 @@ public class Fragment_Home extends Fragment {
                     break;
                 case 1:
 
-                    activity.DisplayFragmentCompany();
+                    activity.DisplayFragmentCompanies();
                     break;
                 case 2:
                     activity.DisplayFragmentMyadvesriment();

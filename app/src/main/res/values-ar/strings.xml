@@ -64,6 +64,7 @@
     <string name="add_ads">اضف الاعلان</string>
     <string name="the_more_you_enter_the_correct_ad_information_the_more_the_viewership_of_the_ad_will_be_used_by_your_phone_number_so_that_the_client_can_call_you_or_send_you_a_message">كلما ادخلت معلومات الاعلان صحيحة كلما زاد نسبة مشاهدة الاعلان من العملاء يستخدم رقم هاتفك الذى سجلت به حتى يتمكن العميل من الاتصال بك او ارسال رساله اليك</string>
     <string name="maximum_of_40_characters">بحد اقصى 40 حرف</string>
+    <string name="ad_types">Ad Types</string>
 
 
 </resources>

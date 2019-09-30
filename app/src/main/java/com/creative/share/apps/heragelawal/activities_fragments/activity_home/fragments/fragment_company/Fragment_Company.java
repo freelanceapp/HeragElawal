@@ -1,4 +1,4 @@
-package com.creative.share.apps.heragelawal.activities_fragments.activity_home.fragments;
+package com.creative.share.apps.heragelawal.activities_fragments.activity_home.fragments.fragment_company;
 
 import android.graphics.PorterDuff;
 import android.os.Bundle;
@@ -14,8 +14,8 @@ import androidx.fragment.app.Fragment;
 
 import com.creative.share.apps.heragelawal.R;
 import com.creative.share.apps.heragelawal.activities_fragments.activity_home.activity.HomeActivity;
+import com.creative.share.apps.heragelawal.databinding.FragmentCompaniesBinding;
 import com.creative.share.apps.heragelawal.databinding.FragmentCompanyBinding;
-import com.creative.share.apps.heragelawal.databinding.FragmentMainBinding;
 import com.creative.share.apps.heragelawal.models.UserModel;
 import com.creative.share.apps.heragelawal.preferences.Preferences;
 
@@ -48,6 +48,8 @@ public class Fragment_Company extends Fragment {
         lang = Paper.book().read("lang", Locale.getDefault().getLanguage());
         binding.progBar.getIndeterminateDrawable().setColorFilter(ContextCompat.getColor(activity, R.color.colorPrimary), PorterDuff.Mode.SRC_IN);
 
+        binding.progBar2.getIndeterminateDrawable().setColorFilter(ContextCompat.getColor(activity, R.color.colorPrimary), PorterDuff.Mode.SRC_IN);
+        binding.progBar3.getIndeterminateDrawable().setColorFilter(ContextCompat.getColor(activity, R.color.colorPrimary), PorterDuff.Mode.SRC_IN);
 
 
 
