@@ -90,6 +90,12 @@ catohries_modelList=new ArrayList<>();
         catohries_modelList.add(catohries_model);
         catohries_modelList.add(catohries_model1);
         catohries_modelList.add(catohries_model2);
+        catohries_modelList.add(catohries_model);
+        catohries_modelList.add(catohries_model1);
+        catohries_modelList.add(catohries_model2);
+        catohries_modelList.add(catohries_model);
+        catohries_modelList.add(catohries_model1);
+        catohries_modelList.add(catohries_model2);
         binding.progBar2.setVisibility(View.GONE);
         side_catogry_adapter.notifyDataSetChanged();
 
