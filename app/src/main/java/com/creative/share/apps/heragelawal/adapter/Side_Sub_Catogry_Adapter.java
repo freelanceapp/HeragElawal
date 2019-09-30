@@ -53,7 +53,7 @@ private int i=0;
 
             EventHolder eventHolder = (EventHolder) holder;
 
-
+eventHolder.binding.setLang(lang);
 
 
 
@@ -69,6 +69,7 @@ private int i=0;
         public EventHolder(@NonNull SideSubCatogryRowBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
+
         }
     }
 

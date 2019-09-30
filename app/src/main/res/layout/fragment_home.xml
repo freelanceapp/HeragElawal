@@ -2,6 +2,13 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <data>
+
+        <variable
+            name="lang"
+            type="String" />
+    </data>
+
     <androidx.drawerlayout.widget.DrawerLayout xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/drawer_layout"
         android:layout_width="match_parent"
@@ -37,6 +44,7 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
+                        android:id="@+id/tv_title"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
@@ -92,289 +100,295 @@
             android:layout_height="match_parent"
             android:layout_gravity="start"
             android:background="@color/colorPrimary">
-<androidx.core.widget.NestedScrollView
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-            <LinearLayout
+
+            <androidx.core.widget.NestedScrollView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-
-                >
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_weight="1"
-                    android:background="@color/colorPrimaryDark"
-                    android:gravity="start|center"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp"
-                    android:text="@string/main_menue"
-                    android:textColor="@color/white"
-                    android:textSize="15sp"
-                    android:textStyle="bold" />
-
+                android:layout_height="wrap_content">
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:orientation="horizontal"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
 
                     >
 
-
-                    <ImageView
-                        android:layout_width="45dp"
-                        android:layout_height="45dp"
-                        android:layout_gravity="center_vertical"
-
-                        />
-
                     <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
                         android:layout_gravity="center_vertical"
                         android:layout_weight="1"
+                        android:background="@color/colorPrimaryDark"
                         android:gravity="start|center"
                         android:paddingLeft="10dp"
                         android:paddingRight="10dp"
-                        android:text="@string/add_your_adversiment_for_free"
+                        android:text="@string/main_menue"
                         android:textColor="@color/white"
                         android:textSize="15sp"
-android:singleLine="true"
-                        />
+                        android:textStyle="bold" />
 
-                    <ImageView
-                        android:id="@+id/arrow2"
-                        android:layout_width="50dp"
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="50dp"
-                        android:layout_gravity="center_vertical"
-                        android:clickable="false"
-                        android:longClickable="false"
-                        android:padding="15dp"
-                        android:rotation="90"
-                        android:tint="@color/white"
-                        android:src="@drawable/ic_right_arrow" />
-                </LinearLayout>
+                        android:orientation="horizontal"
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1px"
-                    android:background="@color/gray4" />
+                        >
 
 
+                        <ImageView
+                            android:layout_width="45dp"
+                            android:layout_height="45dp"
+                            android:layout_gravity="center_vertical"
+                            android:padding="8dp"
+                            android:tint="@color/white" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center_vertical"
+                            android:layout_weight="1"
+                            android:gravity="start|center"
+                            android:paddingLeft="10dp"
+                            android:paddingRight="10dp"
+                            android:singleLine="true"
+                            android:text="@string/add_your_adversiment_for_free"
+                            android:textColor="@color/white"
+                            android:textSize="15sp" />
 
-                    >
+                        <ImageView
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:layout_gravity="center_vertical"
+                            android:clickable="false"
+                            android:longClickable="false"
+                            android:padding="15dp"
+                            android:rotation='@{lang.equals("ar")?180:0}'
+                            android:src="@drawable/ic_right_arrow"
+                            android:tint="@color/white" />
+                    </LinearLayout>
 
-                    <ImageView
-                        android:layout_width="45dp"
-                        android:layout_height="45dp"
-                        android:layout_gravity="center_vertical"
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1px"
+                        android:background="@color/gray4" />
 
-                        />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+
+                        >
+
+                        <ImageView
+                            android:layout_width="45dp"
+                            android:layout_height="45dp"
+                            android:layout_gravity="center_vertical"
+                            android:padding="8dp"
+                            android:tint="@color/white"
+
+                            />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center_vertical"
+                            android:layout_weight="1"
+                            android:gravity="start|center"
+                            android:paddingLeft="10dp"
+                            android:paddingRight="10dp"
+                            android:text="@string/change_language"
+                            android:textColor="@color/white"
+                            android:textSize="15sp"
+
+                            />
+
+                        <ImageView
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:layout_gravity="center_vertical"
+                            android:clickable="false"
+                            android:longClickable="false"
+                            android:padding="15dp"
+                            android:rotation='@{lang.equals("ar")?180:0}'
+                            android:src="@drawable/ic_right_arrow"
+
+                            android:tint="@color/white" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1px"
+                        android:background="@color/gray4" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+
+                        >
+
+                        <ImageView
+                            android:layout_width="45dp"
+                            android:layout_height="45dp"
+                            android:layout_gravity="center_vertical"
+                            android:padding="8dp"
+                            android:src="@drawable/share"
+                            android:tint="@color/white"
+
+                            />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center_vertical"
+                            android:layout_weight="1"
+                            android:gravity="start|center"
+                            android:paddingLeft="10dp"
+                            android:paddingRight="10dp"
+                            android:text="@string/share"
+                            android:textColor="@color/white"
+                            android:textSize="15sp"
+
+                            />
+
+                        <ImageView
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:layout_gravity="center_vertical"
+                            android:clickable="false"
+                            android:longClickable="false"
+                            android:padding="15dp"
+                            android:rotation='@{lang.equals("ar")?180:0}'
+                            android:src="@drawable/ic_right_arrow"
+
+                            android:tint="@color/white" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1px"
+                        android:background="@color/gray4" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+
+                        >
+
+                        <ImageView
+                            android:layout_width="45dp"
+                            android:layout_height="45dp"
+                            android:layout_gravity="center_vertical"
+                            android:padding="8dp"
+                            android:src="@drawable/call"
+                            android:tint="@color/white" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center_vertical"
+                            android:layout_weight="1"
+                            android:gravity="start|center"
+                            android:paddingLeft="10dp"
+                            android:paddingRight="10dp"
+                            android:text="@string/about_herage"
+                            android:textColor="@color/white"
+                            android:textSize="15sp"
+
+                            />
+
+                        <ImageView
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:layout_gravity="center_vertical"
+                            android:clickable="false"
+                            android:longClickable="false"
+                            android:padding="15dp"
+                            android:rotation='@{lang.equals("ar")?180:0}'
+                            android:src="@drawable/ic_right_arrow"
+
+                            android:tint="@color/white" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1px"
+                        android:background="@color/gray4" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+
+                        >
+
+                        <ImageView
+                            android:layout_width="45dp"
+                            android:layout_height="45dp"
+                            android:layout_gravity="center_vertical"
+                            android:padding="8dp"
+                            android:src="@drawable/call"
+                            android:tint="@color/white"
+
+                            />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center_vertical"
+                            android:layout_weight="1"
+                            android:gravity="start|center"
+                            android:paddingLeft="10dp"
+                            android:paddingRight="10dp"
+                            android:text="@string/sign_in"
+                            android:textColor="@color/white"
+                            android:textSize="15sp"
+
+                            />
+
+                        <ImageView
+                            android:layout_width="50dp"
+                            android:layout_height="50dp"
+                            android:layout_gravity="center_vertical"
+                            android:clickable="false"
+                            android:longClickable="false"
+                            android:padding="15dp"
+                            android:rotation='@{lang.equals("ar")?180:0}'
+                            android:src="@drawable/ic_right_arrow"
+                            android:tint="@color/white"
+                            android:visibility="gone" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1px"
+                        android:background="@color/gray4" />
 
                     <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
                         android:layout_gravity="center_vertical"
                         android:layout_weight="1"
+                        android:background="@color/colorPrimaryDark"
                         android:gravity="start|center"
                         android:paddingLeft="10dp"
                         android:paddingRight="10dp"
-                        android:text="@string/change_language"
+                        android:text="@string/Categories"
                         android:textColor="@color/white"
                         android:textSize="15sp"
+                        android:textStyle="bold" />
 
-                        />
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1px"
+                        android:background="@color/gray4" />
 
-                    <ImageView
-                        android:id="@+id/arrow4"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:layout_gravity="center_vertical"
-                        android:clickable="false"
-                        android:longClickable="false"
-                        android:padding="15dp"
-                        android:rotation="90"
-                        android:tint="@color/white"
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rec_catogry"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
 
-                        android:src="@drawable/ic_right_arrow" />
+                    </androidx.recyclerview.widget.RecyclerView>
                 </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1px"
-                    android:background="@color/gray4" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-
-                    >
-
-                    <ImageView
-                        android:layout_width="45dp"
-                        android:layout_height="45dp"
-                        android:layout_gravity="center_vertical"
-                        android:src="@drawable/share"
-                        android:tint="@color/white"
-
-                        />
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center_vertical"
-                        android:layout_weight="1"
-                        android:gravity="start|center"
-                        android:paddingLeft="10dp"
-                        android:paddingRight="10dp"
-                        android:text="@string/share"
-                        android:textColor="@color/white"
-                        android:textSize="15sp"
-
-                        />
-
-                    <ImageView
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:layout_gravity="center_vertical"
-                        android:clickable="false"
-                        android:longClickable="false"
-                        android:padding="15dp"
-                        android:rotation="90"
-                        android:tint="@color/white"
-
-                        android:src="@drawable/ic_right_arrow" />
-                </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1px"
-                    android:background="@color/gray4" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-
-                    >
-
-                    <ImageView
-                        android:layout_width="45dp"
-                        android:layout_height="45dp"
-                        android:layout_gravity="center_vertical"
-                        android:src="@drawable/call"
-                        android:tint="@color/white"
-                        />
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center_vertical"
-                        android:layout_weight="1"
-                        android:gravity="start|center"
-                        android:paddingLeft="10dp"
-                        android:paddingRight="10dp"
-                        android:text="@string/about_herage"
-                        android:textColor="@color/white"
-                        android:textSize="15sp"
-
-                        />
-
-                    <ImageView
-                        android:id="@+id/arrow5"
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:layout_gravity="center_vertical"
-                        android:clickable="false"
-                        android:longClickable="false"
-                        android:padding="15dp"
-                        android:rotation="90"
-                        android:tint="@color/white"
-
-                        android:src="@drawable/ic_right_arrow" />
-                </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1px"
-                    android:background="@color/gray4" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-
-                    >
-
-                    <ImageView
-                        android:layout_width="45dp"
-                        android:layout_height="45dp"
-                        android:layout_gravity="center_vertical"
-                        android:src="@drawable/call" />
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center_vertical"
-                        android:layout_weight="1"
-                        android:gravity="start|center"
-                        android:paddingLeft="10dp"
-                        android:paddingRight="10dp"
-                        android:text="@string/sign_in"
-                        android:textColor="@color/white"
-                        android:textSize="15sp"
-
-                        />
-
-                    <ImageView
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:layout_gravity="center_vertical"
-                        android:clickable="false"
-                        android:longClickable="false"
-                        android:padding="15dp"
-                        android:rotation="90"
-                        android:tint="@color/white"
-
-                        android:src="@drawable/ic_right_arrow" />
-                </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1px"
-                    android:background="@color/gray4" />
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_weight="1"
-                    android:background="@color/colorPrimaryDark"
-                    android:gravity="start|center"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp"
-                    android:text="@string/Categories"
-                    android:textColor="@color/white"
-                    android:textSize="15sp"
-                    android:textStyle="bold" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1px"
-                    android:background="@color/gray4" />
-                <androidx.recyclerview.widget.RecyclerView
-    android:id="@+id/rec_catogry"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-
-                </androidx.recyclerview.widget.RecyclerView>
-            </LinearLayout>
-</androidx.core.widget.NestedScrollView>
+            </androidx.core.widget.NestedScrollView>
 
         </com.google.android.material.navigation.NavigationView>
 

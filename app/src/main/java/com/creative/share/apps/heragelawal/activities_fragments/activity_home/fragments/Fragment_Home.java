@@ -28,6 +28,7 @@ import com.creative.share.apps.heragelawal.tags.Tags;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import io.paperdb.Paper;
 
@@ -36,8 +37,11 @@ public class Fragment_Home extends Fragment {
     private FragmentHomeBinding binding;
     private Preferences preferences;
     private UserModel userModel;
-private Side_Catogry_Adapter side_catogry_adapter;
-private List<Catohries_Model> catohries_modelList;
+    private String lang;
+
+    private Side_Catogry_Adapter side_catogry_adapter;
+    private List<Catohries_Model> catohries_modelList;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -47,15 +51,18 @@ private List<Catohries_Model> catohries_modelList;
     }
 
     private void initView() {
+        ;
         activity = (HomeActivity) getActivity();
         Paper.init(activity);
-        catohries_modelList=new ArrayList<>();
+        lang = Paper.book().read("lang", Locale.getDefault().getLanguage());
+        binding.setLang(lang);
+        catohries_modelList = new ArrayList<>();
         preferences = Preferences.newInstance();
         userModel = preferences.getUserData(activity);
-side_catogry_adapter=new Side_Catogry_Adapter(catohries_modelList,activity);
-binding.recCatogry.setLayoutManager(new GridLayoutManager(activity,1));
-binding.recCatogry.setAdapter(side_catogry_adapter);
-adddatat();
+        side_catogry_adapter = new Side_Catogry_Adapter(catohries_modelList, activity);
+        binding.recCatogry.setLayoutManager(new GridLayoutManager(activity, 1));
+        binding.recCatogry.setAdapter(side_catogry_adapter);
+        adddatat();
         setUpBottomNavigation();
         binding.ahBottomNav.setOnTabSelectedListener((position, wasSelected) -> {
             switch (position) {
@@ -67,12 +74,12 @@ adddatat();
                     activity.DisplayFragmentCompany();
                     break;
                 case 2:
-                        activity.DisplayFragmentMyadvesriment();
+                    activity.DisplayFragmentMyadvesriment();
 
 
                     break;
                 case 3:
-                        activity.DisplayFragmentFavourite();
+                    activity.DisplayFragmentFavourite();
 
                     break;
                 case 4:
@@ -89,22 +96,32 @@ adddatat();
 
             }
         });
+        binding.tvTitle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (binding.ahBottomNav.getCurrentItem() == 1) {
+                    activity.DisplayFragmentAddCompany();
+                } else {
+                    activity.DisplayFragmentAddads();
+                }
+            }
+        });
 
     }
 
     private void adddatat() {
-        List<Catohries_Model.Order_details> order_details=new ArrayList<>();
+        List<Catohries_Model.Order_details> order_details = new ArrayList<>();
         order_details.add(new Catohries_Model.Order_details());
         order_details.add(new Catohries_Model.Order_details());
         order_details.add(new Catohries_Model.Order_details());
 
-        Catohries_Model catohries_model=new Catohries_Model();
+        Catohries_Model catohries_model = new Catohries_Model();
         catohries_model.setOrder_details(order_details);
 
-        Catohries_Model catohries_model1=new Catohries_Model();
+        Catohries_Model catohries_model1 = new Catohries_Model();
         catohries_model1.setOrder_details(order_details);
 
-        Catohries_Model catohries_model2=new Catohries_Model();
+        Catohries_Model catohries_model2 = new Catohries_Model();
         catohries_model2.setOrder_details(order_details);
         catohries_modelList.add(catohries_model);
         catohries_modelList.add(catohries_model1);
@@ -138,6 +155,12 @@ adddatat();
 
     public void updateBottomNavigationPosition(int pos) {
         binding.ahBottomNav.setCurrentItem(pos, false);
+        if (pos == 1) {
+            binding.tvTitle.setText(activity.getResources().getString(R.string.add_company));
+        } else {
+            binding.tvTitle.setText(activity.getResources().getString(R.string.advertise_now_for_free));
+
+        }
     }
 
     public static Fragment_Home newInstance() {

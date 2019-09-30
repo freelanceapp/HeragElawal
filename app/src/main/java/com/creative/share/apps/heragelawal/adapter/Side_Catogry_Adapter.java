@@ -59,6 +59,7 @@ public class Side_Catogry_Adapter extends RecyclerView.Adapter<RecyclerView.View
         eventHolder.binding.recSub.setLayoutManager(new GridLayoutManager(activity,1));
 
         eventHolder.binding.recSub.setAdapter(side_sub_catogry_adapter);
+        eventHolder.binding.setLang(lang);
         eventHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -70,9 +71,15 @@ public class Side_Catogry_Adapter extends RecyclerView.Adapter<RecyclerView.View
             if (eventHolder.binding.recSub.getVisibility() == View.VISIBLE) {
                 eventHolder.binding.llData.setBackgroundColor(activity.getResources().getColor(R.color.colorPrimary));
                 eventHolder.binding.recSub.setVisibility(View.GONE);
+                eventHolder.binding.arrow.setRotation(360.0f);
+                if(lang.equals("ar")){
+                    eventHolder.binding.arrow.setRotation(180.0f);
+                }
             } else {
                 eventHolder.binding.llData.setBackgroundColor(activity.getResources().getColor(R.color.colorPrimaryDark));
                 eventHolder.binding.recSub.setVisibility(View.VISIBLE);
+                eventHolder.binding.arrow.setRotation(90.0f);
+
             }
         }
 
@@ -90,6 +97,9 @@ public class Side_Catogry_Adapter extends RecyclerView.Adapter<RecyclerView.View
         public EventHolder(@NonNull SideCatogryRowBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
+            if(lang.equals("ar")){
+                binding.arrow.setRotation(180.0f);
+            }
         }
     }
 

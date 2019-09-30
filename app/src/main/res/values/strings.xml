@@ -40,5 +40,23 @@
     <string name="add_your_adversiment_for_free">Add Your Adversiment For Free</string>
     <string name="change_language">Change language</string>
     <string name="about_herage">About Herage</string>
+    <string name="add_company">Add Company</string>
+    <string name="company_name">Company Name</string>
+    <string name="email">Email</string>
+    <string name="detials">Detials</string>
+    <string name="maximum_of_150_characters">Maximum of 150 characters</string>
+    <string name="register">register</string>
+    <string name="upload_image">Upload Image</string>
+    <string name="please_add_at_least_one_image_the_more_pictures_you_add_the_more_chances_the_customer_will_buy_the_product">Please add at least one image. The more pictures you add, the more chances the customer will buy the product</string>
+    <string name="advertising_catogry">Advertising Catogry</string>
+    <string name="catogry_filters">Catogry filters</string>
+    <string name="name_of_the_ad_in_arabic">Name of the ad in Arabic</string>
+    <string name="name_of_the_ad_in_english">Name of the ad in English</string>
+    <string name="ad_description_in_arabic">Ad description in Arabic</string>
+    <string name="ad_description_in_english">Ad description in English</string>
+    <string name="ads_photos">Ads Photos</string>
+    <string name="add_ads">Add Ads</string>
+    <string name="the_more_you_enter_the_correct_ad_information_the_more_the_viewership_of_the_ad_will_be_used_by_your_phone_number_so_that_the_client_can_call_you_or_send_you_a_message">The more you enter the correct ad information, the more the viewership of the ad will be used by your phone number so that the client can call you or send you a message</string>
+    <string name="maximum_of_40_characters">Maximum of 40 characters</string>
 
 </resources>
