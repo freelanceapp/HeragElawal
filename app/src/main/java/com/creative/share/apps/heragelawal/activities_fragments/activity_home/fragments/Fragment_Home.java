@@ -111,6 +111,12 @@ public class Fragment_Home extends Fragment {
                 activity.DisplayFragmentAbout();
             }
         });
+        binding.imNotify.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                activity.DisplayFragmentNotifications();
+            }
+        });
 
     }
 

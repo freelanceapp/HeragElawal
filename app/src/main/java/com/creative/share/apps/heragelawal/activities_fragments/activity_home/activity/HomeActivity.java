@@ -10,6 +10,7 @@ import androidx.fragment.app.FragmentManager;
 
 import com.creative.share.apps.heragelawal.R;
 import com.creative.share.apps.heragelawal.activities_fragments.activity_home.fragments.Fragment_About;
+import com.creative.share.apps.heragelawal.activities_fragments.activity_home.fragments.Fragment_Notifications;
 import com.creative.share.apps.heragelawal.activities_fragments.activity_home.fragments.fragment_company.Fragment_Add_Company;
 import com.creative.share.apps.heragelawal.activities_fragments.activity_home.fragments.Fragment_Add_ads;
 import com.creative.share.apps.heragelawal.activities_fragments.activity_home.fragments.Fragment_Chat;
@@ -47,6 +48,7 @@ private Fragment_Chat fragment_chat;
     private Fragment_Add_ads fragment_add_ads;
     private Fragment_Company fragment_company;
     private Fragment_About fragment_about;
+    private Fragment_Notifications fragment_notifications;
 
 
     @Override
@@ -142,6 +144,21 @@ private Fragment_Chat fragment_chat;
         }
 
     }
+    public void DisplayFragmentNotifications() {
+        fragment_count += 1;
+
+        fragment_notifications = Fragment_Notifications.newInstance();
+
+
+        if (fragment_notifications.isAdded()) {
+            fragmentManager.beginTransaction().show(fragment_notifications).commit();
+
+        } else {
+            fragmentManager.beginTransaction().add(R.id.fragment_app_container, fragment_notifications, "fragment_notifications").addToBackStack("fragment_notifications").commit();
+
+        }
+
+    }
     public void DisplayFragmentAbout() {
         fragment_count += 1;
 
@@ -157,6 +174,7 @@ private Fragment_Chat fragment_chat;
         }
 
     }
+    
     public void DisplayFragmentMain()
     {
 
