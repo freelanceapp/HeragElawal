@@ -8,118 +8,66 @@
             name="lang"
             type="String" />
     </data>
+
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/coord1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/gray3">
 
-        <com.google.android.material.appbar.AppBarLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/gray3">
-
-            <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:layout_height="match_parent">
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="250dp"
-                app:layout_scrollFlags="exitUntilCollapsed|scroll">
+                android:layout_height="50dp"
+                android:background="@color/colorPrimary"
+                app:contentInsetStart="0dp"
+                app:layout_constraintTop_toTopOf="parent">
 
-                <FrameLayout
-                    android:id="@+id/fr1"
-                    android:layout_width="match_parent"
-                    android:layout_height="250dp">
-
-                    <androidx.viewpager.widget.ViewPager
-                        android:id="@+id/pager"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent" />
-
-                    <com.google.android.material.tabs.TabLayout
-                        android:id="@+id/tablayout"
-                        android:layout_width="match_parent"
-                        android:layout_height="7dp"
-                        android:layout_gravity="bottom|right"
-                        android:layout_marginRight="8dp"
-                        android:layout_marginBottom="5dp"
-                        app:tabBackground="@drawable/select"
-                        app:tabMaxWidth="7dp"
-                        android:visibility="gone"
-                        />
-
-                    <ProgressBar
-                        android:id="@+id/progBar"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:layout_gravity="center" />
-                </FrameLayout>
-            </com.google.android.material.appbar.CollapsingToolbarLayout>
-
-            <LinearLayout
-                android:id="@+id/card"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginBottom="10dp"
-                android:layout_weight="1"
-                android:background="@drawable/linear_shape"
-                android:orientation="horizontal"
-
-                android:weightSum="1">
-
-                <EditText
-                    android:id="@+id/edt_search"
-                    android:layout_width="0dp"
+                <ImageView
+                    android:id="@+id/arrow"
+                    android:layout_width="50dp"
                     android:layout_height="45dp"
-                    android:layout_weight=".6"
-                    android:background="@drawable/edit_shape"
-                    android:hint="@string/search_in_that_department"
-                    android:textColorHint="@color/gray6"
-                    android:textSize="15sp"
-                    tools:ignore="RtlCompat"
-                    android:paddingRight="7dp"
-                    android:paddingLeft="7dp"
-                    android:singleLine="true"
+                    android:clickable="false"
+                    android:longClickable="false"
+                    android:padding="13dp"
+                    android:rotation='@{lang.equals("en")?180:0}'
+                    android:src="@drawable/ic_right_arrow"
+                    android:tint="@color/white" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1.0"
+                    android:gravity="center"
+                    android:text="@string/advertise_now_for_free"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    android:padding="8dp"
+                    android:background="@drawable/linear_shape"
+
                     />
+            </androidx.appcompat.widget.Toolbar>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rec_type"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/gray3"
+                android:padding="10dp"
+                app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
-                <FrameLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_weight=".4">
-
-                    <Spinner
-                        android:id="@+id/spinnerCategory"
-                        android:layout_width="match_parent"
-                        android:layout_height="30dp"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginEnd="15dp"
-                        tools:ignore="RtlCompat"
-                        >
-
-                    </Spinner>
-                </FrameLayout>
-
-            </LinearLayout>
-
-        </com.google.android.material.appbar.AppBarLayout>
-
-        <androidx.core.widget.NestedScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:clipToPadding="true"
-            android:fillViewport="true"
-            android:fitsSystemWindows="true"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+            </androidx.recyclerview.widget.RecyclerView>
 
 
             <FrameLayout
                 android:id="@+id/fr3"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                >
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toTopOf="@+id/ll"
+                app:layout_constraintTop_toBottomOf="@+id/rec_type">
 
                 <ProgressBar
                     android:id="@+id/progBar2"
@@ -160,13 +108,110 @@
                     android:id="@+id/rec_stores"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@color/gray6"
-                    >
+                    android:background="@color/gray6">
 
                 </androidx.recyclerview.widget.RecyclerView>
 
             </FrameLayout>
-        </androidx.core.widget.NestedScrollView>
+
+            <LinearLayout
+                android:id="@+id/ll"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="parent">
+
+                <FrameLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@color/color_second"
+
+                    >
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+
+
+                        android:gravity="center"
+                        android:text="@string/company_name"
+                        android:textColor="@color/white"
+                        android:textSize="17sp"
+                        android:textStyle="bold"
+
+                        />
+                </FrameLayout>
+
+                <View
+                    android:layout_width="2dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/color_second2" />
+
+                <FrameLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@color/color_second"
+
+                    >
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+
+
+                        android:gravity="center"
+                        android:text="@string/company_name"
+                        android:textColor="@color/white"
+                        android:textSize="17sp"
+                        android:textStyle="bold"
+
+                        />
+
+                </FrameLayout>
+            </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="90dp"
+            android:background="@drawable/map_bg"
+
+
+            >
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+android:layout_gravity="center"
+    >
+            <ImageButton
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:src="@drawable/ic_maps"
+                android:background="@color/colorPrimary"
+                android:layout_gravity="center"
+
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:clickable="false"
+                android:text="@string/map"
+                android:textColor="@color/white"
+                android:background="@color/colorPrimary"
+                />
+</LinearLayout>
+
+        </FrameLayout>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 </layout>

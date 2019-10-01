@@ -1,15 +1,10 @@
-package com.creative.share.apps.heragelawal.activities_fragments.activity_home.fragments;
+package com.creative.share.apps.heragelawal.activities_fragments.activity_home.fragments.fragment_company;
 
-import android.app.AlertDialog;
-import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -20,13 +15,12 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-
 import com.creative.share.apps.heragelawal.R;
 import com.creative.share.apps.heragelawal.activities_fragments.activity_home.activity.HomeActivity;
-import com.creative.share.apps.heragelawal.adapter.Home_Catogry_Adapter;
-import com.creative.share.apps.heragelawal.adapter.Home_Slider_Adapter;
-import com.creative.share.apps.heragelawal.adapter.Side_Catogry_Adapter;
-import com.creative.share.apps.heragelawal.databinding.FragmentMainBinding;
+import com.creative.share.apps.heragelawal.adapter.Ads_Catogry_Adapter;
+import com.creative.share.apps.heragelawal.adapter.Notifications_Adapter;
+import com.creative.share.apps.heragelawal.databinding.FragmentAdversimentBinding;
+import com.creative.share.apps.heragelawal.databinding.FragmentChatBinding;
 import com.creative.share.apps.heragelawal.models.Catohries_Model;
 import com.creative.share.apps.heragelawal.models.UserModel;
 import com.creative.share.apps.heragelawal.preferences.Preferences;
@@ -37,19 +31,18 @@ import java.util.Locale;
 
 import io.paperdb.Paper;
 
-public class Fragment_Main extends Fragment {
+public class Fragment_Adversiment extends Fragment {
     private HomeActivity activity;
-    private FragmentMainBinding binding;
+    private FragmentAdversimentBinding binding;
    private Preferences preferences;
    private UserModel userModel;
     private String lang;
+    private Ads_Catogry_Adapter ads_catogry_adapter;
     private List<Catohries_Model> catohries_modelList;
-    private Home_Slider_Adapter sliderAdapter;
-    private Home_Catogry_Adapter home_catogry_adapter;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_main, container, false);
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_adversiment, container, false);
 
 
         initView();
@@ -63,21 +56,18 @@ catohries_modelList=new ArrayList<>();
         userModel = preferences.getUserData(activity);
         Paper.init(activity);
         lang = Paper.book().read("lang", Locale.getDefault().getLanguage());
-        binding.progBar.getIndeterminateDrawable().setColorFilter(ContextCompat.getColor(activity, R.color.colorPrimary), PorterDuff.Mode.SRC_IN);
-if(lang.equals("ar")){
-    binding.edtSearch.setBackgroundDrawable(activity.getResources().getDrawable(R.drawable.edit_shape2));
-}
-binding.recStores.setNestedScrollingEnabled(false);
-        home_catogry_adapter = new Home_Catogry_Adapter(catohries_modelList, activity);
-        binding.recStores.setLayoutManager(new GridLayoutManager(activity, 1));
-        binding.recStores.setAdapter(home_catogry_adapter);
+
+        binding.setLang(lang);
+
+
+
+        ads_catogry_adapter = new Ads_Catogry_Adapter(catohries_modelList, activity);
+        binding.recStores.setLayoutManager(new LinearLayoutManager(activity, RecyclerView.HORIZONTAL,false));
+        binding.recStores.setAdapter(ads_catogry_adapter);
         binding.recStores.setVisibility(View.VISIBLE);
         adddatat();
 
-        sliderAdapter = new Home_Slider_Adapter(catohries_modelList, activity);
-        binding.tablayout.setupWithViewPager(binding.pager);
 
-        binding.pager.setAdapter(sliderAdapter);
 
     }
     private void adddatat() {
@@ -123,15 +113,14 @@ binding.recStores.setNestedScrollingEnabled(false);
         catohries_modelList.add(catohries_model1);
         catohries_modelList.add(catohries_model2);
 
-        binding.progBar2.setVisibility(View.GONE);
-        home_catogry_adapter.notifyDataSetChanged();
+        ads_catogry_adapter.notifyDataSetChanged();
 
     }
 
 
 
-    public static Fragment_Main newInstance() {
-        return new Fragment_Main();
+    public static Fragment_Adversiment newInstance() {
+        return new Fragment_Adversiment();
     }
 
 
