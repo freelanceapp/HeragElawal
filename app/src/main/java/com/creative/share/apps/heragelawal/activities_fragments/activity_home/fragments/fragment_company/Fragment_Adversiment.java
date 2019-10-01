@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.creative.share.apps.heragelawal.R;
 import com.creative.share.apps.heragelawal.activities_fragments.activity_home.activity.HomeActivity;
+import com.creative.share.apps.heragelawal.adapter.Ads_Adapter;
 import com.creative.share.apps.heragelawal.adapter.Ads_Catogry_Adapter;
 import com.creative.share.apps.heragelawal.adapter.Notifications_Adapter;
 import com.creative.share.apps.heragelawal.databinding.FragmentAdversimentBinding;
@@ -38,6 +39,7 @@ public class Fragment_Adversiment extends Fragment {
    private UserModel userModel;
     private String lang;
     private Ads_Catogry_Adapter ads_catogry_adapter;
+    private Ads_Adapter ads_adapter;
     private List<Catohries_Model> catohries_modelList;
 
     @Override
@@ -62,8 +64,12 @@ catohries_modelList=new ArrayList<>();
 
 
         ads_catogry_adapter = new Ads_Catogry_Adapter(catohries_modelList, activity);
-        binding.recStores.setLayoutManager(new LinearLayoutManager(activity, RecyclerView.HORIZONTAL,false));
-        binding.recStores.setAdapter(ads_catogry_adapter);
+        ads_adapter=new Ads_Adapter(catohries_modelList,activity);
+        binding.recType.setLayoutManager(new LinearLayoutManager(activity, RecyclerView.HORIZONTAL,false));
+        binding.recType.setAdapter(ads_catogry_adapter);
+        binding.recType.setVisibility(View.VISIBLE);
+        binding.recStores.setLayoutManager(new GridLayoutManager(activity,1));
+        binding.recStores.setAdapter(ads_adapter);
         binding.recStores.setVisibility(View.VISIBLE);
         adddatat();
 
@@ -114,6 +120,7 @@ catohries_modelList=new ArrayList<>();
         catohries_modelList.add(catohries_model2);
 
         ads_catogry_adapter.notifyDataSetChanged();
+        ads_adapter.notifyDataSetChanged();
 
     }
 
