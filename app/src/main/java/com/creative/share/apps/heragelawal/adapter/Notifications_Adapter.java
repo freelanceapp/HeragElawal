@@ -11,8 +11,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.creative.share.apps.heragelawal.R;
 import com.creative.share.apps.heragelawal.activities_fragments.activity_home.activity.HomeActivity;
-import com.creative.share.apps.heragelawal.databinding.AdsTypeRowBinding;
 import com.creative.share.apps.heragelawal.databinding.CompanyRowBinding;
+import com.creative.share.apps.heragelawal.databinding.NnotificationRowBinding;
 import com.creative.share.apps.heragelawal.models.Catohries_Model;
 
 import java.util.List;
@@ -20,7 +20,7 @@ import java.util.Locale;
 
 import io.paperdb.Paper;
 
-public class Company_Ads_Type_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class Notifications_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private List<Catohries_Model> orderlist;
     private Context context;
@@ -29,7 +29,7 @@ public class Company_Ads_Type_Adapter extends RecyclerView.Adapter<RecyclerView.
     private HomeActivity activity;
     private int i = -1;
 
-    public Company_Ads_Type_Adapter(List<Catohries_Model> orderlist, Context context) {
+    public Notifications_Adapter(List<Catohries_Model> orderlist, Context context) {
         this.orderlist = orderlist;
         this.context = context;
         inflater = LayoutInflater.from(context);
@@ -43,7 +43,7 @@ public class Company_Ads_Type_Adapter extends RecyclerView.Adapter<RecyclerView.
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
 
-        AdsTypeRowBinding binding = DataBindingUtil.inflate(inflater, R.layout.ads_type_row, parent, false);
+        NnotificationRowBinding binding = DataBindingUtil.inflate(inflater, R.layout.nnotification_row, parent, false);
         return new EventHolder(binding);
 
 
@@ -54,7 +54,12 @@ public class Company_Ads_Type_Adapter extends RecyclerView.Adapter<RecyclerView.
 
         EventHolder eventHolder = (EventHolder) holder;
         Catohries_Model catohries_model = orderlist.get(position);
-eventHolder.binding.setLang(lang);
+     eventHolder.itemView.setOnClickListener(new View.OnClickListener() {
+         @Override
+         public void onClick(View view) {
+             activity.DisplayFragmentshowCompany();
+         }
+     });
 
 
     }
@@ -65,9 +70,9 @@ eventHolder.binding.setLang(lang);
     }
 
     public class EventHolder extends RecyclerView.ViewHolder {
-        public AdsTypeRowBinding binding;
+        public NnotificationRowBinding binding;
 
-        public EventHolder(@NonNull AdsTypeRowBinding binding) {
+        public EventHolder(@NonNull NnotificationRowBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
 

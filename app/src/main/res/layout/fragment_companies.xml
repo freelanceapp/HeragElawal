@@ -14,11 +14,12 @@
         <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#ffffffff">
+            android:background="@color/gray3">
 
             <com.google.android.material.appbar.CollapsingToolbarLayout
                 android:layout_width="match_parent"
                 android:layout_height="180dp"
+                android:background="@color/gray3"
                 app:layout_scrollFlags="exitUntilCollapsed|scroll">
 
                 <FrameLayout
@@ -33,13 +34,16 @@
 
                     <com.google.android.material.tabs.TabLayout
                         android:id="@+id/tablayout"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="7dp"
                         android:layout_gravity="bottom|right"
                         android:layout_marginRight="8dp"
                         android:layout_marginBottom="5dp"
                         app:tabBackground="@drawable/select"
-                        app:tabMaxWidth="7dp" />
+                        app:tabGravity="center"
+                        app:tabMaxWidth="7dp"
+                        android:visibility="gone"
+                        />
 
                     <ProgressBar
                         android:id="@+id/progBar"
@@ -54,12 +58,13 @@
                 android:id="@+id/tv_title_stores"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@color/gray3"
                 android:paddingLeft="8dp"
                 android:paddingRight="8dp"
                 android:text="@string/companies_category"
                 android:textColor="@color/colorPrimary"
                 android:textSize="16sp"
-                android:background="@color/gray3"
+                android:layout_marginTop="10dp"
                 />
         </com.google.android.material.appbar.AppBarLayout>
 
@@ -71,9 +76,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
                 android:orientation="vertical">
-
 
 
                 <FrameLayout
@@ -105,15 +108,15 @@
                             android:tint="@color/colorPrimary"
 
                             />
+
                         <TextView
                             android:id="@+id/tvNoEvents"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
-                            android:textColor="@color/black"
-                            android:textSize="15sp"
                             android:text="@string/no_company_found"
-                            />
+                            android:textColor="@color/black"
+                            android:textSize="15sp" />
 
                     </LinearLayout>
 
@@ -121,7 +124,7 @@
                         android:id="@+id/rec_stores"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:padding="10dp">
+                       >
 
                     </androidx.recyclerview.widget.RecyclerView>
 

@@ -76,7 +76,7 @@ public class Side_Catogry_Adapter extends RecyclerView.Adapter<RecyclerView.View
                     eventHolder.binding.arrow.setRotation(180.0f);
                 }
             } else {
-                eventHolder.binding.llData.setBackgroundColor(activity.getResources().getColor(R.color.colorPrimaryDark));
+                eventHolder.binding.llData.setBackgroundColor(activity.getResources().getColor(R.color.main));
                 eventHolder.binding.recSub.setVisibility(View.VISIBLE);
                 eventHolder.binding.arrow.setRotation(90.0f);
 

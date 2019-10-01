@@ -60,6 +60,8 @@ public class Fragment_Home extends Fragment {
         side_catogry_adapter = new Side_Catogry_Adapter(catohries_modelList, activity);
         binding.recCatogry.setLayoutManager(new GridLayoutManager(activity, 1));
         binding.recCatogry.setAdapter(side_catogry_adapter);
+        binding.recCatogry.setNestedScrollingEnabled(false);
+
         adddatat();
         setUpBottomNavigation();
         binding.ahBottomNav.setOnTabSelectedListener((position, wasSelected) -> {

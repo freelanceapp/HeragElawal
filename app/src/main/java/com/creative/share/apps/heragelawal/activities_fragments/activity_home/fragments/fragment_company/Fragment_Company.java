@@ -19,6 +19,8 @@ import com.creative.share.apps.heragelawal.R;
 import com.creative.share.apps.heragelawal.activities_fragments.activity_home.activity.HomeActivity;
 import com.creative.share.apps.heragelawal.adapter.Companies_Adapter;
 import com.creative.share.apps.heragelawal.adapter.Company_Ads_Type_Adapter;
+import com.creative.share.apps.heragelawal.adapter.Company_Slider_Adapter;
+import com.creative.share.apps.heragelawal.adapter.Home_Slider_Adapter;
 import com.creative.share.apps.heragelawal.databinding.FragmentCompanyBinding;
 import com.creative.share.apps.heragelawal.models.Catohries_Model;
 import com.creative.share.apps.heragelawal.models.UserModel;
@@ -40,6 +42,8 @@ public class Fragment_Company extends Fragment {
     private Company_Ads_Type_Adapter company_ads_type_adapter;
     private List<Catohries_Model> catohries_modelList;
 private LinearLayoutManager manager;
+    private Company_Slider_Adapter sliderAdapter;
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_company, container, false);
@@ -64,10 +68,16 @@ catohries_modelList=new ArrayList<>();
         company_ads_type_adapter = new Company_Ads_Type_Adapter(catohries_modelList, activity);
         binding.recStores.setLayoutManager(new GridLayoutManager(activity, 3));
         binding.recStores.setAdapter(side_catogry_adapter);
+        binding.recStores.setNestedScrollingEnabled(false);
+
         manager=new GridLayoutManager(activity,2,GridLayoutManager.HORIZONTAL,false);
         binding.recType.setLayoutManager(manager);
         binding.recType.setAdapter(company_ads_type_adapter);
         adddatat();
+        sliderAdapter = new Company_Slider_Adapter(catohries_modelList, activity);
+        binding.tablayout.setupWithViewPager(binding.pager);
+
+        binding.pager.setAdapter(sliderAdapter);
         binding.tvAds.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -16,6 +16,8 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import com.creative.share.apps.heragelawal.R;
 import com.creative.share.apps.heragelawal.activities_fragments.activity_home.activity.HomeActivity;
 import com.creative.share.apps.heragelawal.adapter.Companies_Adapter;
+import com.creative.share.apps.heragelawal.adapter.Companies_Slider_Adapter;
+import com.creative.share.apps.heragelawal.adapter.Home_Slider_Adapter;
 import com.creative.share.apps.heragelawal.adapter.Side_Catogry_Adapter;
 import com.creative.share.apps.heragelawal.databinding.FragmentCompaniesBinding;
 import com.creative.share.apps.heragelawal.databinding.FragmentCompanyBinding;
@@ -37,6 +39,8 @@ public class Fragment_Companies extends Fragment {
     private String lang;
     private Companies_Adapter side_catogry_adapter;
     private List<Catohries_Model> catohries_modelList;
+    private Companies_Slider_Adapter sliderAdapter;
+
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_companies, container, false);
@@ -59,10 +63,15 @@ catohries_modelList=new ArrayList<>();
         side_catogry_adapter = new Companies_Adapter(catohries_modelList, activity);
         binding.recStores.setLayoutManager(new GridLayoutManager(activity, 3));
         binding.recStores.setAdapter(side_catogry_adapter);
+        binding.recStores.setNestedScrollingEnabled(false);
+
         adddatat();
 
 
+        sliderAdapter = new Companies_Slider_Adapter(catohries_modelList, activity);
+        binding.tablayout.setupWithViewPager(binding.pager);
 
+        binding.pager.setAdapter(sliderAdapter);
 
     }
 

@@ -7,12 +7,13 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.creative.share.apps.heragelawal.R;
 import com.creative.share.apps.heragelawal.activities_fragments.activity_home.activity.HomeActivity;
-import com.creative.share.apps.heragelawal.databinding.AdsTypeRowBinding;
-import com.creative.share.apps.heragelawal.databinding.CompanyRowBinding;
+import com.creative.share.apps.heragelawal.databinding.AdversimentMainRowBinding;
+import com.creative.share.apps.heragelawal.databinding.SideCatogryRowBinding;
 import com.creative.share.apps.heragelawal.models.Catohries_Model;
 
 import java.util.List;
@@ -20,7 +21,7 @@ import java.util.Locale;
 
 import io.paperdb.Paper;
 
-public class Company_Ads_Type_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class Home_Catogry_Adapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private List<Catohries_Model> orderlist;
     private Context context;
@@ -29,7 +30,7 @@ public class Company_Ads_Type_Adapter extends RecyclerView.Adapter<RecyclerView.
     private HomeActivity activity;
     private int i = -1;
 
-    public Company_Ads_Type_Adapter(List<Catohries_Model> orderlist, Context context) {
+    public Home_Catogry_Adapter(List<Catohries_Model> orderlist, Context context) {
         this.orderlist = orderlist;
         this.context = context;
         inflater = LayoutInflater.from(context);
@@ -43,7 +44,7 @@ public class Company_Ads_Type_Adapter extends RecyclerView.Adapter<RecyclerView.
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
 
-        AdsTypeRowBinding binding = DataBindingUtil.inflate(inflater, R.layout.ads_type_row, parent, false);
+        AdversimentMainRowBinding binding = DataBindingUtil.inflate(inflater, R.layout.adversiment_main_row, parent, false);
         return new EventHolder(binding);
 
 
@@ -54,7 +55,11 @@ public class Company_Ads_Type_Adapter extends RecyclerView.Adapter<RecyclerView.
 
         EventHolder eventHolder = (EventHolder) holder;
         Catohries_Model catohries_model = orderlist.get(position);
-eventHolder.binding.setLang(lang);
+        Home_Sub_Catogry_Adapter side_sub_catogry_adapter = new Home_Sub_Catogry_Adapter(catohries_model.getOrder_details(), activity);
+        eventHolder.binding.recCart.setLayoutManager(new GridLayoutManager(activity,2));
+
+        eventHolder.binding.recCart.setAdapter(side_sub_catogry_adapter);
+
 
 
     }
@@ -65,9 +70,9 @@ eventHolder.binding.setLang(lang);
     }
 
     public class EventHolder extends RecyclerView.ViewHolder {
-        public AdsTypeRowBinding binding;
+        public AdversimentMainRowBinding binding;
 
-        public EventHolder(@NonNull AdsTypeRowBinding binding) {
+        public EventHolder(@NonNull AdversimentMainRowBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
 
