@@ -10,6 +10,7 @@ import androidx.fragment.app.FragmentManager;
 
 import com.creative.share.apps.heragelawal.R;
 import com.creative.share.apps.heragelawal.activities_fragments.activity_home.fragments.Fragment_About;
+import com.creative.share.apps.heragelawal.activities_fragments.activity_home.fragments.Fragment_Ads_Detials;
 import com.creative.share.apps.heragelawal.activities_fragments.activity_home.fragments.Fragment_Notifications;
 import com.creative.share.apps.heragelawal.activities_fragments.activity_home.fragments.fragment_company.Fragment_Add_Company;
 import com.creative.share.apps.heragelawal.activities_fragments.activity_home.fragments.Fragment_Add_ads;
@@ -51,6 +52,7 @@ private Fragment_Chat fragment_chat;
     private Fragment_About fragment_about;
     private Fragment_Notifications fragment_notifications;
     private Fragment_Adversiment fragment_adversiment;
+    private Fragment_Ads_Detials fragment_adversiment_detials;
 
 
     @Override
@@ -142,6 +144,21 @@ private Fragment_Chat fragment_chat;
 
         } else {
             fragmentManager.beginTransaction().add(R.id.fragment_app_container, fragment_adversiment, "fragment_adversiment").addToBackStack("fragment_adversiment").commit();
+
+        }
+
+    }
+    public void DisplayFragmentAdversimentDetials() {
+        fragment_count += 1;
+
+        fragment_adversiment_detials = Fragment_Ads_Detials.newInstance();
+
+
+        if (fragment_adversiment_detials.isAdded()) {
+            fragmentManager.beginTransaction().show(fragment_adversiment_detials).commit();
+
+        } else {
+            fragmentManager.beginTransaction().add(R.id.fragment_app_container, fragment_adversiment_detials, "fragment_adversiment_detials").addToBackStack("fragment_adversiment_detials").commit();
 
         }
 

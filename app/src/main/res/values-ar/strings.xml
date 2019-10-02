@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">حراج الاول</string>
+    <string name="map_api_key">AIzaSyCbc2Y5AIwZ8uUeHRUXiozGN3CnpjKT0oI</string>
 
     <string name="signup">إنشاء حساب جديد</string>
 
@@ -74,6 +75,23 @@
     <string name="ads_for_new_and_old_camera_in_haraj_i_bought_now">إعلانات عن الكاميرا الجديدة والقديمة في حراج اشتريت الآن</string>
     <string name="time">الوقت</string>
     <string name="map">الخريطه</string>
+    <string name="adversiment_detials">تفاصيل الاعلان</string>
+    <string name="company">شركه</string>
+    <string name="views">عدد المشاهدات : </string>
+    <string name="number_of_followers">عدد المتابعين : </string>
+    <string name="follow">تابع</string>
+    <string name="characteristics">خصائص</string>
+    <string name="open_map">افتح الخريطه</string>
+    <string name="ads_descreption">وصف الاعلان</string>
+    <string name="share_in">مشاركه فى </string>
+    <string name="like">اعجاب</string>
+    <string name="report">ابلاغ</string>
+    <string name="commentss">تعليقات</string>
+    <string name="more_comments">More Comments</string>
+    <string name="send">Send</string>
+    <string name="related_products">Related Products</string>
+    <string name="other_user_ads">Other user Ads</string>
+    <string name="show_all">Show All</string>
 
 
 </resources>

@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">Herag Elawal</string>
+    <string name="map_api_key">AIzaSyCbc2Y5AIwZ8uUeHRUXiozGN3CnpjKT0oI</string>
     <string name="notifications">Notifications</string>
     <string name="ok">OK</string>
     <string name="please_sign_in_or_sign_up">Please Sign In or Sign Up</string>
@@ -68,5 +69,22 @@
     <string name="ads_for_new_and_old_camera_in_haraj_i_bought_now">Ads for new and old camera in Haraj I bought now</string>
     <string name="time">Time</string>
     <string name="map">map</string>
+    <string name="adversiment_detials">Adversiment Detials</string>
+    <string name="company">Company</string>
+    <string name="views">Views :</string>
+    <string name="number_of_followers">Number of followers :</string>
+    <string name="follow">Follow</string>
+    <string name="characteristics">Characteristics</string>
+    <string name="open_map">Open Map</string>
+    <string name="ads_descreption">Ads Descreption</string>
+    <string name="share_in">Share In</string>
+    <string name="like">Like</string>
+    <string name="report">Report</string>
+    <string name="commentss">Comments</string>
+    <string name="more_comments">More Comments</string>
+    <string name="send">Send</string>
+    <string name="related_products">Related Products</string>
+    <string name="other_user_ads">Other user Ads</string>
+    <string name="show_all">Show All</string>
 
 </resources>

@@ -2,6 +2,7 @@ package com.creative.share.apps.heragelawal.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -51,7 +52,12 @@ private int i=0;
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
 
             EventHolder eventHolder = (EventHolder) holder;
-
+eventHolder.itemView.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View view) {
+        activity.DisplayFragmentAdversimentDetials();
+    }
+});
 
 
 
