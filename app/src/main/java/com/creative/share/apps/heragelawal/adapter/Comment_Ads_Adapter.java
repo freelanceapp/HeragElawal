@@ -42,7 +42,7 @@ public class Comment_Ads_Adapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
 
-        CommentRowBinding binding = DataBindingUtil.inflate(inflater, R.layout.company_row, parent, false);
+        CommentRowBinding binding = DataBindingUtil.inflate(inflater, R.layout.comment_row, parent, false);
         return new EventHolder(binding);
 
 

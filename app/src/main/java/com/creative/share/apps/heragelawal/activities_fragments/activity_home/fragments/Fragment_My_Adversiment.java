@@ -58,7 +58,7 @@ public class Fragment_My_Adversiment extends Fragment {
         lang = Paper.book().read("lang", Locale.getDefault().getLanguage());
         binding.progBar.getIndeterminateDrawable().setColorFilter(ContextCompat.getColor(activity, R.color.colorPrimary), PorterDuff.Mode.SRC_IN);
         my_ads_adapter = new My_Ads_Adapter(catohries_modelList, activity);
-        binding.recCart.setLayoutManager(new GridLayoutManager(activity, 3));
+        binding.recCart.setLayoutManager(new GridLayoutManager(activity, 1));
         binding.recCart.setAdapter(my_ads_adapter);
 
         adddatat();
