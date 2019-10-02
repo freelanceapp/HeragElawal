@@ -276,22 +276,22 @@
 
                             <de.hdodenhof.circleimageview.CircleImageView
                                 android:id="@+id/image"
-                                android:layout_width="45dp"
-                                android:layout_height="45dp"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
                                 android:layout_marginTop="8dp"
+                                android:padding="5dp"
                                 android:src="@drawable/ic_user"
                                 app:civ_border_color="@color/colorPrimary"
                                 app:civ_border_width="1dp"
-
-                                android:padding="5dp"
+                                app:layout_constraintEnd_toStartOf="@+id/ll"
                                 app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent" />
+                                app:layout_constraintTop_toTopOf="parent"
+                                tools:ignore="RtlCompat" />
 
                             <LinearLayout
                                 android:id="@+id/ll"
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
-                                android:layout_marginStart="10dp"
 
                                 android:orientation="vertical"
                                 app:layout_constraintBottom_toBottomOf="parent"
@@ -347,9 +347,8 @@
                                 android:id="@+id/llll"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginEnd="15dp"
+                                android:layout_marginEnd="10dp"
                                 android:orientation="vertical"
-
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toEndOf="@+id/ll"
                                 app:layout_constraintTop_toTopOf="parent"
@@ -391,8 +390,8 @@
                                 android:padding="10dp">
 
                                 <ImageView
-                                    android:layout_width="40dp"
-                                    android:layout_height="40dp"
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
                                     android:layout_gravity="center"
                                     android:padding="5dp"
                                     android:src="@drawable/call"
@@ -426,8 +425,8 @@
                                 android:padding="10dp">
 
                                 <ImageView
-                                    android:layout_width="40dp"
-                                    android:layout_height="40dp"
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
                                     android:layout_gravity="center"
                                     android:padding="5dp"
                                     android:src="@drawable/ic_messges_email"
@@ -462,8 +461,8 @@
                                 android:padding="10dp">
 
                                 <ImageView
-                                    android:layout_width="40dp"
-                                    android:layout_height="40dp"
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
                                     android:layout_gravity="center"
                                     android:padding="5dp"
                                     android:src="@drawable/ic_chat"
@@ -548,7 +547,7 @@
                     <LinearLayout
 
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="70dp"
                         android:layout_gravity="center_horizontal"
                         android:layout_marginTop="40dp"
                         android:orientation="horizontal">
@@ -583,7 +582,7 @@
 
                             />
 
-                        <ImageView
+                        <de.hdodenhof.circleimageview.CircleImageView
                             android:id="@+id/image_instagram"
                             android:layout_width="30dp"
                             android:layout_height="30dp"
@@ -619,8 +618,8 @@
                             android:tint="@color/color_second" />
 
                         <FrameLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_width="70dp"
+                            android:layout_height="match_parent"
                             android:layout_marginStart="2dp"
                             android:background="@drawable/frame_shape_colorprimary"
                             tools:ignore="RtlCompat">
@@ -632,8 +631,8 @@
                                 android:padding="5dp">
 
                                 <ImageView
-                                    android:layout_width="40dp"
-                                    android:layout_height="40dp"
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
                                     android:layout_gravity="center"
                                     android:padding="5dp"
                                     android:src="@drawable/ic_favorite"
@@ -651,10 +650,11 @@
                         </FrameLayout>
 
                         <FrameLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_width="70dp"
+                            android:layout_height="match_parent"
                             android:layout_marginStart="2dp"
                             android:background="@drawable/messge_shape"
+                            android:padding="8dp"
                             tools:ignore="RtlCompat">
 
                             <LinearLayout
@@ -665,8 +665,8 @@
                                 android:padding="5dp">
 
                                 <ImageView
-                                    android:layout_width="40dp"
-                                    android:layout_height="40dp"
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
                                     android:layout_gravity="center"
                                     android:padding="5dp"
                                     android:src="@drawable/like"
@@ -685,11 +685,11 @@
                         </FrameLayout>
 
                         <FrameLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_width="70dp"
+                            android:layout_height="match_parent"
                             android:layout_marginStart="2dp"
-
                             android:background="@drawable/frame_shape_colorred"
+                            android:padding="8dp"
                             tools:ignore="RtlCompat">
 
                             <LinearLayout
@@ -700,8 +700,8 @@
                                 android:padding="5dp">
 
                                 <ImageView
-                                    android:layout_width="40dp"
-                                    android:layout_height="40dp"
+                                    android:layout_width="30dp"
+                                    android:layout_height="30dp"
                                     android:layout_gravity="center"
                                     android:padding="5dp"
                                     android:src="@drawable/danger"
@@ -766,13 +766,6 @@
                             android:textSize="14sp"
                             android:textStyle="bold" />
                     </LinearLayout>
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/rec_comment"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                    </androidx.recyclerview.widget.RecyclerView>
 
                     <Button
                         android:layout_width="match_parent"
@@ -850,6 +843,13 @@
                             app:layout_constraintTop_toTopOf="parent" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rec_comment"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                    </androidx.recyclerview.widget.RecyclerView>
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/rec_product"
