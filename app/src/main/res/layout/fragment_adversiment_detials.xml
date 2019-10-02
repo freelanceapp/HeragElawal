@@ -278,9 +278,9 @@
                                 android:id="@+id/image"
                                 android:layout_width="30dp"
                                 android:layout_height="30dp"
+                                android:layout_marginStart="5dp"
                                 android:layout_marginTop="8dp"
                                 android:padding="5dp"
-                                android:layout_marginStart="5dp"
                                 android:src="@drawable/ic_user"
                                 app:civ_border_color="@color/colorPrimaryDark"
                                 app:civ_border_width="1dp"
@@ -558,6 +558,8 @@
                             android:layout_height="match_parent"
                             android:gravity="center"
                             android:text="@string/share_in"
+                            android:layout_marginLeft="1dp"
+                            android:layout_marginRight="1dp"
                             android:textColor="@color/black"
                             android:textSize="15sp" />
 
@@ -565,8 +567,9 @@
                             android:id="@+id/image_facebook"
                             android:layout_width="30dp"
                             android:layout_height="30dp"
-
                             android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="1dp"
+                            android:layout_marginRight="1dp"
                             android:clickable="false"
                             android:longClickable="false"
                             android:src="@drawable/facebook" />
@@ -574,8 +577,9 @@
                         <ImageView
                             android:id="@+id/image_twitter"
                             android:layout_width="30dp"
-                            android:layout_height="30dp"
-
+                            android:layout_height="19dp"
+                            android:layout_marginLeft="1dp"
+                            android:layout_marginRight="1dp"
                             android:layout_gravity="center_vertical"
                             android:clickable="false"
                             android:longClickable="false"
@@ -587,7 +591,8 @@
                             android:id="@+id/image_instagram"
                             android:layout_width="30dp"
                             android:layout_height="30dp"
-
+                            android:layout_marginLeft="1dp"
+                            android:layout_marginRight="1dp"
                             android:layout_gravity="center_vertical"
                             android:clickable="false"
                             android:longClickable="false"
@@ -598,7 +603,8 @@
                             android:id="@+id/image_whats"
                             android:layout_width="30dp"
                             android:layout_height="30dp"
-
+                            android:layout_marginLeft="1dp"
+                            android:layout_marginRight="1dp"
                             android:layout_gravity="center_vertical"
                             android:clickable="false"
                             android:longClickable="false"
@@ -614,7 +620,8 @@
                             android:layout_gravity="center_vertical"
                             android:clickable="false"
                             android:longClickable="false"
-
+                            android:layout_marginLeft="1dp"
+                            android:layout_marginRight="1dp"
                             android:src="@drawable/more_share"
                             android:tint="@color/color_second" />
 
@@ -622,11 +629,10 @@
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_marginStart="2dp"
-                            android:background="@drawable/frame_shape_colorprimary"
-                            tools:ignore="RtlCompat"
-                            android:padding="8dp"
                             android:layout_weight=".5"
-                            >
+                            android:background="@drawable/frame_shape_colorprimary"
+                            android:padding="8dp"
+                            tools:ignore="RtlCompat">
 
                             <LinearLayout
                                 android:layout_width="wrap_content"
@@ -657,11 +663,10 @@
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_marginStart="2dp"
+                            android:layout_weight=".5"
                             android:background="@drawable/messge_shape"
                             android:padding="8dp"
-                            tools:ignore="RtlCompat"
-                            android:layout_weight=".5"
-                            >
+                            tools:ignore="RtlCompat">
 
                             <LinearLayout
                                 android:layout_width="wrap_content"
@@ -694,11 +699,10 @@
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_marginStart="2dp"
+                            android:layout_weight=".5"
                             android:background="@drawable/frame_shape_colorred"
                             android:padding="8dp"
-                            tools:ignore="RtlCompat"
-                            android:layout_weight=".5"
-                            >
+                            tools:ignore="RtlCompat">
 
                             <LinearLayout
                                 android:layout_width="wrap_content"
