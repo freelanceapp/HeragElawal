@@ -71,7 +71,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:singleLine="false"
-                android:textSize="17sp"
+                android:textSize="13sp"
                 android:text="@string/ads_for_new_and_old_camera_in_haraj_i_bought_now"
                 android:textColor="@color/black"
               />
@@ -81,8 +81,8 @@
 
         <ImageView
             android:id="@+id/image2"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:layout_marginStart="8dp"
             android:src="@drawable/ic_more"
             android:tint="@color/black"

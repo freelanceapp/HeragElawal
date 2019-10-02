@@ -87,11 +87,13 @@
     <string name="like">اعجاب</string>
     <string name="report">ابلاغ</string>
     <string name="commentss">تعليقات</string>
-    <string name="more_comments">More Comments</string>
-    <string name="send">Send</string>
-    <string name="related_products">Related Products</string>
-    <string name="other_user_ads">Other user Ads</string>
-    <string name="show_all">Show All</string>
+    <string name="more_comments">مزيد من التعليقات</string>
+    <string name="send">ارسال</string>
+    <string name="related_products">منتجات ذات صله</string>
+    <string name="other_user_ads">اعلانات اخرى للمستخدم</string>
+    <string name="show_all">اظهار الكل</string>
+    <string name="filter">فلتر</string>
+    <string name="ranking">ترتيب</string>
 
 
 </resources>

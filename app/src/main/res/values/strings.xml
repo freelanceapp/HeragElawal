@@ -86,5 +86,7 @@
     <string name="related_products">Related Products</string>
     <string name="other_user_ads">Other user Ads</string>
     <string name="show_all">Show All</string>
+    <string name="filter">Filter</string>
+    <string name="ranking">Ranking</string>
 
 </resources>

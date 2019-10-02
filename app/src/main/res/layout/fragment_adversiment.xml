@@ -134,7 +134,7 @@
 
 
                         android:gravity="center"
-                        android:text="@string/company_name"
+                        android:text="@string/filter"
                         android:textColor="@color/white"
                         android:textSize="17sp"
                         android:textStyle="bold"
@@ -161,7 +161,7 @@
 
 
                         android:gravity="center"
-                        android:text="@string/company_name"
+                        android:text="@string/ranking"
                         android:textColor="@color/white"
                         android:textSize="17sp"
                         android:textStyle="bold"
