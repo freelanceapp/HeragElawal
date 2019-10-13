@@ -1,6 +1,5 @@
 package com.creative.share.apps.heragelawal.activities_fragments.activity_home.fragments;
 
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
@@ -8,7 +7,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -17,35 +15,42 @@ import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 
 import com.creative.share.apps.heragelawal.R;
 import com.creative.share.apps.heragelawal.activities_fragments.activity_home.activity.HomeActivity;
-import com.creative.share.apps.heragelawal.adapter.Home_Catogry_Adapter;
-import com.creative.share.apps.heragelawal.adapter.Home_Slider_Adapter;
-import com.creative.share.apps.heragelawal.adapter.Side_Catogry_Adapter;
+import com.creative.share.apps.heragelawal.activities_fragments.activity_slider_details.SliderDetailsActivity;
+import com.creative.share.apps.heragelawal.adapter.HomeMainCategoryAdapter;
 import com.creative.share.apps.heragelawal.databinding.FragmentMainBinding;
-import com.creative.share.apps.heragelawal.models.Catohries_Model;
+import com.creative.share.apps.heragelawal.models.MainCategoryDataModel;
+import com.creative.share.apps.heragelawal.models.SliderModelData;
 import com.creative.share.apps.heragelawal.models.UserModel;
 import com.creative.share.apps.heragelawal.preferences.Preferences;
+import com.creative.share.apps.heragelawal.remote.Api;
+import com.creative.share.apps.heragelawal.tags.Tags;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
 import io.paperdb.Paper;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class Fragment_Main extends Fragment {
     private HomeActivity activity;
     private FragmentMainBinding binding;
-   private Preferences preferences;
-   private UserModel userModel;
+    private Preferences preferences;
+    private UserModel userModel;
     private String lang;
-    private List<Catohries_Model> catohries_modelList;
-    private Home_Slider_Adapter sliderAdapter;
-    private Home_Catogry_Adapter home_catogry_adapter;
+    private HomeMainCategoryAdapter adapter;
+    private List<MainCategoryDataModel.MainCategoryModel> mainCategoryModelList;
+    private List<SliderModelData.SliderModel> sliderModelList;
+    public static Fragment_Main newInstance() {
+        return new Fragment_Main();
+    }
+
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -57,81 +62,136 @@ public class Fragment_Main extends Fragment {
     }
 
     private void initView() {
-catohries_modelList=new ArrayList<>();
+        sliderModelList = new ArrayList<>();
+        mainCategoryModelList = new ArrayList<>();
+        mainCategoryModelList.add(null);
+
         activity = (HomeActivity) getActivity();
         preferences = Preferences.newInstance();
         userModel = preferences.getUserData(activity);
         Paper.init(activity);
         lang = Paper.book().read("lang", Locale.getDefault().getLanguage());
         binding.progBar.getIndeterminateDrawable().setColorFilter(ContextCompat.getColor(activity, R.color.colorPrimary), PorterDuff.Mode.SRC_IN);
-if(lang.equals("ar")){
-    binding.edtSearch.setBackgroundDrawable(activity.getResources().getDrawable(R.drawable.edit_shape2));
-}
-binding.recStores.setNestedScrollingEnabled(false);
-        home_catogry_adapter = new Home_Catogry_Adapter(catohries_modelList, activity);
-        binding.recStores.setLayoutManager(new GridLayoutManager(activity, 1));
-        binding.recStores.setAdapter(home_catogry_adapter);
-        binding.recStores.setVisibility(View.VISIBLE);
-        adddatat();
 
-        sliderAdapter = new Home_Slider_Adapter(catohries_modelList, activity);
-        binding.tablayout.setupWithViewPager(binding.pager);
+        binding.recView.setNestedScrollingEnabled(true);
+        binding.recView.setLayoutManager(new GridLayoutManager(activity, 1));
+        adapter = new HomeMainCategoryAdapter(activity, this, mainCategoryModelList);
+        binding.recView.setAdapter(adapter);
+        getSliderData();
 
-        binding.pager.setAdapter(sliderAdapter);
 
-    }
-    private void adddatat() {
-
-        List<Catohries_Model.Order_details> order_details = new ArrayList<>();
-        order_details.add(new Catohries_Model.Order_details());
-        order_details.add(new Catohries_Model.Order_details());
-        order_details.add(new Catohries_Model.Order_details());
-
-        Catohries_Model catohries_model = new Catohries_Model();
-        catohries_model.setOrder_details(order_details);
-
-        Catohries_Model catohries_model1 = new Catohries_Model();
-        catohries_model1.setOrder_details(order_details);
-
-        Catohries_Model catohries_model2 = new Catohries_Model();
-        catohries_model2.setOrder_details(order_details);
-        catohries_modelList.add(catohries_model);
-        catohries_modelList.add(catohries_model1);
-        catohries_modelList.add(catohries_model2);
-        catohries_modelList.add(catohries_model);
-        catohries_modelList.add(catohries_model1);
-        catohries_modelList.add(catohries_model2);
-        catohries_modelList.add(catohries_model);
-        catohries_modelList.add(catohries_model1);
-        catohries_modelList.add(catohries_model2);
-        catohries_modelList.add(catohries_model);
-        catohries_modelList.add(catohries_model1);
-        catohries_modelList.add(catohries_model2);
-        catohries_modelList.add(catohries_model);
-        catohries_modelList.add(catohries_model1);
-        catohries_modelList.add(catohries_model2);
-        catohries_modelList.add(catohries_model);
-        catohries_modelList.add(catohries_model1);
-        catohries_modelList.add(catohries_model2);
-        catohries_modelList.add(catohries_model);
-        catohries_modelList.add(catohries_model1);
-        catohries_modelList.add(catohries_model2);
-        catohries_modelList.add(catohries_model);
-        catohries_modelList.add(catohries_model1);
-        catohries_modelList.add(catohries_model2);
-        catohries_modelList.add(catohries_model);
-        catohries_modelList.add(catohries_model1);
-        catohries_modelList.add(catohries_model2);
-
-        binding.progBar2.setVisibility(View.GONE);
-        home_catogry_adapter.notifyDataSetChanged();
 
     }
 
+    private void getSliderData()
+    {
+        int user_id;
+        if (userModel==null)
+        {
+            user_id =0;
+        }else
+            {
+                user_id = userModel.getId();
+            }
+
+        try {
+
+            Api.getService(Tags.base_url)
+                    .getSliderData(user_id)
+                    .enqueue(new Callback<SliderModelData>() {
+                        @Override
+                        public void onResponse(Call<SliderModelData> call, Response<SliderModelData> response) {
+                            if (response.isSuccessful()&&response.body()!=null&&response.body().getData()!=null)
+                            {
+                              sliderModelList.clear();
+                              sliderModelList.addAll(response.body().getData());
+                              if (adapter!=null)
+                              {
+                                  adapter.setSliderData(sliderModelList);
+                              }
+
+                            }else
+                            {
+
+                                if (response.code() == 500) {
+                                    Toast.makeText(activity, "Server Error", Toast.LENGTH_SHORT).show();
 
 
-    public static Fragment_Main newInstance() {
-        return new Fragment_Main();
+                                }else
+                                {
+                                    Toast.makeText(activity, getString(R.string.failed), Toast.LENGTH_SHORT).show();
+
+                                    try {
+
+                                        Log.e("error",response.code()+"_"+response.errorBody().string());
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<SliderModelData> call, Throwable t) {
+                            try {
+
+                                if (t.getMessage()!=null)
+                                {
+                                    Log.e("error",t.getMessage());
+                                    if (t.getMessage().toLowerCase().contains("failed to connect")||t.getMessage().toLowerCase().contains("unable to resolve host"))
+                                    {
+                                        Toast.makeText(activity,R.string.something, Toast.LENGTH_SHORT).show();
+                                    }else
+                                    {
+                                        Toast.makeText(activity,t.getMessage(), Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+
+                            }catch (Exception e){}
+                        }
+                    });
+        }catch (Exception e){
+
+
+        }
+
+    }
+
+    public void getMainCategory(List<MainCategoryDataModel.MainCategoryModel> mainCategoryModelList,int code) {
+
+        if (code==200)
+        {
+            binding.progBar.setVisibility(View.GONE);
+            this.mainCategoryModelList.addAll(mainCategoryModelList);
+
+            if (this.mainCategoryModelList.size() > 0) {
+                binding.tvNoAds.setVisibility(View.GONE);
+                adapter.notifyDataSetChanged();
+            } else {
+                binding.tvNoAds.setVisibility(View.VISIBLE);
+
+            }
+        }else
+            {
+                binding.progBar.setVisibility(View.GONE);
+
+            }
+
+    }
+
+    public void setSliderItem(SliderModelData.SliderModel sliderModel) {
+        Intent intent = new Intent(activity, SliderDetailsActivity.class);
+        intent.putExtra("ad_id",sliderModel.getId());
+        startActivity(intent);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if (adapter!=null)
+        {
+            adapter.stopTimer();
+        }
     }
 
 

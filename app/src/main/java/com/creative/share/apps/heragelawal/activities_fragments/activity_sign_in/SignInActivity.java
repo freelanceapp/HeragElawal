@@ -12,6 +12,7 @@ import androidx.fragment.app.FragmentManager;
 import com.creative.share.apps.heragelawal.R;
 import com.creative.share.apps.heragelawal.databinding.ActivitySignInBinding;
 import com.creative.share.apps.heragelawal.language.LanguageHelper;
+import com.creative.share.apps.heragelawal.models.UserModel;
 import com.creative.share.apps.heragelawal.preferences.Preferences;
 
 import java.util.Locale;
@@ -23,7 +24,7 @@ public class SignInActivity extends AppCompatActivity {
     private int fragment_count = 0;
     private FragmentManager manager;
     private Fragment_Language fragment_language;
-
+    private Fragment_Code_Verification fragment_code_verification;
     private Preferences preferences;
     private Fragment_Sign_In fragment_sign_in;
 
@@ -62,6 +63,15 @@ public class SignInActivity extends AppCompatActivity {
         fragment_sign_in = Fragment_Sign_In.newInstance();
 
         manager.beginTransaction().add(R.id.fragment_sign_in_container, fragment_sign_in, "fragment_sign_in").addToBackStack("fragment_sign_in").commit();
+
+    }
+
+    public void displayFragmentVerificationCode(UserModel userModel) {
+
+        fragment_count++;
+        fragment_code_verification = Fragment_Code_Verification.newInstance(userModel);
+
+        manager.beginTransaction().add(R.id.fragment_sign_in_container, fragment_code_verification, "fragment_code_verification").addToBackStack("fragment_code_verification").commit();
 
     }
 

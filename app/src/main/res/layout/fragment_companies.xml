@@ -39,7 +39,7 @@
                         android:layout_gravity="bottom|right"
                         android:layout_marginRight="8dp"
                         android:layout_marginBottom="5dp"
-                        app:tabBackground="@drawable/select"
+                        app:tabBackground="@drawable/indicator"
                         app:tabGravity="center"
                         app:tabMaxWidth="7dp"
                         android:visibility="gone"

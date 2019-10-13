@@ -32,6 +32,19 @@ public interface Listeners {
     }
 
 
+    interface SliderActionListener
+    {
+        void call();
+        void message();
+        void chat();
+        void like();
+        void favorite();
+        void report();
+        void facebook();
+        void whatsapp();
+        void twitter();
+        void instagram();
+    }
 
     interface ContactListener
     {

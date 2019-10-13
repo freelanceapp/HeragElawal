@@ -1,58 +1,84 @@
 package com.creative.share.apps.heragelawal.activities_fragments.activity_home.activity;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
+import androidx.core.view.GravityCompat;
 import androidx.databinding.DataBindingUtil;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-
+import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
+import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
 import com.creative.share.apps.heragelawal.R;
-import com.creative.share.apps.heragelawal.activities_fragments.activity_home.fragments.Fragment_About;
-import com.creative.share.apps.heragelawal.activities_fragments.activity_home.fragments.Fragment_Ads_Detials;
-import com.creative.share.apps.heragelawal.activities_fragments.activity_home.fragments.Fragment_Notifications;
-import com.creative.share.apps.heragelawal.activities_fragments.activity_home.fragments.fragment_company.Fragment_Add_Company;
-import com.creative.share.apps.heragelawal.activities_fragments.activity_home.fragments.Fragment_Add_ads;
 import com.creative.share.apps.heragelawal.activities_fragments.activity_home.fragments.Fragment_Chat;
-import com.creative.share.apps.heragelawal.activities_fragments.activity_home.fragments.fragment_company.Fragment_Adversiment;
-import com.creative.share.apps.heragelawal.activities_fragments.activity_home.fragments.fragment_company.Fragment_Companies;
 import com.creative.share.apps.heragelawal.activities_fragments.activity_home.fragments.Fragment_Favourite;
-import com.creative.share.apps.heragelawal.activities_fragments.activity_home.fragments.Fragment_Home;
 import com.creative.share.apps.heragelawal.activities_fragments.activity_home.fragments.Fragment_Main;
 import com.creative.share.apps.heragelawal.activities_fragments.activity_home.fragments.Fragment_My_Adversiment;
-import com.creative.share.apps.heragelawal.activities_fragments.activity_home.fragments.fragment_company.Fragment_Company;
-import com.creative.share.apps.heragelawal.databinding.ActivityHomeBinding;
+import com.creative.share.apps.heragelawal.activities_fragments.activity_home.fragments.fragment_company.Fragment_Companies;
+import com.creative.share.apps.heragelawal.activities_fragments.activity_sign_in.SignInActivity;
+import com.creative.share.apps.heragelawal.activities_fragments.activity_slider_details.SliderDetailsActivity;
+import com.creative.share.apps.heragelawal.adapter.MainCategoryNavParentAdapter;
+import com.creative.share.apps.heragelawal.databinding.DialogLanguageBinding;
 import com.creative.share.apps.heragelawal.language.LanguageHelper;
+import com.creative.share.apps.heragelawal.models.MainCategoryDataModel;
 import com.creative.share.apps.heragelawal.models.UserModel;
 import com.creative.share.apps.heragelawal.preferences.Preferences;
+import com.creative.share.apps.heragelawal.remote.Api;
+import com.creative.share.apps.heragelawal.tags.Tags;
+import com.google.android.material.navigation.NavigationView;
 
-
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 import io.paperdb.Paper;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
-public class HomeActivity extends AppCompatActivity {
-    private ActivityHomeBinding binding;
+public class HomeActivity extends AppCompatActivity{
+    private  Toolbar toolbar;
+    private DrawerLayout drawer;
+    private NavigationView navigationView;
+    private ActionBarDrawerToggle toggle;
+    private AHBottomNavigation ahBottomNav;
+    private String lang;
     private FragmentManager fragmentManager;
-    private int fragment_count = 0;
-    private Fragment_Home fragment_home;
     private Fragment_Main fragment_main;
-private Fragment_Companies fragment_companies;
-private Fragment_My_Adversiment fragment_my_adversiment;
-private Fragment_Favourite fragment_favourite;
-private Fragment_Chat fragment_chat;
+    private Fragment_Companies fragment_companies;
+    private Fragment_My_Adversiment fragment_my_adversiment;
+    private Fragment_Favourite fragment_favourite;
+    private Fragment_Chat fragment_chat;
     private Preferences preferences;
     private UserModel userModel;
+    private ImageView arrow1,arrow2,arrow3,arrow4,arrow5;
+    private LinearLayout llChangeLanguage;
+    private RecyclerView recView;
+    private ProgressBar progBar;
+    private TextView tvNoAds;
+    private List<MainCategoryDataModel.MainCategoryModel> mainCategoryModelList;
+    private MainCategoryNavParentAdapter adapter;
 
-    private String lang;
-    private Fragment_Add_Company fragment_add_company;
-    private Fragment_Add_ads fragment_add_ads;
-    private Fragment_Company fragment_company;
-    private Fragment_About fragment_about;
-    private Fragment_Notifications fragment_notifications;
-    private Fragment_Adversiment fragment_adversiment;
-    private Fragment_Ads_Detials fragment_adversiment_detials;
 
 
     @Override
@@ -66,165 +92,236 @@ private Fragment_Chat fragment_chat;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_home);
+        setContentView(R.layout.activity_home);
+        getDataFromIntent();
         initView();
 
-        if (savedInstanceState == null) {
-            DisplayFragmentHome();
-            DisplayFragmentMain();
 
+    }
+
+    private void getDataFromIntent() {
+
+        Intent intent = getIntent();
+        if (intent!=null&&intent.hasExtra("ad_id"))
+        {
+            int  ad_id = intent.getIntExtra("ad_id",0);
+            Intent intent2 = new Intent(this, SliderDetailsActivity.class);
+            intent2.putExtra("ad_id",ad_id);
+            startActivity(intent2);
         }
-
     }
 
 
     private void initView() {
-        Paper.init(this);
-        lang = Paper.book().read("lang", Locale.getDefault().getLanguage());
-        fragmentManager = this.getSupportFragmentManager();
+        fragmentManager = getSupportFragmentManager();
+        mainCategoryModelList = new ArrayList<>();
+
         preferences = Preferences.newInstance();
         userModel = preferences.getUserData(this);
+        toolbar = findViewById(R.id.toolbar);
+        ahBottomNav = findViewById(R.id.ah_bottom_nav);
+        toolbar.setTitle("");
+        setSupportActionBar(toolbar);
+        drawer = findViewById(R.id.drawer_layout);
+        navigationView = findViewById(R.id.nav_view);
+        toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+
+        /////////////////////////////////////////////////////
+
+        arrow1 = findViewById(R.id.arrow1);
+        arrow2 = findViewById(R.id.arrow2);
+        arrow3 = findViewById(R.id.arrow3);
+        arrow4 = findViewById(R.id.arrow4);
+        arrow5 = findViewById(R.id.arrow5);
+
+        Paper.init(this);
+        lang = Paper.book().read("lang", Locale.getDefault().getLanguage());
+        setUpBottomNavigation();
+
+        if (lang.equals("ar"))
+        {
+            arrow1.setRotation(180.0f);
+            arrow2.setRotation(180.0f);
+            arrow3.setRotation(180.0f);
+            arrow4.setRotation(180.0f);
+            arrow5.setRotation(180.0f);
+
+        }
+
+        progBar = findViewById(R.id.progBar);
+        progBar.getIndeterminateDrawable().setColorFilter(ContextCompat.getColor(this, R.color.white), PorterDuff.Mode.SRC_IN);
+        llChangeLanguage = findViewById(R.id.llChangeLanguage);
+
+        recView = findViewById(R.id.recView);
+        tvNoAds = findViewById(R.id.tvNoAds);
+
+        recView.setNestedScrollingEnabled(true);
+        recView.setLayoutManager(new LinearLayoutManager(this));
+        adapter = new MainCategoryNavParentAdapter(this,mainCategoryModelList);
+        recView.setAdapter(adapter);
+
+
+        llChangeLanguage.setOnClickListener(view -> CreateLangDialog());
+        getMainCategory();
 
 
     }
 
-    public void DisplayFragmentHome() {
-        fragment_count += 1;
-        if (fragment_home == null) {
-            fragment_home = Fragment_Home.newInstance();
+    private void getMainCategory() {
+
+        try {
+
+            Api.getService(Tags.base_url)
+                    .getMainCategory()
+                    .enqueue(new Callback<MainCategoryDataModel>() {
+                        @Override
+                        public void onResponse(Call<MainCategoryDataModel> call, Response<MainCategoryDataModel> response) {
+                            progBar.setVisibility(View.GONE);
+                            if (response.isSuccessful()&&response.body()!=null&&response.body().getData()!=null)
+                            {
+                                mainCategoryModelList.clear();
+                                mainCategoryModelList.addAll(response.body().getData());
+                                if (fragment_main!=null&&fragment_main.isAdded())
+                                {
+                                    fragment_main.getMainCategory(response.body().getData(),200);
+                                }
+                                if (mainCategoryModelList.size()>0)
+                                {
+                                    tvNoAds.setVisibility(View.GONE);
+                                    adapter.notifyDataSetChanged();
+                                }else
+                                {
+                                    tvNoAds.setVisibility(View.VISIBLE);
+
+                                }
+
+                            }else
+                            {
+                                if (fragment_main!=null&&fragment_main.isAdded())
+                                {
+                                    fragment_main.getMainCategory(null,response.code());
+                                }
+
+                                if (response.code() == 500) {
+                                    Toast.makeText(HomeActivity.this, "Server Error", Toast.LENGTH_SHORT).show();
+
+
+                                }else
+                                {
+                                    Toast.makeText(HomeActivity.this, getString(R.string.failed), Toast.LENGTH_SHORT).show();
+
+                                    try {
+
+                                        Log.e("error",response.code()+"_"+response.errorBody().string());
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<MainCategoryDataModel> call, Throwable t) {
+                            try {
+                                if (fragment_main!=null&&fragment_main.isAdded())
+                                {
+                                    fragment_main.getMainCategory(null,0);
+                                }
+                                progBar.setVisibility(View.GONE);
+
+                                if (t.getMessage()!=null)
+                                {
+                                    Log.e("error",t.getMessage());
+                                    if (t.getMessage().toLowerCase().contains("failed to connect")||t.getMessage().toLowerCase().contains("unable to resolve host"))
+                                    {
+                                        Toast.makeText(HomeActivity.this,R.string.something, Toast.LENGTH_SHORT).show();
+                                    }else
+                                    {
+                                        Toast.makeText(HomeActivity.this,t.getMessage(), Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+
+                            }catch (Exception e){}
+                        }
+                    });
+        }catch (Exception e){
+
+
         }
+    }
 
-        if (fragment_home.isAdded()) {
-            fragmentManager.beginTransaction().show(fragment_home).commit();
+    private void setUpBottomNavigation() {
 
-        } else {
-            fragmentManager.beginTransaction().add(R.id.fragment_app_container, fragment_home, "fragment_home").addToBackStack("fragment_home").commit();
+        AHBottomNavigationItem item1 = new AHBottomNavigationItem(getString(R.string.Categories), R.drawable.ic_nav_home);
+        AHBottomNavigationItem item2 = new AHBottomNavigationItem(getString(R.string.companies), R.drawable.compay);
+        AHBottomNavigationItem item3 = new AHBottomNavigationItem(getString(R.string.my_Advdersiment), R.drawable.ic_user);
+        AHBottomNavigationItem item4 = new AHBottomNavigationItem(getString(R.string.favourite), R.drawable.ic_favorite);
+        AHBottomNavigationItem item5 = new AHBottomNavigationItem(getString(R.string.chat), R.drawable.ic_chat);
 
-        }
+        ahBottomNav.setTitleState(AHBottomNavigation.TitleState.ALWAYS_SHOW);
+        ahBottomNav.setDefaultBackgroundColor(ContextCompat.getColor(this, R.color.white));
+        ahBottomNav.setTitleTextSizeInSp(14, 12);
+        ahBottomNav.setForceTint(true);
+        ahBottomNav.setAccentColor(ContextCompat.getColor(this, R.color.colorAccent));
+        ahBottomNav.setInactiveColor(ContextCompat.getColor(this, R.color.black));
+
+        ahBottomNav.addItem(item1);
+        ahBottomNav.addItem(item2);
+        ahBottomNav.addItem(item3);
+        ahBottomNav.addItem(item4);
+        ahBottomNav.addItem(item5);
+
+        ahBottomNav.setOnTabSelectedListener((position, wasSelected) -> {
+            switch (position) {
+                case 0:
+                    DisplayFragmentMain();
+                    break;
+                case 1:
+
+                    DisplayFragmentCompanies();
+                    break;
+                case 2:
+                    DisplayFragmentMyAds();
+
+
+                    break;
+                case 3:
+                    DisplayFragmentFavourite();
+
+                    break;
+                case 4:
+                    DisplayFragmentChat();
+                    break;
+
+            }
+            return false;
+        });
+
+        ahBottomNav.setCurrentItem(0,false);
+        DisplayFragmentMain();
+
+
 
     }
-    public void DisplayFragmentAddCompany() {
-        fragment_count += 1;
 
-            fragment_add_company = Fragment_Add_Company.newInstance();
-
-
-        if (fragment_add_company.isAdded()) {
-            fragmentManager.beginTransaction().show(fragment_add_company).commit();
-
-        } else {
-            fragmentManager.beginTransaction().add(R.id.fragment_app_container, fragment_add_company, "fragment_add_company").addToBackStack("fragment_add_company").commit();
-
-        }
-
-    }
-    public void DisplayFragmentshowCompany() {
-        fragment_count += 1;
-
-        fragment_company = Fragment_Company.newInstance();
-
-
-        if (fragment_company.isAdded()) {
-            fragmentManager.beginTransaction().show(fragment_company).commit();
-
-        } else {
-            fragmentManager.beginTransaction().add(R.id.fragment_app_container, fragment_company, "fragment_company").addToBackStack("fragment_company").commit();
-
-        }
-
-    }
-    public void DisplayFragmentAdversiment() {
-        fragment_count += 1;
-
-        fragment_adversiment = Fragment_Adversiment.newInstance();
-
-
-        if (fragment_adversiment.isAdded()) {
-            fragmentManager.beginTransaction().show(fragment_adversiment).commit();
-
-        } else {
-            fragmentManager.beginTransaction().add(R.id.fragment_app_container, fragment_adversiment, "fragment_adversiment").addToBackStack("fragment_adversiment").commit();
-
-        }
-
-    }
-    public void DisplayFragmentAdversimentDetials() {
-        fragment_count += 1;
-
-        fragment_adversiment_detials = Fragment_Ads_Detials.newInstance();
-
-
-        if (fragment_adversiment_detials.isAdded()) {
-            fragmentManager.beginTransaction().show(fragment_adversiment_detials).commit();
-
-        } else {
-            fragmentManager.beginTransaction().add(R.id.fragment_app_container, fragment_adversiment_detials, "fragment_adversiment_detials").addToBackStack("fragment_adversiment_detials").commit();
-
-        }
-
-    }
-    public void DisplayFragmentAddads() {
-        fragment_count += 1;
-
-        fragment_add_ads = Fragment_Add_ads.newInstance();
-
-
-        if (fragment_add_ads.isAdded()) {
-            fragmentManager.beginTransaction().show(fragment_add_ads).commit();
-
-        } else {
-            fragmentManager.beginTransaction().add(R.id.fragment_app_container, fragment_add_ads, "fragment_add_ads").addToBackStack("fragment_add_ads").commit();
-
-        }
-
-    }
-    public void DisplayFragmentNotifications() {
-        fragment_count += 1;
-
-        fragment_notifications = Fragment_Notifications.newInstance();
-
-
-        if (fragment_notifications.isAdded()) {
-            fragmentManager.beginTransaction().show(fragment_notifications).commit();
-
-        } else {
-            fragmentManager.beginTransaction().add(R.id.fragment_app_container, fragment_notifications, "fragment_notifications").addToBackStack("fragment_notifications").commit();
-
-        }
-
-    }
-    public void DisplayFragmentAbout() {
-        fragment_count += 1;
-
-        fragment_about = Fragment_About.newInstance();
-
-
-        if (fragment_about.isAdded()) {
-            fragmentManager.beginTransaction().show(fragment_about).commit();
-
-        } else {
-            fragmentManager.beginTransaction().add(R.id.fragment_app_container, fragment_about, "fragment_about").addToBackStack("fragment_about").commit();
-
-        }
-
-    }
-    
-    public void DisplayFragmentMain()
-    {
+    public void DisplayFragmentMain() {
 
         if (fragment_main == null) {
             fragment_main = Fragment_Main.newInstance();
         }
-if(fragment_companies !=null&& fragment_companies.isAdded()){
-    fragmentManager.beginTransaction().hide(fragment_companies).commit();
-}
-        if(fragment_my_adversiment!=null&&fragment_my_adversiment.isAdded()){
+        if (fragment_companies != null && fragment_companies.isAdded()) {
+            fragmentManager.beginTransaction().hide(fragment_companies).commit();
+        }
+        if (fragment_my_adversiment != null && fragment_my_adversiment.isAdded()) {
             fragmentManager.beginTransaction().hide(fragment_my_adversiment).commit();
         }
-        if(fragment_favourite!=null&&fragment_favourite.isAdded()){
+        if (fragment_favourite != null && fragment_favourite.isAdded()) {
             fragmentManager.beginTransaction().hide(fragment_favourite).commit();
         }
-        if(fragment_chat!=null&&fragment_chat.isAdded()){
+        if (fragment_chat != null && fragment_chat.isAdded()) {
             fragmentManager.beginTransaction().hide(fragment_chat).commit();
         }
 
@@ -235,26 +332,24 @@ if(fragment_companies !=null&& fragment_companies.isAdded()){
             fragmentManager.beginTransaction().add(R.id.fragment_home_container, fragment_main, "fragment_main").addToBackStack("fragment_main").commit();
 
         }
-        if (fragment_home != null && fragment_home.isAdded()) {
-            fragment_home.updateBottomNavigationPosition(0);
-        }
+        ahBottomNav.setCurrentItem(0,false);
 
     }
-    public void DisplayFragmentCompanies()
-    {
+
+    public void DisplayFragmentCompanies() {
         if (fragment_companies == null) {
             fragment_companies = Fragment_Companies.newInstance();
         }
-        if(fragment_main!=null&&fragment_main.isAdded()){
+        if (fragment_main != null && fragment_main.isAdded()) {
             fragmentManager.beginTransaction().hide(fragment_main).commit();
         }
-        if(fragment_my_adversiment!=null&&fragment_my_adversiment.isAdded()){
+        if (fragment_my_adversiment != null && fragment_my_adversiment.isAdded()) {
             fragmentManager.beginTransaction().hide(fragment_my_adversiment).commit();
         }
-        if(fragment_favourite!=null&&fragment_favourite.isAdded()){
+        if (fragment_favourite != null && fragment_favourite.isAdded()) {
             fragmentManager.beginTransaction().hide(fragment_favourite).commit();
         }
-        if(fragment_chat!=null&&fragment_chat.isAdded()){
+        if (fragment_chat != null && fragment_chat.isAdded()) {
             fragmentManager.beginTransaction().hide(fragment_chat).commit();
         }
         if (fragment_companies.isAdded()) {
@@ -264,27 +359,25 @@ if(fragment_companies !=null&& fragment_companies.isAdded()){
             fragmentManager.beginTransaction().add(R.id.fragment_home_container, fragment_companies, "fragment_companies").addToBackStack("fragment_companies").commit();
 
         }
-        if (fragment_home != null && fragment_home.isAdded()) {
-            fragment_home.updateBottomNavigationPosition(1);
-        }
+        ahBottomNav.setCurrentItem(1,false);
+
 
     }
 
-    public void DisplayFragmentMyadvesriment()
-    {
+    public void DisplayFragmentMyAds() {
         if (fragment_my_adversiment == null) {
             fragment_my_adversiment = Fragment_My_Adversiment.newInstance();
         }
-        if(fragment_main!=null&&fragment_main.isAdded()){
+        if (fragment_main != null && fragment_main.isAdded()) {
             fragmentManager.beginTransaction().hide(fragment_main).commit();
         }
-        if(fragment_companies !=null&& fragment_companies.isAdded()){
+        if (fragment_companies != null && fragment_companies.isAdded()) {
             fragmentManager.beginTransaction().hide(fragment_companies).commit();
         }
-        if(fragment_favourite!=null&&fragment_favourite.isAdded()){
+        if (fragment_favourite != null && fragment_favourite.isAdded()) {
             fragmentManager.beginTransaction().hide(fragment_favourite).commit();
         }
-        if(fragment_chat!=null&&fragment_chat.isAdded()){
+        if (fragment_chat != null && fragment_chat.isAdded()) {
             fragmentManager.beginTransaction().hide(fragment_chat).commit();
         }
         if (fragment_my_adversiment.isAdded()) {
@@ -294,26 +387,25 @@ if(fragment_companies !=null&& fragment_companies.isAdded()){
             fragmentManager.beginTransaction().add(R.id.fragment_home_container, fragment_my_adversiment, "fragment_my_adversiment").addToBackStack("fragment_my_adversiment").commit();
 
         }
-        if (fragment_home != null && fragment_home.isAdded()) {
-            fragment_home.updateBottomNavigationPosition(2);
-        }
+        ahBottomNav.setCurrentItem(2,false);
+
 
     }
-    public void DisplayFragmentFavourite()
-    {
+
+    public void DisplayFragmentFavourite() {
         if (fragment_favourite == null) {
             fragment_favourite = Fragment_Favourite.newInstance();
         }
-        if(fragment_main!=null&&fragment_main.isAdded()){
+        if (fragment_main != null && fragment_main.isAdded()) {
             fragmentManager.beginTransaction().hide(fragment_main).commit();
         }
-        if(fragment_my_adversiment!=null&&fragment_my_adversiment.isAdded()){
+        if (fragment_my_adversiment != null && fragment_my_adversiment.isAdded()) {
             fragmentManager.beginTransaction().hide(fragment_my_adversiment).commit();
         }
-        if(fragment_companies !=null&& fragment_companies.isAdded()){
+        if (fragment_companies != null && fragment_companies.isAdded()) {
             fragmentManager.beginTransaction().hide(fragment_companies).commit();
         }
-        if(fragment_chat!=null&&fragment_chat.isAdded()){
+        if (fragment_chat != null && fragment_chat.isAdded()) {
             fragmentManager.beginTransaction().hide(fragment_chat).commit();
         }
         if (fragment_favourite.isAdded()) {
@@ -323,26 +415,25 @@ if(fragment_companies !=null&& fragment_companies.isAdded()){
             fragmentManager.beginTransaction().add(R.id.fragment_home_container, fragment_favourite, "fragment_favourite").addToBackStack("fragment_favourite").commit();
 
         }
-        if (fragment_home != null && fragment_home.isAdded()) {
-            fragment_home.updateBottomNavigationPosition(3);
-        }
+        ahBottomNav.setCurrentItem(3,false);
+
 
     }
-    public void DisplayFragmentChat()
-    {
+
+    public void DisplayFragmentChat() {
         if (fragment_chat == null) {
             fragment_chat = Fragment_Chat.newInstance();
         }
-        if(fragment_main!=null&&fragment_main.isAdded()){
+        if (fragment_main != null && fragment_main.isAdded()) {
             fragmentManager.beginTransaction().hide(fragment_main).commit();
         }
-        if(fragment_my_adversiment!=null&&fragment_my_adversiment.isAdded()){
+        if (fragment_my_adversiment != null && fragment_my_adversiment.isAdded()) {
             fragmentManager.beginTransaction().hide(fragment_my_adversiment).commit();
         }
-        if(fragment_companies !=null&& fragment_companies.isAdded()){
+        if (fragment_companies != null && fragment_companies.isAdded()) {
             fragmentManager.beginTransaction().hide(fragment_companies).commit();
         }
-        if(fragment_favourite!=null&&fragment_favourite.isAdded()){
+        if (fragment_favourite != null && fragment_favourite.isAdded()) {
             fragmentManager.beginTransaction().hide(fragment_favourite).commit();
         }
         if (fragment_chat.isAdded()) {
@@ -352,39 +443,90 @@ if(fragment_companies !=null&& fragment_companies.isAdded()){
             fragmentManager.beginTransaction().add(R.id.fragment_home_container, fragment_chat, "fragment_chat").addToBackStack("fragment_chat").commit();
 
         }
-        if (fragment_home != null && fragment_home.isAdded()) {
-            fragment_home.updateBottomNavigationPosition(4);
-        }
+        ahBottomNav.setCurrentItem(4,false);
+
 
     }
-    public void onBackPressed() {
-        Back();
-    }
 
-    public void Back() {
-        if (fragment_count > 1) {
-            fragment_count -= 1;
-            super.onBackPressed();
+
+    private void CreateLangDialog() {
+        final AlertDialog dialog = new AlertDialog.Builder(this)
+                .create();
+
+        DialogLanguageBinding binding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.dialog_language, null, false);
+        String lang = Paper.book().read("lang", Locale.getDefault().getLanguage());
+        if (lang.equals("ar")) {
+            binding.rbAr.setChecked(true);
         } else {
+            binding.rbEn.setChecked(true);
 
-            if (fragment_home != null && fragment_home.isVisible()) {
-                if (fragment_main != null && fragment_main.isVisible()) {
+        }
+        binding.btnCancel.setOnClickListener((v) ->
+                dialog.dismiss()
 
-                    if (userModel != null) {
+        );
+        binding.rbAr.setOnClickListener(view -> {
+            dialog.dismiss();
+            new Handler()
+                    .postDelayed(() -> refreshActivity("ar"), 1000);
+        });
+        binding.rbEn.setOnClickListener(view -> {
+            dialog.dismiss();
+            new Handler()
+                    .postDelayed(() -> refreshActivity("en"), 1000);
+        });
+        dialog.getWindow().getAttributes().windowAnimations = R.style.dialog_congratulation_animation;
+        dialog.getWindow().setBackgroundDrawableResource(R.drawable.dialog_window_bg);
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.setView(binding.getRoot());
+        dialog.show();
+    }
+
+
+    private void refreshActivity(String lang) {
+        drawer.closeDrawer(GravityCompat.START);
+        new Handler()
+                .postDelayed(() -> {
+                    preferences.selectedLanguage(HomeActivity.this, lang);
+                    Paper.book().write("lang", lang);
+                    LanguageHelper.setNewLocale(HomeActivity.this, lang);
+                    Intent intent = getIntent();
+                    finish();
+                    startActivity(intent);
+                },500);
+
+
+    }
+
+
+
+
+    @Override
+    public void onBackPressed() {
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            if (fragment_main!=null&&fragment_main.isAdded()&&fragment_main.isVisible())
+            {
+                if (userModel==null)
+                {
+                    navigateToSignInActivity();
+                }else
+                    {
                         finish();
-
-                    } else {
-                     //   NavigateToSignInActivity();
                     }
-
-                } else {
+            }else
+                {
                     DisplayFragmentMain();
                 }
-            } else {
-                DisplayFragmentHome();
-            }
         }
+    }
 
+    private void navigateToSignInActivity() {
+
+        Intent intent = new Intent(this, SignInActivity.class);
+        startActivity(intent);
+        finish();
     }
 
 

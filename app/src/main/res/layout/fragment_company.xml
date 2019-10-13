@@ -103,7 +103,7 @@
                         android:layout_gravity="bottom"
                         android:layout_marginEnd="8dp"
                         android:layout_marginBottom="5dp"
-                        app:tabBackground="@drawable/select"
+                        app:tabBackground="@drawable/indicator"
                         app:tabMaxWidth="7dp"
                         tools:ignore="RtlCompat"
                         android:visibility="gone"

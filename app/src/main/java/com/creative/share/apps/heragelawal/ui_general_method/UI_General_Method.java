@@ -1,16 +1,12 @@
 package com.creative.share.apps.heragelawal.ui_general_method;
 
 import android.net.Uri;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.databinding.BindingAdapter;
 
-
-import com.creative.share.apps.heragelawal.R;
 import com.creative.share.apps.heragelawal.tags.Tags;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.squareup.picasso.Picasso;
@@ -19,7 +15,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-import de.hdodenhof.circleimageview.CircleImageView;
 import io.paperdb.Paper;
 
 public class UI_General_Method {
@@ -40,27 +35,14 @@ public class UI_General_Method {
         }
     }
 
-    @BindingAdapter("imageEventEndPoint")
-    public static void displayImage(RoundedImageView imageView, String imageEndPoint)
+
+    @BindingAdapter("subCategoryImage")
+    public static void subCategoryImage(RoundedImageView roundedImageView,String endPoint)
     {
-
-        Picasso.with(imageView.getContext()).load(Uri.parse(Tags.IMAGE_URL+imageEndPoint)).fit().into(imageView);
-
-    }
-
-    @BindingAdapter("imageActivityEndPoint")
-    public static void displayImage2(ImageView imageView, String imageEndPoint)
-    {        Log.e("image",imageEndPoint);
-
-        Picasso.with(imageView.getContext()).load(Uri.parse(Tags.IMAGE_URL+imageEndPoint)).fit().into(imageView);
-
-    }
-
-    @BindingAdapter("imageUserEndPoint")
-    public static void displayImage3(CircleImageView imageView, String imageEndPoint)
-    {
-        Picasso.with(imageView.getContext()).load(Uri.parse(Tags.IMAGE_URL+imageEndPoint)).fit().into(imageView);
-
+        if (endPoint!=null)
+        {
+            Picasso.with(roundedImageView.getContext()).load(Uri.parse(Tags.IMAGE_URL_ADS_CATEGORY+endPoint)).fit().into(roundedImageView);
+        }
     }
 
     @BindingAdapter({"startDate","endDate"})

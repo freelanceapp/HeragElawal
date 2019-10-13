@@ -1,8 +1,6 @@
 package com.creative.share.apps.heragelawal.activities_fragments.activity_home.fragments;
 
-import android.content.Context;
 import android.os.Bundle;
-import android.telephony.TelephonyManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,13 +13,9 @@ import androidx.fragment.app.Fragment;
 import com.creative.share.apps.heragelawal.R;
 import com.creative.share.apps.heragelawal.activities_fragments.activity_home.activity.HomeActivity;
 import com.creative.share.apps.heragelawal.databinding.FragmentAddAdsBinding;
-import com.creative.share.apps.heragelawal.databinding.FragmentAddCompanyBinding;
-import com.creative.share.apps.heragelawal.interfaces.Listeners;
 import com.creative.share.apps.heragelawal.models.UserModel;
 import com.creative.share.apps.heragelawal.preferences.Preferences;
-import com.mukesh.countrypicker.Country;
 import com.mukesh.countrypicker.CountryPicker;
-import com.mukesh.countrypicker.listeners.OnCountryPickerListener;
 
 import java.util.Locale;
 

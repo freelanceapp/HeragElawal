@@ -17,7 +17,6 @@ import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 
-
 import com.creative.share.apps.heragelawal.R;
 import com.creative.share.apps.heragelawal.activities_fragments.activity_home.activity.HomeActivity;
 import com.creative.share.apps.heragelawal.databinding.DialogAlertBinding;
@@ -26,7 +25,9 @@ import com.creative.share.apps.heragelawal.interfaces.Listeners;
 import com.creative.share.apps.heragelawal.models.LoginModel;
 import com.creative.share.apps.heragelawal.models.UserModel;
 import com.creative.share.apps.heragelawal.preferences.Preferences;
+import com.creative.share.apps.heragelawal.remote.Api;
 import com.creative.share.apps.heragelawal.share.Common;
+import com.creative.share.apps.heragelawal.tags.Tags;
 import com.mukesh.countrypicker.Country;
 import com.mukesh.countrypicker.CountryPicker;
 import com.mukesh.countrypicker.listeners.OnCountryPickerListener;
@@ -35,7 +36,6 @@ import java.io.IOException;
 import java.util.Locale;
 
 import io.paperdb.Paper;
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -44,10 +44,9 @@ public class Fragment_Sign_In extends Fragment implements Listeners.LoginListene
     private FragmentSignInBinding binding;
     private SignInActivity activity;
     private String lang;
-    private Preferences preferences;
     private CountryPicker countryPicker;
     private LoginModel loginModel;
-    private UserModel userModel;
+    private Preferences preferences;
 
     public static Fragment_Sign_In newInstance() {
         return new Fragment_Sign_In();
@@ -62,9 +61,9 @@ public class Fragment_Sign_In extends Fragment implements Listeners.LoginListene
     }
 
     private void initView() {
+        preferences = Preferences.newInstance();
         loginModel = new LoginModel();
         activity = (SignInActivity) getActivity();
-        preferences = Preferences.newInstance();
         Paper.init(activity);
         lang = Paper.book().read("lang", Locale.getDefault().getLanguage());
         binding.setLang(lang);
@@ -72,6 +71,7 @@ public class Fragment_Sign_In extends Fragment implements Listeners.LoginListene
         binding.setLoginListener(this);
         binding.setSkipListener(this);
         binding.setShowCountryListener(this);
+        binding.setLoginListener(this);
         createCountryDialog();
 
 
@@ -114,6 +114,105 @@ public class Fragment_Sign_In extends Fragment implements Listeners.LoginListene
     @Override
     public void checkDataLogin() {
 
+        if (loginModel.isDataValid(activity))
+        {
+            login(loginModel);
+        }
+    }
+
+    private void login(LoginModel loginModel) {
+
+        ProgressDialog dialog = Common.createProgressDialog(activity,getString(R.string.wait));
+        dialog.setCancelable(false);
+        dialog.show();
+        try {
+
+            Api.getService(Tags.base_url)
+                    .login(loginModel.getPhone_code(),loginModel.getPhone(),1)
+                    .enqueue(new Callback<UserModel>() {
+                        @Override
+                        public void onResponse(Call<UserModel> call, Response<UserModel> response) {
+                            dialog.dismiss();
+                            if (response.isSuccessful()&&response.body()!=null)
+                            {
+                                preferences.create_update_userData(activity,response.body());
+                                preferences.createSession(activity, Tags.session_login);
+                                Intent intent = new Intent(activity, HomeActivity.class);
+                                startActivity(intent);
+                                activity.finish();
+
+                            }else
+                            {
+                                if (response.code() == 500) {
+                                    Toast.makeText(activity, "Server Error", Toast.LENGTH_SHORT).show();
+
+
+                                }else if (response.code()==401)
+                                {
+                                    CreateDialogAlert(response.body());
+
+                                }else if (response.code()==402)
+                                {
+                                    Toast.makeText(activity, R.string.blokced, Toast.LENGTH_SHORT).show();
+
+                                }else
+                                {
+                                    Toast.makeText(activity, getString(R.string.failed), Toast.LENGTH_SHORT).show();
+
+                                    try {
+
+                                        Log.e("error",response.code()+"_"+response.errorBody().string());
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<UserModel> call, Throwable t) {
+                            try {
+                                dialog.dismiss();
+                                if (t.getMessage()!=null)
+                                {
+                                    Log.e("error",t.getMessage());
+                                    if (t.getMessage().toLowerCase().contains("failed to connect")||t.getMessage().toLowerCase().contains("unable to resolve host"))
+                                    {
+                                        Toast.makeText(activity,R.string.something, Toast.LENGTH_SHORT).show();
+                                    }else
+                                    {
+                                        Toast.makeText(activity,t.getMessage(), Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+
+                            }catch (Exception e){}
+                        }
+                    });
+        }catch (Exception e){
+            dialog.dismiss();
+
+        }
+    }
+
+    private  void CreateDialogAlert(UserModel userModel) {
+        final AlertDialog dialog = new AlertDialog.Builder(activity)
+                .create();
+
+        DialogAlertBinding binding = DataBindingUtil.inflate(LayoutInflater.from(activity), R.layout.dialog_alert, null, false);
+
+        binding.tvMsg.setText("");
+        binding.btnCancel.setOnClickListener(v -> {
+
+            dialog.dismiss();
+            activity.displayFragmentVerificationCode(userModel);
+        }
+
+        );
+        dialog.getWindow().getAttributes().windowAnimations = R.style.dialog_congratulation_animation;
+        dialog.getWindow().setBackgroundDrawableResource(R.drawable.dialog_window_bg);
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.setView(binding.getRoot());
+        dialog.show();
     }
 
 

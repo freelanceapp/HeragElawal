@@ -51,42 +51,6 @@ public class Common {
 
 
     }
-    /*
-    public static void CreateNoSignAlertDialog2(Context context) {
-        final AlertDialog dialog = new AlertDialog.Builder(context)
-                .create();
-
-        AppCompatActivity activity = (AppCompatActivity) context;
-        DialogCustomBinding binding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.dialog_custom, null, false);
-
-        binding.btnSignUp.setOnClickListener((v) -> {
-            dialog.dismiss();
-
-            if (activity instanceof HomeActivity) {
-                HomeActivity homeActivity = (HomeActivity) activity;
-                homeActivity.finish();
-            }
-        });
-        binding.btnSignIn.setOnClickListener((v) -> {
-            dialog.dismiss();
-
-            if (activity instanceof HomeActivity) {
-                HomeActivity homeActivity = (HomeActivity) activity;
-                homeActivity.finish();
-            }
-
-        });
-
-        binding.btnCancel.setOnClickListener((v) ->
-                dialog.dismiss()
-
-        );
-        dialog.getWindow().getAttributes().windowAnimations = R.style.dialog_congratulation_animation;
-        dialog.getWindow().setBackgroundDrawableResource(R.drawable.dialog_window_bg);
-        dialog.setCanceledOnTouchOutside(false);
-        dialog.setView(binding.getRoot());
-        dialog.show();
-    }*/
     public static void CreateNoSignAlertDialog(Context context) {
         final AlertDialog dialog = new AlertDialog.Builder(context)
                 .create();

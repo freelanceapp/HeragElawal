@@ -1,6 +1,5 @@
 package com.creative.share.apps.heragelawal.activities_fragments.activity_home.fragments;
 
-import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,14 +7,12 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 
 import com.creative.share.apps.heragelawal.R;
 import com.creative.share.apps.heragelawal.activities_fragments.activity_home.activity.HomeActivity;
 import com.creative.share.apps.heragelawal.databinding.FragmentAboutBinding;
-import com.creative.share.apps.heragelawal.databinding.FragmentCompanyBinding;
 import com.creative.share.apps.heragelawal.models.UserModel;
 import com.creative.share.apps.heragelawal.preferences.Preferences;
 
