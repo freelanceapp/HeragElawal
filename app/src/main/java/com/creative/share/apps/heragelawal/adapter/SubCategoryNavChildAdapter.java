@@ -9,6 +9,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.creative.share.apps.heragelawal.R;
+import com.creative.share.apps.heragelawal.activities_fragments.activity_home.activity.HomeActivity;
 import com.creative.share.apps.heragelawal.databinding.NavChildRowBinding;
 import com.creative.share.apps.heragelawal.models.MainCategoryDataModel;
 
@@ -18,10 +19,13 @@ public class SubCategoryNavChildAdapter extends RecyclerView.Adapter<SubCategory
 
     private Context context;
     private List<MainCategoryDataModel.SubCategoryModel> subCategoryModelList;
+    private HomeActivity activity;
 
     public SubCategoryNavChildAdapter(Context context, List<MainCategoryDataModel.SubCategoryModel> subCategoryModelList) {
         this.context = context;
         this.subCategoryModelList = subCategoryModelList;
+        this.activity = (HomeActivity) context;
+
     }
 
     @NonNull
@@ -37,6 +41,12 @@ public class SubCategoryNavChildAdapter extends RecyclerView.Adapter<SubCategory
 
         MainCategoryDataModel.SubCategoryModel subCategoryModel = subCategoryModelList.get(position);
         holder.binding.setSubCategoryModel(subCategoryModel);
+
+        holder.itemView.setOnClickListener(view -> {
+            MainCategoryDataModel.SubCategoryModel subCategoryModel1 = subCategoryModelList.get(holder.getAdapterPosition());
+
+            activity.setSubCategoryItem(subCategoryModel1);
+        });
     }
 
     @Override

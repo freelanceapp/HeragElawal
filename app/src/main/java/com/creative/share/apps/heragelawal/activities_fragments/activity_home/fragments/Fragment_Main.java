@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import com.creative.share.apps.heragelawal.R;
 import com.creative.share.apps.heragelawal.activities_fragments.activity_home.activity.HomeActivity;
 import com.creative.share.apps.heragelawal.activities_fragments.activity_slider_details.SliderDetailsActivity;
+import com.creative.share.apps.heragelawal.activities_fragments.sub_category_activity.SubCategoryActivity;
 import com.creative.share.apps.heragelawal.adapter.HomeMainCategoryAdapter;
 import com.creative.share.apps.heragelawal.databinding.FragmentMainBinding;
 import com.creative.share.apps.heragelawal.models.MainCategoryDataModel;
@@ -185,6 +186,12 @@ public class Fragment_Main extends Fragment {
         startActivity(intent);
     }
 
+    public void setSubCategoryItem(MainCategoryDataModel.SubCategoryModel subCategoryModel) {
+        Intent intent = new Intent(activity, SubCategoryActivity.class);
+        intent.putExtra("sub_id",subCategoryModel.getId());
+        startActivity(intent);
+    }
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
@@ -193,6 +200,7 @@ public class Fragment_Main extends Fragment {
             adapter.stopTimer();
         }
     }
+
 
 
 }

@@ -36,6 +36,7 @@ import com.creative.share.apps.heragelawal.activities_fragments.activity_home.fr
 import com.creative.share.apps.heragelawal.activities_fragments.activity_home.fragments.fragment_company.Fragment_Companies;
 import com.creative.share.apps.heragelawal.activities_fragments.activity_sign_in.SignInActivity;
 import com.creative.share.apps.heragelawal.activities_fragments.activity_slider_details.SliderDetailsActivity;
+import com.creative.share.apps.heragelawal.activities_fragments.sub_category_activity.SubCategoryActivity;
 import com.creative.share.apps.heragelawal.adapter.MainCategoryNavParentAdapter;
 import com.creative.share.apps.heragelawal.databinding.DialogLanguageBinding;
 import com.creative.share.apps.heragelawal.language.LanguageHelper;
@@ -530,4 +531,9 @@ public class HomeActivity extends AppCompatActivity{
     }
 
 
+    public void setSubCategoryItem(MainCategoryDataModel.SubCategoryModel subCategoryModel) {
+        Intent intent = new Intent(this, SubCategoryActivity.class);
+        intent.putExtra("sub_id",subCategoryModel.getId());
+        startActivity(intent);
+    }
 }

@@ -59,6 +59,11 @@ public class HomeSubCategoryAdapter extends RecyclerView.Adapter<HomeSubCategory
 
             }
         });
+
+        holder.itemView.setOnClickListener(view -> {
+            MainCategoryDataModel.SubCategoryModel subCategoryModel1 = subCategoryModelList.get(holder.getAdapterPosition());
+            fragment_main.setSubCategoryItem(subCategoryModel1);
+        });
     }
 
     @Override

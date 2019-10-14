@@ -11,7 +11,6 @@
             name="lang"
             type="String" />
 
-        com.creative.share.apps.wash_squad_driver.models.Order_Model.Data" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

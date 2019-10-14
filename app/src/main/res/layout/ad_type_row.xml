@@ -18,13 +18,14 @@
         android:gravity="center_vertical"
         android:padding="5dp"
         android:background="@drawable/ad_type_bg"
+        android:layout_marginBottom="3dp"
         >
        <TextView
            android:layout_width="wrap_content"
            android:layout_height="wrap_content"
            android:paddingLeft="8dp"
            android:paddingRight="8dp"
-           android:textColor="@color/colorPrimary"
+           android:textColor="@color/black"
            android:textSize="13sp"
            android:singleLine="true"
            android:text="@{adTypeModel.title}"
@@ -35,7 +36,7 @@
             android:src="@drawable/ic_right_arrow"
             android:layout_gravity="center_vertical"
             android:padding="3dp"
-            android:tint="@color/colorPrimary"
+            android:tint="@color/black"
             android:rotation='@{lang.equals("ar")?180:0}'
             />
     </LinearLayout>

@@ -5,6 +5,7 @@ import com.creative.share.apps.heragelawal.models.AdModel;
 import com.creative.share.apps.heragelawal.models.AdTypeDataModel;
 import com.creative.share.apps.heragelawal.models.MainCategoryDataModel;
 import com.creative.share.apps.heragelawal.models.SliderModelData;
+import com.creative.share.apps.heragelawal.models.SubSubCategoryModel;
 import com.creative.share.apps.heragelawal.models.UserModel;
 
 import retrofit2.Call;
@@ -52,6 +53,10 @@ public interface Service {
 
     @GET("api/all-types")
     Call<AdTypeDataModel> getAdTypes();
+
+    @FormUrlEncoded
+    @POST("api/sub-category/children")
+    Call<SubSubCategoryModel> getSubSubCategories(@Field("cat_id") int sub_id);
 
 
 }

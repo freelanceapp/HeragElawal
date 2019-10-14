@@ -3,6 +3,7 @@ package com.creative.share.apps.heragelawal.ui_general_method;
 import android.net.Uri;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.databinding.BindingAdapter;
@@ -43,6 +44,21 @@ public class UI_General_Method {
         {
             Picasso.with(roundedImageView.getContext()).load(Uri.parse(Tags.IMAGE_URL_ADS_CATEGORY+endPoint)).fit().into(roundedImageView);
         }
+    }
+
+    @BindingAdapter("subCategoryIcon")
+    public static void subCategoryIcon(View view,String endPoint)
+    {
+        if (view instanceof ImageView)
+        {
+            if (endPoint!=null)
+            {
+                ImageView imageView = (ImageView) view;
+
+                Picasso.with(imageView.getContext()).load(Uri.parse(Tags.IMAGE_URL_ADS_CATEGORY+endPoint)).fit().into(imageView);
+            }
+        }
+
     }
 
     @BindingAdapter({"startDate","endDate"})
