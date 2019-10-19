@@ -1,6 +1,7 @@
 package com.creative.share.apps.heragelawal.ui_general_method;
 
 import android.net.Uri;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -8,6 +9,7 @@ import android.widget.TextView;
 
 import androidx.databinding.BindingAdapter;
 
+import com.creative.share.apps.heragelawal.R;
 import com.creative.share.apps.heragelawal.tags.Tags;
 import com.makeramen.roundedimageview.RoundedImageView;
 import com.squareup.picasso.Picasso;
@@ -16,6 +18,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import io.paperdb.Paper;
 
 public class UI_General_Method {
@@ -56,6 +59,43 @@ public class UI_General_Method {
                 ImageView imageView = (ImageView) view;
 
                 Picasso.with(imageView.getContext()).load(Uri.parse(Tags.IMAGE_URL_ADS_CATEGORY+endPoint)).fit().into(imageView);
+            }
+        }
+
+    }
+
+    @BindingAdapter("avatarUser")
+    public static void avatarUser(View view,String endPoint)
+    {
+        if (view instanceof ImageView)
+        {
+            ImageView imageView = (ImageView) view;
+
+            if (endPoint!=null)
+            {
+
+                Picasso.with(imageView.getContext()).load(Uri.parse(Tags.IMAGE_AVATAR+endPoint)).fit().into(imageView);
+            }else
+                {
+                    Log.e("fff","fff");
+                    Picasso.with(imageView.getContext()).load(R.drawable.ic_user).fit().into(imageView);
+
+                }
+        }
+
+    }
+
+    @BindingAdapter("avatarCompany")
+    public static void avatarCompany(View view,String endPoint)
+    {
+        if (view instanceof CircleImageView)
+        {
+            CircleImageView circleImageView = (CircleImageView) view;
+
+            if (endPoint!=null)
+            {
+
+                Picasso.with(circleImageView.getContext()).load(Uri.parse(Tags.IMAGE_AVATAR+endPoint)).fit().into(circleImageView);
             }
         }
 

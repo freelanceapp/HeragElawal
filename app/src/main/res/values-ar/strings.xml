@@ -81,7 +81,7 @@
     <string name="add_your_adversiment_for_free">اضف اعلانك مجانا</string>
     <string name="change_language">تغير اللغه</string>
     <string name="about_herage">عن حراج</string>
-    <string name="add_company">اضافة شركه</string>
+    <string name="add_company">أضف شركة</string>
     <string name="company_name">اسم الشركه</string>
     <string name="detials">تفاصيل</string>
     <string name="maximum_of_150_characters">بحد اقصى 150 حرف</string>
@@ -163,6 +163,11 @@
     <string name="satellite">ساتلايت</string>
     <string name="result">النتائج</string>
     <string name="from">من</string>
+    <string name="no_categories_to_display">لا توجد فئات لعرضها</string>
+    <string name="search_for_company">إبحث عن شركة</string>
+    <string name="view">مشاهدة</string>
+    <string name="no_companies">لا توجد شركات</string>
+    <string name="ad">إعلان</string>
 
 
 </resources>

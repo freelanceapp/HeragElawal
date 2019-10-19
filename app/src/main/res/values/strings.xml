@@ -161,6 +161,11 @@
     <string name="satellite">Satellite</string>
     <string name="result">Results</string>
     <string name="from">From</string>
+    <string name="no_categories_to_display">No categories to display</string>
+    <string name="search_for_company">Search for company</string>
+    <string name="view">View</string>
+    <string name="no_companies">No companies</string>
+    <string name="ad">ad</string>
 
 
 </resources>

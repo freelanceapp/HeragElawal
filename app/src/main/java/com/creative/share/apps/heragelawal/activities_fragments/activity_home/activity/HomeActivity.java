@@ -9,6 +9,7 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -33,10 +34,10 @@ import com.creative.share.apps.heragelawal.activities_fragments.activity_home.fr
 import com.creative.share.apps.heragelawal.activities_fragments.activity_home.fragments.Fragment_Favourite;
 import com.creative.share.apps.heragelawal.activities_fragments.activity_home.fragments.Fragment_Main;
 import com.creative.share.apps.heragelawal.activities_fragments.activity_home.fragments.Fragment_My_Adversiment;
-import com.creative.share.apps.heragelawal.activities_fragments.activity_home.fragments.fragment_company.Fragment_Companies;
+import com.creative.share.apps.heragelawal.activities_fragments.activity_home.fragments.fragment_company.Fragment_Companies_Feature;
+import com.creative.share.apps.heragelawal.activities_fragments.activity_search.SearchActivity;
 import com.creative.share.apps.heragelawal.activities_fragments.activity_sign_in.SignInActivity;
 import com.creative.share.apps.heragelawal.activities_fragments.activity_slider_details.SliderDetailsActivity;
-import com.creative.share.apps.heragelawal.activities_fragments.activity_search.SearchActivity;
 import com.creative.share.apps.heragelawal.activities_fragments.activity_sub_category.SubCategoryActivity;
 import com.creative.share.apps.heragelawal.adapter.MainCategoryNavParentAdapter;
 import com.creative.share.apps.heragelawal.databinding.DialogLanguageBinding;
@@ -58,8 +59,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class HomeActivity extends AppCompatActivity{
-    private  Toolbar toolbar;
+public class HomeActivity extends AppCompatActivity {
+    private Toolbar toolbar;
     private DrawerLayout drawer;
     private NavigationView navigationView;
     private ActionBarDrawerToggle toggle;
@@ -67,21 +68,21 @@ public class HomeActivity extends AppCompatActivity{
     private String lang;
     private FragmentManager fragmentManager;
     private Fragment_Main fragment_main;
-    private Fragment_Companies fragment_companies;
+    private Fragment_Companies_Feature fragment_companiesFeature;
     private Fragment_My_Adversiment fragment_my_adversiment;
     private Fragment_Favourite fragment_favourite;
     private Fragment_Chat fragment_chat;
     private Preferences preferences;
     private UserModel userModel;
-    private ImageView arrow1,arrow2,arrow3,arrow4,arrow5;
+    private ImageView arrow1, arrow2, arrow3, arrow4, arrow5;
     private LinearLayout llChangeLanguage;
     private RecyclerView recView;
     private ProgressBar progBar;
     private TextView tvNoAds;
     private ImageView imageSearch;
+    private Button btnAddAd, btnAddCompany;
     private List<MainCategoryDataModel.MainCategoryModel> mainCategoryModelList;
     private MainCategoryNavParentAdapter adapter;
-
 
 
     @Override
@@ -105,11 +106,10 @@ public class HomeActivity extends AppCompatActivity{
     private void getDataFromIntent() {
 
         Intent intent = getIntent();
-        if (intent!=null&&intent.hasExtra("ad_id"))
-        {
-            int  ad_id = intent.getIntExtra("ad_id",0);
+        if (intent != null && intent.hasExtra("ad_id")) {
+            int ad_id = intent.getIntExtra("ad_id", 0);
             Intent intent2 = new Intent(this, SliderDetailsActivity.class);
-            intent2.putExtra("ad_id",ad_id);
+            intent2.putExtra("ad_id", ad_id);
             startActivity(intent2);
         }
     }
@@ -133,6 +133,8 @@ public class HomeActivity extends AppCompatActivity{
         toggle.syncState();
 
         /////////////////////////////////////////////////////
+        Paper.init(this);
+        lang = Paper.book().read("lang", Locale.getDefault().getLanguage());
 
         arrow1 = findViewById(R.id.arrow1);
         arrow2 = findViewById(R.id.arrow2);
@@ -140,12 +142,7 @@ public class HomeActivity extends AppCompatActivity{
         arrow4 = findViewById(R.id.arrow4);
         arrow5 = findViewById(R.id.arrow5);
 
-        Paper.init(this);
-        lang = Paper.book().read("lang", Locale.getDefault().getLanguage());
-        setUpBottomNavigation();
-
-        if (lang.equals("ar"))
-        {
+        if (lang.equals("ar")) {
             arrow1.setRotation(180.0f);
             arrow2.setRotation(180.0f);
             arrow3.setRotation(180.0f);
@@ -153,6 +150,10 @@ public class HomeActivity extends AppCompatActivity{
             arrow5.setRotation(180.0f);
 
         }
+
+        btnAddAd = findViewById(R.id.btnAddAd);
+        btnAddCompany = findViewById(R.id.btnAddCompany);
+
 
         progBar = findViewById(R.id.progBar);
         progBar.getIndeterminateDrawable().setColorFilter(ContextCompat.getColor(this, R.color.white), PorterDuff.Mode.SRC_IN);
@@ -162,10 +163,12 @@ public class HomeActivity extends AppCompatActivity{
         tvNoAds = findViewById(R.id.tvNoAds);
         imageSearch = findViewById(R.id.imageSearch);
 
+
         recView.setNestedScrollingEnabled(true);
         recView.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new MainCategoryNavParentAdapter(this,mainCategoryModelList);
+        adapter = new MainCategoryNavParentAdapter(this, mainCategoryModelList);
         recView.setAdapter(adapter);
+        setUpBottomNavigation();
 
 
         llChangeLanguage.setOnClickListener(view -> CreateLangDialog());
@@ -188,42 +191,35 @@ public class HomeActivity extends AppCompatActivity{
                         @Override
                         public void onResponse(Call<MainCategoryDataModel> call, Response<MainCategoryDataModel> response) {
                             progBar.setVisibility(View.GONE);
-                            if (response.isSuccessful()&&response.body()!=null&&response.body().getData()!=null)
-                            {
+                            if (response.isSuccessful() && response.body() != null && response.body().getData() != null) {
                                 mainCategoryModelList.clear();
                                 mainCategoryModelList.addAll(response.body().getData());
-                                if (fragment_main!=null&&fragment_main.isAdded())
-                                {
-                                    fragment_main.getMainCategory(response.body().getData(),200);
+                                if (fragment_main != null && fragment_main.isAdded()) {
+                                    fragment_main.getMainCategory(response.body().getData(), 200);
                                 }
-                                if (mainCategoryModelList.size()>0)
-                                {
+                                if (mainCategoryModelList.size() > 0) {
                                     tvNoAds.setVisibility(View.GONE);
                                     adapter.notifyDataSetChanged();
-                                }else
-                                {
+                                } else {
                                     tvNoAds.setVisibility(View.VISIBLE);
 
                                 }
 
-                            }else
-                            {
-                                if (fragment_main!=null&&fragment_main.isAdded())
-                                {
-                                    fragment_main.getMainCategory(null,response.code());
+                            } else {
+                                if (fragment_main != null && fragment_main.isAdded()) {
+                                    fragment_main.getMainCategory(null, response.code());
                                 }
 
                                 if (response.code() == 500) {
                                     Toast.makeText(HomeActivity.this, "Server Error", Toast.LENGTH_SHORT).show();
 
 
-                                }else
-                                {
+                                } else {
                                     Toast.makeText(HomeActivity.this, getString(R.string.failed), Toast.LENGTH_SHORT).show();
 
                                     try {
 
-                                        Log.e("error",response.code()+"_"+response.errorBody().string());
+                                        Log.e("error", response.code() + "_" + response.errorBody().string());
                                     } catch (IOException e) {
                                         e.printStackTrace();
                                     }
@@ -234,28 +230,25 @@ public class HomeActivity extends AppCompatActivity{
                         @Override
                         public void onFailure(Call<MainCategoryDataModel> call, Throwable t) {
                             try {
-                                if (fragment_main!=null&&fragment_main.isAdded())
-                                {
-                                    fragment_main.getMainCategory(null,0);
+                                if (fragment_main != null && fragment_main.isAdded()) {
+                                    fragment_main.getMainCategory(null, 0);
                                 }
                                 progBar.setVisibility(View.GONE);
 
-                                if (t.getMessage()!=null)
-                                {
-                                    Log.e("error",t.getMessage());
-                                    if (t.getMessage().toLowerCase().contains("failed to connect")||t.getMessage().toLowerCase().contains("unable to resolve host"))
-                                    {
-                                        Toast.makeText(HomeActivity.this,R.string.something, Toast.LENGTH_SHORT).show();
-                                    }else
-                                    {
-                                        Toast.makeText(HomeActivity.this,t.getMessage(), Toast.LENGTH_SHORT).show();
+                                if (t.getMessage() != null) {
+                                    Log.e("error", t.getMessage());
+                                    if (t.getMessage().toLowerCase().contains("failed to connect") || t.getMessage().toLowerCase().contains("unable to resolve host")) {
+                                        Toast.makeText(HomeActivity.this, R.string.something, Toast.LENGTH_SHORT).show();
+                                    } else {
+                                        Toast.makeText(HomeActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
                                     }
                                 }
 
-                            }catch (Exception e){}
+                            } catch (Exception e) {
+                            }
                         }
                     });
-        }catch (Exception e){
+        } catch (Exception e) {
 
 
         }
@@ -308,20 +301,21 @@ public class HomeActivity extends AppCompatActivity{
             return false;
         });
 
-        ahBottomNav.setCurrentItem(0,false);
+        ahBottomNav.setCurrentItem(0, false);
         DisplayFragmentMain();
-
 
 
     }
 
     public void DisplayFragmentMain() {
 
+        btnAddAd.setVisibility(View.VISIBLE);
+        btnAddCompany.setVisibility(View.GONE);
         if (fragment_main == null) {
             fragment_main = Fragment_Main.newInstance();
         }
-        if (fragment_companies != null && fragment_companies.isAdded()) {
-            fragmentManager.beginTransaction().hide(fragment_companies).commit();
+        if (fragment_companiesFeature != null && fragment_companiesFeature.isAdded()) {
+            fragmentManager.beginTransaction().hide(fragment_companiesFeature).commit();
         }
         if (fragment_my_adversiment != null && fragment_my_adversiment.isAdded()) {
             fragmentManager.beginTransaction().hide(fragment_my_adversiment).commit();
@@ -340,13 +334,15 @@ public class HomeActivity extends AppCompatActivity{
             fragmentManager.beginTransaction().add(R.id.fragment_home_container, fragment_main, "fragment_main").addToBackStack("fragment_main").commit();
 
         }
-        ahBottomNav.setCurrentItem(0,false);
+        ahBottomNav.setCurrentItem(0, false);
 
     }
 
     public void DisplayFragmentCompanies() {
-        if (fragment_companies == null) {
-            fragment_companies = Fragment_Companies.newInstance();
+        btnAddAd.setVisibility(View.GONE);
+        btnAddCompany.setVisibility(View.VISIBLE);
+        if (fragment_companiesFeature == null) {
+            fragment_companiesFeature = Fragment_Companies_Feature.newInstance();
         }
         if (fragment_main != null && fragment_main.isAdded()) {
             fragmentManager.beginTransaction().hide(fragment_main).commit();
@@ -360,27 +356,30 @@ public class HomeActivity extends AppCompatActivity{
         if (fragment_chat != null && fragment_chat.isAdded()) {
             fragmentManager.beginTransaction().hide(fragment_chat).commit();
         }
-        if (fragment_companies.isAdded()) {
-            fragmentManager.beginTransaction().show(fragment_companies).commit();
+        if (fragment_companiesFeature.isAdded()) {
+            fragmentManager.beginTransaction().show(fragment_companiesFeature).commit();
 
         } else {
-            fragmentManager.beginTransaction().add(R.id.fragment_home_container, fragment_companies, "fragment_companies").addToBackStack("fragment_companies").commit();
+            fragmentManager.beginTransaction().add(R.id.fragment_home_container, fragment_companiesFeature, "fragment_companies_feature").addToBackStack("fragment_companies_feature").commit();
 
         }
-        ahBottomNav.setCurrentItem(1,false);
+        ahBottomNav.setCurrentItem(1, false);
 
 
     }
 
     public void DisplayFragmentMyAds() {
+        btnAddAd.setVisibility(View.VISIBLE);
+        btnAddCompany.setVisibility(View.GONE);
+
         if (fragment_my_adversiment == null) {
             fragment_my_adversiment = Fragment_My_Adversiment.newInstance();
         }
         if (fragment_main != null && fragment_main.isAdded()) {
             fragmentManager.beginTransaction().hide(fragment_main).commit();
         }
-        if (fragment_companies != null && fragment_companies.isAdded()) {
-            fragmentManager.beginTransaction().hide(fragment_companies).commit();
+        if (fragment_companiesFeature != null && fragment_companiesFeature.isAdded()) {
+            fragmentManager.beginTransaction().hide(fragment_companiesFeature).commit();
         }
         if (fragment_favourite != null && fragment_favourite.isAdded()) {
             fragmentManager.beginTransaction().hide(fragment_favourite).commit();
@@ -395,12 +394,14 @@ public class HomeActivity extends AppCompatActivity{
             fragmentManager.beginTransaction().add(R.id.fragment_home_container, fragment_my_adversiment, "fragment_my_adversiment").addToBackStack("fragment_my_adversiment").commit();
 
         }
-        ahBottomNav.setCurrentItem(2,false);
+        ahBottomNav.setCurrentItem(2, false);
 
 
     }
 
     public void DisplayFragmentFavourite() {
+        btnAddAd.setVisibility(View.VISIBLE);
+        btnAddCompany.setVisibility(View.GONE);
         if (fragment_favourite == null) {
             fragment_favourite = Fragment_Favourite.newInstance();
         }
@@ -410,8 +411,8 @@ public class HomeActivity extends AppCompatActivity{
         if (fragment_my_adversiment != null && fragment_my_adversiment.isAdded()) {
             fragmentManager.beginTransaction().hide(fragment_my_adversiment).commit();
         }
-        if (fragment_companies != null && fragment_companies.isAdded()) {
-            fragmentManager.beginTransaction().hide(fragment_companies).commit();
+        if (fragment_companiesFeature != null && fragment_companiesFeature.isAdded()) {
+            fragmentManager.beginTransaction().hide(fragment_companiesFeature).commit();
         }
         if (fragment_chat != null && fragment_chat.isAdded()) {
             fragmentManager.beginTransaction().hide(fragment_chat).commit();
@@ -423,12 +424,15 @@ public class HomeActivity extends AppCompatActivity{
             fragmentManager.beginTransaction().add(R.id.fragment_home_container, fragment_favourite, "fragment_favourite").addToBackStack("fragment_favourite").commit();
 
         }
-        ahBottomNav.setCurrentItem(3,false);
+        ahBottomNav.setCurrentItem(3, false);
 
 
     }
 
     public void DisplayFragmentChat() {
+        btnAddAd.setVisibility(View.VISIBLE);
+        btnAddCompany.setVisibility(View.GONE);
+
         if (fragment_chat == null) {
             fragment_chat = Fragment_Chat.newInstance();
         }
@@ -438,8 +442,8 @@ public class HomeActivity extends AppCompatActivity{
         if (fragment_my_adversiment != null && fragment_my_adversiment.isAdded()) {
             fragmentManager.beginTransaction().hide(fragment_my_adversiment).commit();
         }
-        if (fragment_companies != null && fragment_companies.isAdded()) {
-            fragmentManager.beginTransaction().hide(fragment_companies).commit();
+        if (fragment_companiesFeature != null && fragment_companiesFeature.isAdded()) {
+            fragmentManager.beginTransaction().hide(fragment_companiesFeature).commit();
         }
         if (fragment_favourite != null && fragment_favourite.isAdded()) {
             fragmentManager.beginTransaction().hide(fragment_favourite).commit();
@@ -451,7 +455,7 @@ public class HomeActivity extends AppCompatActivity{
             fragmentManager.beginTransaction().add(R.id.fragment_home_container, fragment_chat, "fragment_chat").addToBackStack("fragment_chat").commit();
 
         }
-        ahBottomNav.setCurrentItem(4,false);
+        ahBottomNav.setCurrentItem(4, false);
 
 
     }
@@ -501,12 +505,10 @@ public class HomeActivity extends AppCompatActivity{
                     Intent intent = getIntent();
                     finish();
                     startActivity(intent);
-                },500);
+                }, 500);
 
 
     }
-
-
 
 
     @Override
@@ -514,19 +516,15 @@ public class HomeActivity extends AppCompatActivity{
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            if (fragment_main!=null&&fragment_main.isAdded()&&fragment_main.isVisible())
-            {
-                if (userModel==null)
-                {
+            if (fragment_main != null && fragment_main.isAdded() && fragment_main.isVisible()) {
+                if (userModel == null) {
                     navigateToSignInActivity();
-                }else
-                    {
-                        finish();
-                    }
-            }else
-                {
-                    DisplayFragmentMain();
+                } else {
+                    finish();
                 }
+            } else {
+                DisplayFragmentMain();
+            }
         }
     }
 
@@ -540,7 +538,7 @@ public class HomeActivity extends AppCompatActivity{
 
     public void setSubCategoryItem(MainCategoryDataModel.SubCategoryModel subCategoryModel) {
         Intent intent = new Intent(this, SubCategoryActivity.class);
-        intent.putExtra("sub_id",subCategoryModel.getId());
+        intent.putExtra("sub_id", subCategoryModel.getId());
         startActivity(intent);
     }
 }

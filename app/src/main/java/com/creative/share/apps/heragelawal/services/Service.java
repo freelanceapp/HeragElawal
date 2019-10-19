@@ -4,6 +4,7 @@ package com.creative.share.apps.heragelawal.services;
 import com.creative.share.apps.heragelawal.models.AdDataModel;
 import com.creative.share.apps.heragelawal.models.AdModel;
 import com.creative.share.apps.heragelawal.models.AdTypeDataModel;
+import com.creative.share.apps.heragelawal.models.CompanyDataModel;
 import com.creative.share.apps.heragelawal.models.MainCategoryDataModel;
 import com.creative.share.apps.heragelawal.models.SearchDataModel;
 import com.creative.share.apps.heragelawal.models.SliderModelData;
@@ -78,6 +79,14 @@ public interface Service {
     Call<SearchDataModel> searchByName(@Field("name") String name,
                                        @Field("cat_id") int cat_id,
                                        @Field("user_id") int user_id);
+
+    @FormUrlEncoded
+    @POST("api/companies/subcategory")
+    Call<CompanyDataModel> getCompanies(@Field("sub_cat_id") int sub_cat_id,@Field("page") int page);
+
+    @FormUrlEncoded
+    @POST("api/company/name")
+    Call<CompanyDataModel> searchCompanyByName(@Field("name") String companyName,@Field("page") int page);
 }
 
 

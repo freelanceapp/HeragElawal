@@ -19,6 +19,7 @@
             app:popupTheme="@style/AppTheme.PopupOverlay">
 
             <Button
+                android:id="@+id/btnAddAd"
                 android:layout_width="wrap_content"
                 android:layout_height="35dp"
                 android:textColor="@color/white"
@@ -28,6 +29,20 @@
                 android:background="@drawable/btn_ads"
                 android:layout_gravity="center"
                 android:text="@string/advertise_now_for_free"
+
+                />
+            <Button
+                android:id="@+id/btnAddCompany"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:background="@drawable/btn_ads"
+                android:layout_gravity="center"
+                android:text="@string/add_company"
+                android:visibility="gone"
 
                 />
             <LinearLayout
