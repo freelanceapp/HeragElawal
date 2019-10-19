@@ -9,6 +9,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.creative.share.apps.heragelawal.R;
+import com.creative.share.apps.heragelawal.activities_fragments.activity_sub_category.SubCategoryActivity;
 import com.creative.share.apps.heragelawal.databinding.AdTypeRowBinding;
 import com.creative.share.apps.heragelawal.models.AdTypeDataModel;
 
@@ -22,6 +23,7 @@ public class AdTypeAdapter extends RecyclerView.Adapter<AdTypeAdapter.MyHolder> 
     private Context context;
     private List<AdTypeDataModel.AdTypeModel> adTypeModelList;
     private String lang;
+    private SubCategoryActivity activity;
 
 
     public AdTypeAdapter(Context context, List<AdTypeDataModel.AdTypeModel> adTypeModelList) {
@@ -29,6 +31,7 @@ public class AdTypeAdapter extends RecyclerView.Adapter<AdTypeAdapter.MyHolder> 
         this.adTypeModelList = adTypeModelList;
         Paper.init(context);
         lang = Paper.book().read("lang", Locale.getDefault().getLanguage());
+        this.activity = (SubCategoryActivity) context;
 
     }
 
@@ -46,6 +49,11 @@ public class AdTypeAdapter extends RecyclerView.Adapter<AdTypeAdapter.MyHolder> 
         AdTypeDataModel.AdTypeModel adTypeModel = adTypeModelList.get(position);
         holder.binding.setLang(lang);
         holder.binding.setAdTypeModel(adTypeModel);
+        holder.itemView.setOnClickListener(view -> {
+            AdTypeDataModel.AdTypeModel adTypeModel1 = adTypeModelList.get(holder.getAdapterPosition());
+            activity.setAdTypeData(adTypeModel1,holder.getAdapterPosition());
+
+        });
 
 
     }

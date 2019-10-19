@@ -1,4 +1,4 @@
-package com.creative.share.apps.heragelawal.activities_fragments.sub_category_activity;
+package com.creative.share.apps.heragelawal.activities_fragments.activity_sub_category;
 
 import android.content.Context;
 import android.content.Intent;
@@ -14,6 +14,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.creative.share.apps.heragelawal.R;
+import com.creative.share.apps.heragelawal.activities_fragments.activity_sub_sub_categories_details.SubSubCategoryDetailsActivity;
 import com.creative.share.apps.heragelawal.adapter.AdTypeAdapter;
 import com.creative.share.apps.heragelawal.adapter.SubSubCategoryAdapter;
 import com.creative.share.apps.heragelawal.databinding.ActivitySubCategoryBinding;
@@ -25,6 +26,7 @@ import com.creative.share.apps.heragelawal.remote.Api;
 import com.creative.share.apps.heragelawal.tags.Tags;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -212,5 +214,31 @@ public class SubCategoryActivity extends AppCompatActivity implements Listeners.
     @Override
     public void back() {
         finish();
+    }
+
+    public void setItemSubCategory(SubSubCategoryModel.SubCategories subCategories) {
+        navigateToSubSubCategoryDetailsActivity(subCategories.getId(),0,0);
+    }
+    public void setAdTypeData(AdTypeDataModel.AdTypeModel adTypeModel, int adapterPosition) {
+        navigateToSubSubCategoryDetailsActivity(0,adTypeModel.getId(),adapterPosition);
+    }
+    private void navigateToSubSubCategoryDetailsActivity(int sub_sub_id,int type,int pos)
+    {
+        Intent intent = new Intent(this, SubSubCategoryDetailsActivity.class);
+        intent.putExtra("ad_type_list", (Serializable) adTypeModelList);
+        intent.putExtra("sub_sub_id",sub_sub_id);
+        intent.putExtra("ad_type_id",type);
+        intent.putExtra("position",pos);
+        startActivity(intent);
+    }
+
+
+    public void setAllDept() {
+        Intent intent = new Intent(this, SubSubCategoryDetailsActivity.class);
+        intent.putExtra("ad_type_list", (Serializable) adTypeModelList);
+        intent.putExtra("sub_sub_id",sub_id);
+        intent.putExtra("ad_type_id",0);
+        intent.putExtra("position",0);
+        startActivity(intent);
     }
 }

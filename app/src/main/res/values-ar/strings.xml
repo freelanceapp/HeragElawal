@@ -153,6 +153,16 @@
     <string name="more_details">للمزيد من التفاصيل :</string>
     <string name="subcategories">الاقسام الفرعية</string>
     <string name="all_department">كل الاقسام</string>
+    <string name="order_by">الترتيب</string>
+    <string name="list">قائمة</string>
+    <string name="square">مربع</string>
+    <string name="no_search_result">نتائج البحث فارغة</string>
+    <string name="search_results">نتائج البحث</string>
+    <string name="all_dept">كل الاقسام</string>
+    <string name="normal">عادي</string>
+    <string name="satellite">ساتلايت</string>
+    <string name="result">النتائج</string>
+    <string name="from">من</string>
 
 
 </resources>

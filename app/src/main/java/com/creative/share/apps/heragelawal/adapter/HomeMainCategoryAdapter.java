@@ -41,6 +41,7 @@ public class HomeMainCategoryAdapter extends RecyclerView.Adapter {
     private SliderHolder sliderHolder;
     private Timer timer;
     private TimerTask timerTask;
+
     public HomeMainCategoryAdapter(Context context, Fragment_Main fragment_main, List<MainCategoryDataModel.MainCategoryModel> mainCategoryModelList) {
         this.context = context;
         this.activity = (HomeActivity) context;
@@ -87,7 +88,7 @@ public class HomeMainCategoryAdapter extends RecyclerView.Adapter {
             }
         } else if (holder instanceof SliderHolder) {
 
-             sliderHolder = (SliderHolder) holder;
+            sliderHolder = (SliderHolder) holder;
             sliderHolder.binding.progBarSlider.getIndeterminateDrawable().setColorFilter(ContextCompat.getColor(context, R.color.colorPrimary), PorterDuff.Mode.SRC_IN);
 
 
@@ -121,8 +122,7 @@ public class HomeMainCategoryAdapter extends RecyclerView.Adapter {
         }
     }
 
-    public void setSliderData(List<SliderModelData.SliderModel> sliderModelList)
-    {
+    public void setSliderData(List<SliderModelData.SliderModel> sliderModelList) {
         this.sliderModelList.addAll(sliderModelList);
         setUpSlider(sliderModelList);
     }
@@ -130,26 +130,23 @@ public class HomeMainCategoryAdapter extends RecyclerView.Adapter {
     private void setUpSlider(List<SliderModelData.SliderModel> sliderModelList) {
 
         sliderHolder.binding.progBarSlider.setVisibility(View.GONE);
-
-        if (sliderModelList.size()>0)
-        {
+        sliderHolder.binding.pager.setOffscreenPageLimit(sliderModelList.size());
+        if (sliderModelList.size() > 0) {
             sliderHolder.binding.flSlider.setVisibility(View.VISIBLE);
-            SliderAdapter sliderAdapter = new SliderAdapter(context,sliderModelList,fragment_main);
+            SliderAdapter sliderAdapter = new SliderAdapter(context, sliderModelList, fragment_main);
             sliderHolder.binding.pager.setAdapter(sliderAdapter);
 
-            if (sliderModelList.size()>1)
-            {
+            if (sliderModelList.size() > 1) {
                 timer = new Timer();
                 timerTask = new MyTimerTask();
-                timer.scheduleAtFixedRate(timerTask,6000,6000);
+                timer.scheduleAtFixedRate(timerTask, 6000, 6000);
 
             }
 
-        }else
-            {
-                sliderHolder.binding.flSlider.setVisibility(View.VISIBLE);
+        } else {
+            sliderHolder.binding.flSlider.setVisibility(View.VISIBLE);
 
-            }
+        }
 
 
     }
@@ -164,34 +161,29 @@ public class HomeMainCategoryAdapter extends RecyclerView.Adapter {
     }
 
 
-    public class MyTimerTask extends TimerTask{
+    public class MyTimerTask extends TimerTask {
         @Override
         public void run() {
             activity.runOnUiThread(() -> {
-                if (sliderHolder.binding.pager.getCurrentItem()<sliderModelList.size()-1)
-                {
-                    sliderHolder.binding.pager.setCurrentItem(sliderHolder.binding.pager.getCurrentItem()+1);
-                }else
-                    {
-                        sliderHolder.binding.pager.setCurrentItem(0);
+                if (sliderHolder.binding.pager.getCurrentItem() < sliderModelList.size() - 1) {
+                    sliderHolder.binding.pager.setCurrentItem(sliderHolder.binding.pager.getCurrentItem() + 1);
+                } else {
+                    sliderHolder.binding.pager.setCurrentItem(0);
 
-                    }
+                }
             });
         }
 
 
     }
 
-    public void stopTimer()
-    {
-        if (timer!=null)
-        {
+    public void stopTimer() {
+        if (timer != null) {
             timer.cancel();
             timer.purge();
         }
 
-        if (timerTask!=null)
-        {
+        if (timerTask != null) {
             timerTask.cancel();
         }
     }

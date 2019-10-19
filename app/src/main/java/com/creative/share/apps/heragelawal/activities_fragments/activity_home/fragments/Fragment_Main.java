@@ -19,7 +19,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import com.creative.share.apps.heragelawal.R;
 import com.creative.share.apps.heragelawal.activities_fragments.activity_home.activity.HomeActivity;
 import com.creative.share.apps.heragelawal.activities_fragments.activity_slider_details.SliderDetailsActivity;
-import com.creative.share.apps.heragelawal.activities_fragments.sub_category_activity.SubCategoryActivity;
+import com.creative.share.apps.heragelawal.activities_fragments.activity_sub_category.SubCategoryActivity;
 import com.creative.share.apps.heragelawal.adapter.HomeMainCategoryAdapter;
 import com.creative.share.apps.heragelawal.databinding.FragmentMainBinding;
 import com.creative.share.apps.heragelawal.models.MainCategoryDataModel;

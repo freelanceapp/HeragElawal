@@ -1,10 +1,13 @@
 package com.creative.share.apps.heragelawal.services;
 
 
+import com.creative.share.apps.heragelawal.models.AdDataModel;
 import com.creative.share.apps.heragelawal.models.AdModel;
 import com.creative.share.apps.heragelawal.models.AdTypeDataModel;
 import com.creative.share.apps.heragelawal.models.MainCategoryDataModel;
+import com.creative.share.apps.heragelawal.models.SearchDataModel;
 import com.creative.share.apps.heragelawal.models.SliderModelData;
+import com.creative.share.apps.heragelawal.models.SubCategoryDataModel;
 import com.creative.share.apps.heragelawal.models.SubSubCategoryModel;
 import com.creative.share.apps.heragelawal.models.UserModel;
 
@@ -58,7 +61,23 @@ public interface Service {
     @POST("api/sub-category/children")
     Call<SubSubCategoryModel> getSubSubCategories(@Field("cat_id") int sub_id);
 
+    @FormUrlEncoded
+    @POST("api/ads/category/or/type")
+    Call<AdDataModel> getAdsByType(@Field("cat_id") int cat_id,
+                                   @Field("type_id") int type_id,
+                                   @Field("user_id") int user_id,
+                                   @Field("page") int page
+    );
 
+    @GET("api/sub-categories")
+    Call<SubCategoryDataModel> getAllSubCategory();
+
+
+    @FormUrlEncoded
+    @POST("api/ads/search")
+    Call<SearchDataModel> searchByName(@Field("name") String name,
+                                       @Field("cat_id") int cat_id,
+                                       @Field("user_id") int user_id);
 }
 
 

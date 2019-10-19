@@ -10,8 +10,12 @@ public class AdModel implements Serializable {
     private int user_id;
     private int city_id;
     private double price;
+    private int category_id;
+    private int adv_type_id;
+
     private String company_id;
     private String main_image;
+    private String cat_title;
     private String address;
     private double latitude;
     private double longitude;
@@ -46,6 +50,13 @@ public class AdModel implements Serializable {
     private List<String> image_array;
 
 
+    public AdModel(double price, String address, double latitude, double longitude) {
+        this.price = price;
+        this.address = address;
+        this.latitude = latitude;
+        this.longitude = longitude;
+    }
+
     public int getId() {
         return id;
     }
@@ -60,6 +71,14 @@ public class AdModel implements Serializable {
 
     public int getCity_id() {
         return city_id;
+    }
+
+    public int getCategory_id() {
+        return category_id;
+    }
+
+    public int getAdv_type_id() {
+        return adv_type_id;
     }
 
     public double getPrice() {
@@ -92,6 +111,10 @@ public class AdModel implements Serializable {
 
     public int getStatus() {
         return status;
+    }
+
+    public String getCat_title() {
+        return cat_title;
     }
 
     public String getCompany_id() {

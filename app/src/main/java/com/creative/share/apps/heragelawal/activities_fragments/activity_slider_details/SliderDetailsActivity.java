@@ -251,7 +251,7 @@ public class SliderDetailsActivity extends AppCompatActivity implements Listener
         if (images.size()>0)
         {
 
-            if (!adModel.getVideo().isEmpty()|| adModel.getVideo()!=null)
+            if (adModel.getVideo()!=null&&!adModel.getVideo().isEmpty())
             {
                 sliderModelList.add(new SliderImageVideoModel(adModel.getVideo(),true));
 
@@ -268,7 +268,8 @@ public class SliderDetailsActivity extends AppCompatActivity implements Listener
             binding.pager.setAdapter(sliderAdapter2);
 
 
-            if (adModel.getVideo().isEmpty()|| adModel.getVideo()==null)
+
+            if (adModel.getVideo()==null || adModel.getVideo().isEmpty() )
             {
                 if (images.size()>1)
                 {

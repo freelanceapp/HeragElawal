@@ -36,7 +36,8 @@ import com.creative.share.apps.heragelawal.activities_fragments.activity_home.fr
 import com.creative.share.apps.heragelawal.activities_fragments.activity_home.fragments.fragment_company.Fragment_Companies;
 import com.creative.share.apps.heragelawal.activities_fragments.activity_sign_in.SignInActivity;
 import com.creative.share.apps.heragelawal.activities_fragments.activity_slider_details.SliderDetailsActivity;
-import com.creative.share.apps.heragelawal.activities_fragments.sub_category_activity.SubCategoryActivity;
+import com.creative.share.apps.heragelawal.activities_fragments.activity_search.SearchActivity;
+import com.creative.share.apps.heragelawal.activities_fragments.activity_sub_category.SubCategoryActivity;
 import com.creative.share.apps.heragelawal.adapter.MainCategoryNavParentAdapter;
 import com.creative.share.apps.heragelawal.databinding.DialogLanguageBinding;
 import com.creative.share.apps.heragelawal.language.LanguageHelper;
@@ -77,6 +78,7 @@ public class HomeActivity extends AppCompatActivity{
     private RecyclerView recView;
     private ProgressBar progBar;
     private TextView tvNoAds;
+    private ImageView imageSearch;
     private List<MainCategoryDataModel.MainCategoryModel> mainCategoryModelList;
     private MainCategoryNavParentAdapter adapter;
 
@@ -158,6 +160,7 @@ public class HomeActivity extends AppCompatActivity{
 
         recView = findViewById(R.id.recView);
         tvNoAds = findViewById(R.id.tvNoAds);
+        imageSearch = findViewById(R.id.imageSearch);
 
         recView.setNestedScrollingEnabled(true);
         recView.setLayoutManager(new LinearLayoutManager(this));
@@ -166,6 +169,10 @@ public class HomeActivity extends AppCompatActivity{
 
 
         llChangeLanguage.setOnClickListener(view -> CreateLangDialog());
+        imageSearch.setOnClickListener(view -> {
+            Intent intent = new Intent(this, SearchActivity.class);
+            startActivity(intent);
+        });
         getMainCategory();
 
 

@@ -1,4 +1,4 @@
-package com.creative.share.apps.heragelawal.activities_fragments.splash_activity_2;
+package com.creative.share.apps.heragelawal.activities_fragments.activity_splash_2;
 
 import android.content.Context;
 import android.content.Intent;

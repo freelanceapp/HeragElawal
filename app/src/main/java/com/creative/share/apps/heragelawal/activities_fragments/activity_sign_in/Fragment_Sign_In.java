@@ -116,7 +116,7 @@ public class Fragment_Sign_In extends Fragment implements Listeners.LoginListene
 
         if (loginModel.isDataValid(activity))
         {
-            login(loginModel);
+            //login(loginModel);
         }
     }
 

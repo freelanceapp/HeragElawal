@@ -151,6 +151,16 @@
     <string name="more_details">More details :</string>
     <string name="subcategories">SubCategories</string>
     <string name="all_department">All department</string>
+    <string name="order_by">Order by</string>
+    <string name="list">List</string>
+    <string name="square">Square</string>
+    <string name="no_search_result">No search result</string>
+    <string name="search_results">Search results</string>
+    <string name="all_dept">All dept</string>
+    <string name="normal">Normal</string>
+    <string name="satellite">Satellite</string>
+    <string name="result">Results</string>
+    <string name="from">From</string>
 
 
 </resources>

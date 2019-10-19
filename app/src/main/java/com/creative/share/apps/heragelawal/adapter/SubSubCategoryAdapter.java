@@ -13,7 +13,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.creative.share.apps.heragelawal.R;
-import com.creative.share.apps.heragelawal.activities_fragments.sub_category_activity.SubCategoryActivity;
+import com.creative.share.apps.heragelawal.activities_fragments.activity_sub_category.SubCategoryActivity;
 import com.creative.share.apps.heragelawal.databinding.AllDeptRowBinding;
 import com.creative.share.apps.heragelawal.databinding.SubSubCategoryRowBinding;
 import com.creative.share.apps.heragelawal.models.SubSubCategoryModel;
@@ -73,8 +73,19 @@ public class SubSubCategoryAdapter extends RecyclerView.Adapter {
                 }
             });
 
+            myHolder.itemView.setOnClickListener(view -> {
+                SubSubCategoryModel.SubCategories subCategories1 = subCategoriesList.get(holder.getAdapterPosition());
+                activity.setItemSubCategory(subCategories1);
+
+            });
+
         } else if (holder instanceof AllDeptHolder) {
             AllDeptHolder allDeptHolder = (AllDeptHolder) holder;
+
+            allDeptHolder.itemView.setOnClickListener(view -> {
+                activity.setAllDept();
+
+            });
         }
 
 
