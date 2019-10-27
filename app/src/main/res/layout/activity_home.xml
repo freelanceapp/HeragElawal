@@ -160,6 +160,7 @@
                     android:background="@color/gray4" />
 
                 <LinearLayout
+                    android:id="@+id/llShare"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
 
@@ -211,7 +212,7 @@
                     android:background="@color/gray4" />
 
                 <LinearLayout
-                    android:id="@+id/ll_about"
+                    android:id="@+id/llAbout"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
 
@@ -222,7 +223,7 @@
                         android:layout_height="35dp"
                         android:layout_gravity="center_vertical"
                         android:padding="10dp"
-                        android:src="@drawable/ic_call"
+                        android:src="@drawable/ic_info"
                         android:tint="@color/white"
                         android:clickable="false"
                         android:longClickable="false"
@@ -263,6 +264,7 @@
                     android:background="@color/gray4" />
 
                 <LinearLayout
+                    android:id="@+id/llLogout"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
 
@@ -289,7 +291,7 @@
                         android:gravity="start|center"
                         android:paddingLeft="10dp"
                         android:paddingRight="10dp"
-                        android:text="@string/sign_in"
+                        android:text="@string/sign_out"
                         android:textColor="@color/white"
                         android:textSize="15sp"
                         android:clickable="false"

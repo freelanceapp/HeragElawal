@@ -2,6 +2,7 @@ package com.creative.share.apps.heragelawal.activities_fragments.activity_compan
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -11,12 +12,14 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.creative.share.apps.heragelawal.R;
-import com.creative.share.apps.heragelawal.adapter.CompanyAdapterAdapter;
+import com.creative.share.apps.heragelawal.activities_fragments.activity_company_ads.CompanyAdsActivity;
+import com.creative.share.apps.heragelawal.adapter.CompanyAdapter;
 import com.creative.share.apps.heragelawal.databinding.ActivityCompanyBinding;
 import com.creative.share.apps.heragelawal.interfaces.Listeners;
 import com.creative.share.apps.heragelawal.language.LanguageHelper;
@@ -45,7 +48,7 @@ public class CompanyActivity extends AppCompatActivity implements Listeners.Back
     private String query="";
     private UserModel userModel;
     private Preferences preferences;
-    private CompanyAdapterAdapter adapter;
+    private CompanyAdapter adapter;
     private int current_page=1;
     private boolean isLoading = false;
 
@@ -84,9 +87,10 @@ public class CompanyActivity extends AppCompatActivity implements Listeners.Back
         lang = Paper.book().read("lang", Locale.getDefault().getLanguage());
         binding.setBackListener(this);
         binding.setLang(lang);
+        binding.progBar.getIndeterminateDrawable().setColorFilter(ContextCompat.getColor(this,R.color.colorPrimary), PorterDuff.Mode.SRC_IN);
 
         binding.recView.setLayoutManager(new GridLayoutManager(this,2));
-        adapter = new CompanyAdapterAdapter(this,companyModelListMain);
+        adapter = new CompanyAdapter(this,companyModelListMain);
         binding.recView.setAdapter(adapter);
 
 
@@ -441,9 +445,16 @@ public class CompanyActivity extends AppCompatActivity implements Listeners.Back
 
         }
     }
+
+    public void setItemData(CompanyModel companyModel) {
+        Intent intent = new Intent(this, CompanyAdsActivity.class);
+        intent.putExtra("company_data",companyModel);
+        startActivity(intent);
+    }
     @Override
     public void back() {
         finish();
     }
+
 
 }

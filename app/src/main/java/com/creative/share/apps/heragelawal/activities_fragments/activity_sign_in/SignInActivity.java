@@ -27,6 +27,7 @@ public class SignInActivity extends AppCompatActivity {
     private Fragment_Code_Verification fragment_code_verification;
     private Preferences preferences;
     private Fragment_Sign_In fragment_sign_in;
+    public  boolean isOut = false;
 
 
     @Override
@@ -41,6 +42,7 @@ public class SignInActivity extends AppCompatActivity {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_sign_in);
         manager = getSupportFragmentManager();
         preferences = Preferences.newInstance();
+        getDataFromIntent();
         if (savedInstanceState == null) {
             if (preferences.isLangSelected(this)) {
                 displayFragmentSignIn();
@@ -48,6 +50,14 @@ public class SignInActivity extends AppCompatActivity {
             } else {
                 displayFragmentLanguage();
             }
+        }
+    }
+
+    private void getDataFromIntent() {
+        Intent intent = getIntent();
+        if (intent!=null&&intent.hasExtra("out"))
+        {
+            isOut = true;
         }
     }
 

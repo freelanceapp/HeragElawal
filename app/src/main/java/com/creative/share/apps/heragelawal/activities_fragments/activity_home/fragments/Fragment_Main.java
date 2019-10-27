@@ -181,6 +181,7 @@ public class Fragment_Main extends Fragment {
     }
 
     public void setSliderItem(SliderModelData.SliderModel sliderModel) {
+        Log.e("slider_id",sliderModel.getId()+"__");
         Intent intent = new Intent(activity, SliderDetailsActivity.class);
         intent.putExtra("ad_id",sliderModel.getId());
         startActivity(intent);

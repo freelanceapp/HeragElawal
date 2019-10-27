@@ -105,6 +105,7 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
+                        error="@{loginModel.error_phone_code}"
 
                         />
 
@@ -142,6 +143,7 @@
                         android:paddingLeft="10dp"
                         android:paddingRight="10dp"
                         android:text="@={loginModel.phone}"
+                        error="@{loginModel.error_phone}"
                         />
 
                     <View

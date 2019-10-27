@@ -46,6 +46,24 @@ public interface Listeners {
         void instagram();
     }
 
+    interface CompanyActionListener
+    {
+        void call();
+        void sms();
+        void location();
+
+    }
+
+    interface AboutListener
+    {
+        void call();
+        void sms();
+        void email();
+        void website();
+        void terms();
+
+    }
+
     interface ContactListener
     {
         void sendContact(String name, String email, String phone_code, String phone, String message);

@@ -2,58 +2,40 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
 
     >
-<FrameLayout
 
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
->
+    <FrameLayout
 
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        >
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
 
+            >
 
+        </androidx.recyclerview.widget.RecyclerView>
 
-    <ProgressBar
-        android:id="@+id/progBar"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
-        android:layout_gravity="center"
-      />
-
-    <LinearLayout
-        android:id="@+id/ll_no_store"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:visibility="gone">
-
-        <ImageView
-            android:layout_width="90dp"
-            android:layout_height="90dp"
-            android:src="@drawable/cart"
-            android:tint="@color/colorPrimary"
-
-            />
         <TextView
-            android:id="@+id/tvNoEvents"
+            android:id="@+id/tvNoAds"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:text="@string/no_adversiment_found"
             android:textColor="@color/black"
             android:textSize="15sp"
-            android:text="@string/no_company_found"
+            android:visibility="gone"
             />
 
-    </LinearLayout>
+        <ProgressBar
+            android:id="@+id/progBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rec_cart"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/gray3"
-        >
+            />
 
-    </androidx.recyclerview.widget.RecyclerView>
-
-</FrameLayout>
+    </FrameLayout>
 </layout>

@@ -82,6 +82,7 @@ public class Fragment_Code_Verification extends Fragment {
         {
            userModel = (UserModel) bundle.getSerializable(TAG);
 
+           Log.e("user_id",userModel.getId()+"__");
         }
 
         startCounter();
@@ -102,11 +103,13 @@ public class Fragment_Code_Verification extends Fragment {
 
     private void ValidateCode(String code)
     {
+        ProgressDialog dialog = Common.createProgressDialog(activity,getString(R.string.wait));
+        dialog.setCancelable(false);
+        dialog.show();
+
         try {
-            ProgressDialog dialog = Common.createProgressDialog(activity,getString(R.string.wait));
-            dialog.setCancelable(false);
-            dialog.show();
-            Api.getService(lang)
+
+            Api.getService(Tags.base_url)
                     .confirmCode(userModel.getId(),code)
                     .enqueue(new Callback<UserModel>() {
                         @Override
@@ -116,8 +119,13 @@ public class Fragment_Code_Verification extends Fragment {
                             {
                                 preferences.create_update_userData(activity,response.body());
                                 preferences.createSession(activity, Tags.session_login);
-                                Intent intent = new Intent(activity, HomeActivity.class);
-                                startActivity(intent);
+
+                                if (!activity.isOut)
+                                {
+                                    Intent intent = new Intent(activity, HomeActivity.class);
+                                    startActivity(intent);
+                                }
+
                                 activity.finish();
 
                             }else
@@ -165,10 +173,18 @@ public class Fragment_Code_Verification extends Fragment {
                                     }
                                 }
 
-                            }catch (Exception e){}
+                            }catch (Exception e)
+                            {
+                                Log.e("rrr",e.getMessage()+"_");
+
+                            }
                         }
                     });
-        }catch (Exception e){}
+        }catch (Exception e)
+        {
+            dialog.dismiss();
+            Log.e("dddd",e.getMessage()+"_");
+        }
     }
 
     private void startCounter()
@@ -198,57 +214,68 @@ public class Fragment_Code_Verification extends Fragment {
         final ProgressDialog dialog = Common.createProgressDialog(activity,getString(R.string.wait));
         dialog.setCancelable(false);
         dialog.show();
-        Api.getService(lang)
-                .resendCode(userModel.getId())
-                .enqueue(new Callback<UserModel>() {
-                    @Override
-                    public void onResponse(Call<UserModel> call, Response<UserModel> response) {
+        try {
+            Api.getService(Tags.base_url)
+                    .resendCode(userModel.getId())
+                    .enqueue(new Callback<UserModel>() {
+                        @Override
+                        public void onResponse(Call<UserModel> call, Response<UserModel> response) {
 
-                        dialog.dismiss();
-
-                        if (response.isSuccessful())
-                        {
-                            startCounter();
-
-                        }else
-                        {
-                            try {
-                                Log.e("error_code",response.code()+"_"+response.errorBody().string());
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                            if (response.code()==422)
-                            {
-                                Toast.makeText(activity, getString(R.string.failed), Toast.LENGTH_SHORT).show();
-                            }else if (response.code()==500)
-                            {
-                                Toast.makeText(activity, "Server Error", Toast.LENGTH_SHORT).show();
-                            }else 
-                            {
-                                Toast.makeText(activity, getString(R.string.failed), Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<UserModel> call, Throwable t) {
-                        try {
                             dialog.dismiss();
-                            if (t.getMessage()!=null)
+
+                            if (response.isSuccessful())
                             {
-                                Log.e("error",t.getMessage());
-                                if (t.getMessage().toLowerCase().contains("failed to connect")||t.getMessage().toLowerCase().contains("unable to resolve host"))
+                                startCounter();
+
+                            }else
+                            {
+                                try {
+                                    Log.e("error_code",response.code()+"_"+response.errorBody().string());
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                                if (response.code()==422)
                                 {
-                                    Toast.makeText(activity,R.string.something, Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(activity, getString(R.string.failed), Toast.LENGTH_SHORT).show();
+                                }else if (response.code()==500)
+                                {
+                                    Toast.makeText(activity, "Server Error", Toast.LENGTH_SHORT).show();
                                 }else
                                 {
-                                    Toast.makeText(activity,t.getMessage(), Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(activity, getString(R.string.failed), Toast.LENGTH_SHORT).show();
                                 }
                             }
+                        }
 
-                        }catch (Exception e){}
-                    }
-                });
+                        @Override
+                        public void onFailure(Call<UserModel> call, Throwable t) {
+                            try {
+                                dialog.dismiss();
+                                if (t.getMessage()!=null)
+                                {
+                                    Log.e("error",t.getMessage());
+                                    if (t.getMessage().toLowerCase().contains("failed to connect")||t.getMessage().toLowerCase().contains("unable to resolve host"))
+                                    {
+                                        Toast.makeText(activity,R.string.something, Toast.LENGTH_SHORT).show();
+                                    }else
+                                    {
+                                        Toast.makeText(activity,t.getMessage(), Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+
+                            }catch (Exception e)
+                            {
+                                Log.e("Exe",e.getMessage()+"__");
+                                dialog.dismiss();
+                            }
+                        }
+                    });
+        }catch (Exception e)
+        {
+            dialog.dismiss();
+            Log.e("ddd",e.getMessage()+"__");
+        }
+
     }
 
 

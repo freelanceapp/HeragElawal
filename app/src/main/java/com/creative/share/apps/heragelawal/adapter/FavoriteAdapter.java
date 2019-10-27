@@ -1,32 +1,39 @@
 package com.creative.share.apps.heragelawal.adapter;
 
 import android.content.Context;
+import android.graphics.PorterDuff;
+import android.net.Uri;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.creative.share.apps.heragelawal.R;
-import com.creative.share.apps.heragelawal.activities_fragments.activity_companies.CompanyActivity;
-import com.creative.share.apps.heragelawal.databinding.CompanyRowBinding;
+import com.creative.share.apps.heragelawal.activities_fragments.activity_home.fragments.Fragment_Favourite;
+import com.creative.share.apps.heragelawal.databinding.FavouriteRowBinding;
 import com.creative.share.apps.heragelawal.databinding.LoadMoreRowBinding;
-import com.creative.share.apps.heragelawal.models.CompanyModel;
+import com.creative.share.apps.heragelawal.models.AdModel;
+import com.creative.share.apps.heragelawal.tags.Tags;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-public class CompanyAdapterAdapter extends RecyclerView.Adapter {
+public class FavoriteAdapter extends RecyclerView.Adapter {
     private final int LOAD = 1;
     private final int DATA = 2;
 
     private Context context;
-    private List<CompanyModel> companyModelList;
-    private CompanyActivity activity;
-    public CompanyAdapterAdapter(Context context, List<CompanyModel> companyModelList) {
+    private List<AdModel> adModelList;
+    private Fragment_Favourite fragment_favourite;
+    public FavoriteAdapter(Context context, List<AdModel> adModelList,Fragment_Favourite fragment_favourite) {
         this.context = context;
-        this.activity = (CompanyActivity) context;
-        this.companyModelList = companyModelList;
+        this.adModelList = adModelList;
+        this.fragment_favourite = fragment_favourite;
 
     }
 
@@ -35,7 +42,7 @@ public class CompanyAdapterAdapter extends RecyclerView.Adapter {
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         if (viewType == DATA) {
-            CompanyRowBinding binding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.company_row, parent, false);
+            FavouriteRowBinding binding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.favourite_row, parent, false);
             return new MyHolder(binding);
         } else {
             LoadMoreRowBinding binding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.load_more_row, parent, false);
@@ -47,16 +54,27 @@ public class CompanyAdapterAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
 
-        CompanyModel companyModel = companyModelList.get(position);
+        AdModel adModel = adModelList.get(position);
 
         if (holder instanceof MyHolder) {
             MyHolder myHolder = (MyHolder) holder;
-            myHolder.binding.setCompanyModel(companyModel);
+            myHolder.binding.setAdModel(adModel);
 
+            myHolder.binding.progBar.getIndeterminateDrawable().setColorFilter(ContextCompat.getColor(context,R.color.colorPrimary), PorterDuff.Mode.SRC_IN);
+            Picasso.with(context).load(Uri.parse(Tags.IMAGE_URL_ADS+adModel.getMain_image())).fit().into(myHolder.binding.image, new Callback() {
+                @Override
+                public void onSuccess() {
+                    myHolder.binding.progBar.setVisibility(View.GONE);
+                }
 
+                @Override
+                public void onError() {
+
+                }
+            });
             myHolder.itemView.setOnClickListener(view -> {
-                CompanyModel companyModel2 = companyModelList.get(holder.getAdapterPosition());
-
+                AdModel adModel1 = adModelList.get(holder.getAdapterPosition());
+                fragment_favourite.deleteFavorite(adModel1,holder.getAdapterPosition());
             });
 
         } else if (holder instanceof ProgressHolder) {
@@ -70,13 +88,13 @@ public class CompanyAdapterAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemCount() {
-        return companyModelList.size();
+        return adModelList.size();
     }
 
     public class MyHolder extends RecyclerView.ViewHolder {
-        private CompanyRowBinding binding;
+        private FavouriteRowBinding binding;
 
-        public MyHolder(@NonNull CompanyRowBinding binding) {
+        public MyHolder(@NonNull FavouriteRowBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
         }
@@ -94,7 +112,7 @@ public class CompanyAdapterAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemViewType(int position) {
-        if (companyModelList.get(position) == null) {
+        if (adModelList.get(position) == null) {
             return LOAD;
         } else {
             return DATA;

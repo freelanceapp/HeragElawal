@@ -30,6 +30,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
 import com.creative.share.apps.heragelawal.R;
+import com.creative.share.apps.heragelawal.activities_fragments.activity_about_app.AboutAppActivity;
+import com.creative.share.apps.heragelawal.activities_fragments.activity_add_ads.AddAdsActivity;
+import com.creative.share.apps.heragelawal.activities_fragments.activity_add_company.AddCompanyActivity;
 import com.creative.share.apps.heragelawal.activities_fragments.activity_home.fragments.Fragment_Chat;
 import com.creative.share.apps.heragelawal.activities_fragments.activity_home.fragments.Fragment_Favourite;
 import com.creative.share.apps.heragelawal.activities_fragments.activity_home.fragments.Fragment_Main;
@@ -81,6 +84,7 @@ public class HomeActivity extends AppCompatActivity {
     private TextView tvNoAds;
     private ImageView imageSearch;
     private Button btnAddAd, btnAddCompany;
+    private LinearLayout llLogout,llShare,llAbout;
     private List<MainCategoryDataModel.MainCategoryModel> mainCategoryModelList;
     private MainCategoryNavParentAdapter adapter;
 
@@ -153,11 +157,14 @@ public class HomeActivity extends AppCompatActivity {
 
         btnAddAd = findViewById(R.id.btnAddAd);
         btnAddCompany = findViewById(R.id.btnAddCompany);
-
+        llChangeLanguage = findViewById(R.id.llChangeLanguage);
+        llLogout = findViewById(R.id.llLogout);
+        llShare = findViewById(R.id.llShare);
+        llAbout = findViewById(R.id.llAbout);
 
         progBar = findViewById(R.id.progBar);
+
         progBar.getIndeterminateDrawable().setColorFilter(ContextCompat.getColor(this, R.color.white), PorterDuff.Mode.SRC_IN);
-        llChangeLanguage = findViewById(R.id.llChangeLanguage);
 
         recView = findViewById(R.id.recView);
         tvNoAds = findViewById(R.id.tvNoAds);
@@ -170,15 +177,69 @@ public class HomeActivity extends AppCompatActivity {
         recView.setAdapter(adapter);
         setUpBottomNavigation();
 
-
-        llChangeLanguage.setOnClickListener(view -> CreateLangDialog());
         imageSearch.setOnClickListener(view -> {
             Intent intent = new Intent(this, SearchActivity.class);
             startActivity(intent);
         });
+
+        llChangeLanguage.setOnClickListener(view -> CreateLangDialog());
+
+
+        llLogout.setOnClickListener(view -> logOut());
+
+        llAbout.setOnClickListener(view -> {
+            Intent intent = new Intent(this, AboutAppActivity.class);
+            startActivity(intent);
+        });
+
+        llShare.setOnClickListener(view -> {
+            drawer.closeDrawer(GravityCompat.START);
+            String share_text = getString(R.string.share_text)+"\n"+"https://play.google.com/store/apps/details?id="+getPackageName();
+            Intent sendIntent = new Intent(Intent.ACTION_SEND);
+            sendIntent.setType("text/plain");
+            sendIntent.putExtra(Intent.EXTRA_TEXT,share_text);
+            startActivity(sendIntent);
+
+        });
+
+        btnAddCompany.setOnClickListener(view -> {
+            userModel = preferences.getUserData(this);
+            if (userModel==null)
+            {
+                navigateToSignInActivity2();
+            }else
+                {
+                    Intent intent = new Intent(this, AddCompanyActivity.class);
+                    startActivity(intent);
+                }
+        });
+
+        btnAddAd.setOnClickListener(view -> {
+            userModel = preferences.getUserData(this);
+            if (userModel==null)
+            {
+                navigateToSignInActivity2();
+            }else
+            {
+                Intent intent = new Intent(this, AddAdsActivity.class);
+                startActivity(intent);
+            }
+        });
         getMainCategory();
 
 
+    }
+
+    private void logOut() {
+        drawer.closeDrawer(GravityCompat.START);
+        if (userModel==null)
+        {
+            navigateToSignInActivity();
+        }else
+            {
+                preferences.clear(this);
+                navigateToSignInActivity();
+            }
     }
 
     private void getMainCategory() {
@@ -285,16 +346,44 @@ public class HomeActivity extends AppCompatActivity {
                     DisplayFragmentCompanies();
                     break;
                 case 2:
-                    DisplayFragmentMyAds();
+                    userModel = preferences.getUserData(this);
+
+                    if (userModel==null)
+                    {
+                        navigateToSignInActivity2();
+                    }else
+                        {
+                            DisplayFragmentMyAds();
+
+                        }
 
 
                     break;
                 case 3:
-                    DisplayFragmentFavourite();
+
+                    userModel = preferences.getUserData(this);
+
+                    if (userModel==null)
+                    {
+                        navigateToSignInActivity2();
+                    }else
+                    {
+                        DisplayFragmentFavourite();
+
+                    }
 
                     break;
                 case 4:
-                    DisplayFragmentChat();
+                    userModel = preferences.getUserData(this);
+
+                    if (userModel==null)
+                    {
+                        navigateToSignInActivity2();
+                    }else
+                    {
+                        DisplayFragmentChat();
+
+                    }
                     break;
 
             }
@@ -419,6 +508,7 @@ public class HomeActivity extends AppCompatActivity {
         }
         if (fragment_favourite.isAdded()) {
             fragmentManager.beginTransaction().show(fragment_favourite).commit();
+            fragment_favourite.getFavoriteAds();
 
         } else {
             fragmentManager.beginTransaction().add(R.id.fragment_home_container, fragment_favourite, "fragment_favourite").addToBackStack("fragment_favourite").commit();
@@ -460,6 +550,12 @@ public class HomeActivity extends AppCompatActivity {
 
     }
 
+    private void navigateToSignInActivity2()
+    {
+        Intent intent = new Intent(this, SignInActivity.class);
+        intent.putExtra("out",true);
+        startActivity(intent);
+    }
 
     private void CreateLangDialog() {
         final AlertDialog dialog = new AlertDialog.Builder(this)

@@ -1,5 +1,7 @@
 package com.creative.share.apps.heragelawal.activities_fragments.activity_slider_details;
 
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -10,7 +12,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.text.TextUtils;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Toast;
 
@@ -24,17 +28,22 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.creative.share.apps.heragelawal.BuildConfig;
 import com.creative.share.apps.heragelawal.R;
+import com.creative.share.apps.heragelawal.activities_fragments.activity_sign_in.SignInActivity;
 import com.creative.share.apps.heragelawal.adapter.CommentAdapter;
 import com.creative.share.apps.heragelawal.adapter.PropertyAdapter;
+import com.creative.share.apps.heragelawal.adapter.ReportReasonAdapter;
 import com.creative.share.apps.heragelawal.adapter.SliderAdapter2;
 import com.creative.share.apps.heragelawal.databinding.ActivitySliderDetailsBinding;
+import com.creative.share.apps.heragelawal.databinding.DialogReportBinding;
 import com.creative.share.apps.heragelawal.interfaces.Listeners;
 import com.creative.share.apps.heragelawal.language.LanguageHelper;
 import com.creative.share.apps.heragelawal.models.AdModel;
+import com.creative.share.apps.heragelawal.models.ReportReasonDataModel;
 import com.creative.share.apps.heragelawal.models.SliderImageVideoModel;
 import com.creative.share.apps.heragelawal.models.UserModel;
 import com.creative.share.apps.heragelawal.preferences.Preferences;
 import com.creative.share.apps.heragelawal.remote.Api;
+import com.creative.share.apps.heragelawal.share.Common;
 import com.creative.share.apps.heragelawal.tags.Tags;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
@@ -49,6 +58,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import io.paperdb.Paper;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -66,8 +76,9 @@ public class SliderDetailsActivity extends AppCompatActivity implements Listener
     private TimerTask timerTask;
     private PropertyAdapter propertyAdapter;
     private CommentAdapter commentAdapter;
-    private int ad_id;
+    private int ad_id,reason_id=-1;
     private AdModel adModel = null;
+    private List<ReportReasonDataModel.ReportReasonModel> reportReasonModelList;
 
     @Override
     protected void attachBaseContext(Context newBase) {
@@ -94,6 +105,7 @@ public class SliderDetailsActivity extends AppCompatActivity implements Listener
 
     private void initView()
     {
+        reportReasonModelList = new ArrayList<>();
         sliderModelList = new ArrayList<>();
         adDetailsList = new ArrayList<>();
         commentModelList = new ArrayList<>();
@@ -102,7 +114,6 @@ public class SliderDetailsActivity extends AppCompatActivity implements Listener
         Paper.init(this);
         lang = Paper.book().read("lang",Locale.getDefault().getLanguage());
         preferences = Preferences.newInstance();
-        userModel = preferences.getUserData(this);
         binding.setBackListener(this);
         binding.setLang(lang);
         binding.setActionListener(this);
@@ -118,12 +129,41 @@ public class SliderDetailsActivity extends AppCompatActivity implements Listener
         binding.recViewComments.setLayoutManager(new LinearLayoutManager(this));
         binding.recViewComments.setAdapter(commentAdapter);
         binding.recViewComments.setNestedScrollingEnabled(true);
+
+
+        binding.btnSend.setOnClickListener(view -> {
+
+            userModel = preferences.getUserData(this);
+            if (userModel==null)
+            {
+                Intent intent = new Intent(this, SignInActivity.class);
+                intent.putExtra("out",true);
+                startActivity(intent);
+            }else
+                {
+                    String comment = binding.edtComment.getText().toString().trim();
+
+                    if (!TextUtils.isEmpty(comment))
+                    {
+                        Common.CloseKeyBoard(this,binding.edtComment);
+                        binding.edtComment.setError(null);
+                        addComment(comment);
+                    }else
+                    {
+                        binding.edtComment.setError(getString(R.string.field_req));
+
+                    }
+                }
+
+
+        });
         getAdDetails();
 
     }
 
     private void getAdDetails()
     {
+        userModel = preferences.getUserData(this);
         int user_id;
         if (userModel==null)
         {
@@ -214,7 +254,15 @@ public class SliderDetailsActivity extends AppCompatActivity implements Listener
             }
         });
 
-        setUpSlider(adModel.getImage_array());
+        if (adModel.getImage_array()!=null)
+        {
+            binding.flSlider.setVisibility(View.GONE);
+            setUpSlider(adModel.getImage_array());
+
+        }else
+            {
+                binding.flSlider.setVisibility(View.GONE);
+            }
 
         if (adDetailsList.size()>0)
         {
@@ -313,7 +361,7 @@ public class SliderDetailsActivity extends AppCompatActivity implements Listener
 
 
         if (adModel.getUser_phone() != null && !adModel.getUser_phone().isEmpty()) {
-            Intent intent = new Intent(Intent.ACTION_SENDTO, Uri.parse("sms:" + "01017357658"));
+            Intent intent = new Intent(Intent.ACTION_SENDTO, Uri.parse("sms:" + adModel.getUser_phone()));
             startActivity(intent);
 
         } else {
@@ -328,36 +376,115 @@ public class SliderDetailsActivity extends AppCompatActivity implements Listener
 
     @Override
     public void like() {
-        if (userModel!=null)
+
+        userModel = preferences.getUserData(this);
+
+        if (userModel==null)
         {
+            Intent intent = new Intent(this, SignInActivity.class);
+            intent.putExtra("out",true);
+            startActivity(intent);
+        }else
+        {
+            if (adModel.getIs_like_check()==0)
+            {
+                adModel.setIs_like_check(1);
+                adModel.setLike_counts(adModel.getLike_counts()+1);
+                binding.setAdModel(adModel);
+
+
+
+            }else
+            {
+                adModel.setIs_like_check(0);
+                adModel.setLike_counts(adModel.getLike_counts()-1);
+                binding.setAdModel(adModel);
+            }
+
+            addLike();
 
         }
 
-        if (adModel.getIs_like_check()==0)
-        {
-            adModel.setIs_like_check(1);
-            adModel.setLike_counts(adModel.getLike_counts()+1);
-            binding.setAdModel(adModel);
-        }
+
+
     }
+
 
     @Override
-    public void favorite() {
-        if (adModel.getIs_favourite_check()==0)
+    public void favorite()
+    {
+
+        userModel = preferences.getUserData(this);
+
+        if (userModel==null)
         {
-            adModel.setIs_favourite_check(1);
-            adModel.setLike_counts(adModel.getFavorite_counts()+1);
-            binding.setAdModel(adModel);
+            Intent intent = new Intent(this, SignInActivity.class);
+            intent.putExtra("out",true);
+            startActivity(intent);
+        }else
+        {
+            if (adModel.getIs_favourite_check()==0)
+            {
+                adModel.setIs_favourite_check(1);
+                adModel.setLike_counts(adModel.getFavorite_counts()+1);
+                binding.setAdModel(adModel);
+
+
+            }else
+                {
+                    adModel.setIs_favourite_check(0);
+                    adModel.setLike_counts(adModel.getFavorite_counts()-1);
+                    binding.setAdModel(adModel);
+                }
+
+            addFavorite();
+
         }
+
+
     }
+
+
 
     @Override
     public void report() {
-        if (adModel.getIs_report_check()==0)
+
+        userModel = preferences.getUserData(this);
+
+        if (userModel==null)
         {
-            adModel.setIs_report_check(1);
-            binding.setAdModel(adModel);
+            Intent intent = new Intent(this, SignInActivity.class);
+            intent.putExtra("out",true);
+            startActivity(intent);
+        }else
+        {
+
+            if (adModel.getIs_report_check()==0)
+            {
+                adModel.setIs_report_check(1);
+                binding.setAdModel(adModel);
+                addReport();
+
+
+            }else
+            {
+                Toast.makeText(this, R.string.repo_sent, Toast.LENGTH_SHORT).show();
+            }
+
         }
+
+
+    }
+
+    private void addReport() {
+
+        if (reportReasonModelList.size()>0)
+        {
+            CreateReasonsDialog();
+        }else
+            {
+                getReportReasons();
+            }
     }
 
     @Override
@@ -514,6 +641,463 @@ public class SliderDetailsActivity extends AppCompatActivity implements Listener
 
     }
 
+
+    private void addFavorite()
+    {
+
+        ProgressDialog dialog = Common.createProgressDialog(this,getString(R.string.wait));
+        dialog.setCancelable(false);
+        dialog.show();
+        try {
+
+            Api.getService(Tags.base_url)
+                    .addFavoriteAds(userModel.getId(),adModel.getId())
+                    .enqueue(new Callback<ResponseBody>() {
+                        @Override
+                        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                            dialog.dismiss();
+                            if (response.isSuccessful()&&response.body()!=null)
+                            {
+                                if (adModel.getIs_favourite_check()==0)
+                                {
+                                    adModel.setIs_favourite_check(0);
+                                    binding.setAdModel(adModel);
+
+
+                                }else
+                                {
+                                    adModel.setIs_favourite_check(1);
+                                    binding.setAdModel(adModel);
+                                }
+                                Toast.makeText(SliderDetailsActivity.this, getString(R.string.suc), Toast.LENGTH_SHORT).show();
+                            }else
+                            {
+
+                                if (adModel.getIs_favourite_check()==0)
+                                {
+                                    adModel.setIs_favourite_check(1);
+                                    adModel.setLike_counts(adModel.getFavorite_counts()+1);
+                                    binding.setAdModel(adModel);
+
+
+                                }else
+                                {
+                                    adModel.setIs_favourite_check(0);
+                                    adModel.setLike_counts(adModel.getFavorite_counts()-1);
+                                    binding.setAdModel(adModel);
+                                }
+
+
+
+                                if (response.code() == 500) {
+                                    Toast.makeText(SliderDetailsActivity.this, "Server Error", Toast.LENGTH_SHORT).show();
+
+
+                                }else
+                                {
+                                    Toast.makeText(SliderDetailsActivity.this, getString(R.string.failed), Toast.LENGTH_SHORT).show();
+
+                                    try {
+
+                                        Log.e("error",response.code()+"_"+response.errorBody().string());
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<ResponseBody> call, Throwable t) {
+                            try {
+                                if (adModel.getIs_favourite_check()==0)
+                                {
+                                    adModel.setIs_favourite_check(1);
+                                    adModel.setLike_counts(adModel.getFavorite_counts()+1);
+                                    binding.setAdModel(adModel);
+
+
+                                }else
+                                {
+                                    adModel.setIs_favourite_check(0);
+                                    adModel.setLike_counts(adModel.getFavorite_counts()-1);
+                                    binding.setAdModel(adModel);
+                                }
+
+                                dialog.dismiss();
+                                if (t.getMessage()!=null)
+                                {
+                                    Log.e("error",t.getMessage());
+                                    if (t.getMessage().toLowerCase().contains("failed to connect")||t.getMessage().toLowerCase().contains("unable to resolve host"))
+                                    {
+                                        Toast.makeText(SliderDetailsActivity.this,R.string.something, Toast.LENGTH_SHORT).show();
+                                    }else
+                                    {
+                                        Toast.makeText(SliderDetailsActivity.this,t.getMessage(), Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+
+                            }catch (Exception e){}
+                        }
+                    });
+        }catch (Exception e){
+            dialog.dismiss();
+
+        }
+    }
+
+    private void addComment(String comment)
+    {
+
+        ProgressDialog dialog = Common.createProgressDialog(this,getString(R.string.wait));
+        dialog.setCancelable(false);
+        dialog.show();
+        try {
+
+            Api.getService(Tags.base_url)
+                    .addComment(userModel.getId(),adModel.getId(),comment)
+                    .enqueue(new Callback<ResponseBody>() {
+                        @Override
+                        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                            dialog.dismiss();
+                            if (response.isSuccessful()&&response.body()!=null)
+                            {
+                                binding.edtComment.setText("");
+
+                                Toast.makeText(SliderDetailsActivity.this, R.string.will_review, Toast.LENGTH_SHORT).show();
+                            }else
+                            {
+
+
+
+
+                                if (response.code() == 500) {
+                                    Toast.makeText(SliderDetailsActivity.this, "Server Error", Toast.LENGTH_SHORT).show();
+
+
+                                }else
+                                {
+                                    Toast.makeText(SliderDetailsActivity.this, getString(R.string.failed), Toast.LENGTH_SHORT).show();
+
+                                    try {
+
+                                        Log.e("error",response.code()+"_"+response.errorBody().string());
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<ResponseBody> call, Throwable t) {
+                            try {
+                                dialog.dismiss();
+                                if (t.getMessage()!=null)
+                                {
+                                    Log.e("error",t.getMessage());
+                                    if (t.getMessage().toLowerCase().contains("failed to connect")||t.getMessage().toLowerCase().contains("unable to resolve host"))
+                                    {
+                                        Toast.makeText(SliderDetailsActivity.this,R.string.something, Toast.LENGTH_SHORT).show();
+                                    }else
+                                    {
+                                        Toast.makeText(SliderDetailsActivity.this,t.getMessage(), Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+
+                            }catch (Exception e){}
+                        }
+                    });
+        }catch (Exception e){
+            dialog.dismiss();
+
+        }
+    }
+
+    private void addLike()
+    {
+        ProgressDialog dialog = Common.createProgressDialog(this,getString(R.string.wait));
+        dialog.setCancelable(false);
+        dialog.show();
+        try {
+
+            Api.getService(Tags.base_url)
+                    .addLikesAds(userModel.getId(),adModel.getId())
+                    .enqueue(new Callback<ResponseBody>() {
+                        @Override
+                        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                            dialog.dismiss();
+                            if (response.isSuccessful()&&response.body()!=null)
+                            {
+
+                                if (adModel.getIs_like_check()==0)
+                                {
+                                    adModel.setIs_like_check(0);
+                                    binding.setAdModel(adModel);
+
+
+
+                                }else
+                                {
+                                    adModel.setIs_like_check(1);
+                                    binding.setAdModel(adModel);
+
+
+                                }
+
+                                Toast.makeText(SliderDetailsActivity.this, getString(R.string.suc), Toast.LENGTH_SHORT).show();
+                            }else
+                            {
+
+                                if (adModel.getIs_like_check()==0)
+                                {
+                                    adModel.setIs_like_check(1);
+                                    adModel.setLike_counts(adModel.getLike_counts()+1);
+                                    binding.setAdModel(adModel);
+
+
+
+                                }else
+                                {
+                                    adModel.setIs_like_check(0);
+                                    adModel.setLike_counts(adModel.getLike_counts()-1);
+                                    binding.setAdModel(adModel);
+                                }
+
+                                if (response.code() == 500) {
+                                    Toast.makeText(SliderDetailsActivity.this, "Server Error", Toast.LENGTH_SHORT).show();
+
+
+                                }else
+                                {
+                                    Toast.makeText(SliderDetailsActivity.this, getString(R.string.failed), Toast.LENGTH_SHORT).show();
+
+                                    try {
+
+                                        Log.e("error",response.code()+"_"+response.errorBody().string());
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<ResponseBody> call, Throwable t) {
+                            try {
+                                if (adModel.getIs_like_check()==0)
+                                {
+                                    adModel.setIs_like_check(1);
+                                    adModel.setLike_counts(adModel.getLike_counts()+1);
+                                    binding.setAdModel(adModel);
+
+
+
+                                }else
+                                {
+                                    adModel.setIs_like_check(0);
+                                    adModel.setLike_counts(adModel.getLike_counts()-1);
+                                    binding.setAdModel(adModel);
+                                }
+
+
+                                dialog.dismiss();
+                                if (t.getMessage()!=null)
+                                {
+                                    Log.e("error",t.getMessage());
+                                    if (t.getMessage().toLowerCase().contains("failed to connect")||t.getMessage().toLowerCase().contains("unable to resolve host"))
+                                    {
+                                        Toast.makeText(SliderDetailsActivity.this,R.string.something, Toast.LENGTH_SHORT).show();
+                                    }else
+                                    {
+                                        Toast.makeText(SliderDetailsActivity.this,t.getMessage(), Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+
+                            }catch (Exception e){}
+                        }
+                    });
+        }catch (Exception e){
+            dialog.dismiss();
+
+        }
+    }
+
+    private void getReportReasons()
+    {
+        ProgressDialog dialog = Common.createProgressDialog(this,getString(R.string.wait));
+        dialog.setCancelable(false);
+        dialog.show();
+        try {
+
+            Api.getService(Tags.base_url)
+                    .getReportReasons()
+                    .enqueue(new Callback<ReportReasonDataModel>() {
+                        @Override
+                        public void onResponse(Call<ReportReasonDataModel> call, Response<ReportReasonDataModel> response) {
+                            dialog.dismiss();
+                            if (response.isSuccessful()&&response.body()!=null)
+                            {
+                                reportReasonModelList.clear();
+                                reportReasonModelList.addAll(response.body().getData());
+                                CreateReasonsDialog();
+                            }else
+                            {
+                                if (response.code() == 500) {
+                                    Toast.makeText(SliderDetailsActivity.this, "Server Error", Toast.LENGTH_SHORT).show();
+
+
+                                }else
+                                {
+                                    Toast.makeText(SliderDetailsActivity.this, getString(R.string.failed), Toast.LENGTH_SHORT).show();
+
+                                    try {
+
+                                        Log.e("error",response.code()+"_"+response.errorBody().string());
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<ReportReasonDataModel> call, Throwable t) {
+                            try {
+
+                                dialog.dismiss();
+                                if (t.getMessage()!=null)
+                                {
+                                    Log.e("error",t.getMessage());
+                                    if (t.getMessage().toLowerCase().contains("failed to connect")||t.getMessage().toLowerCase().contains("unable to resolve host"))
+                                    {
+                                        Toast.makeText(SliderDetailsActivity.this,R.string.something, Toast.LENGTH_SHORT).show();
+                                    }else
+                                    {
+                                        Toast.makeText(SliderDetailsActivity.this,t.getMessage(), Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+
+                            }catch (Exception e){}
+                        }
+                    });
+        }catch (Exception e){
+            dialog.dismiss();
+
+        }
+    }
+
+    private  void CreateReasonsDialog()
+    {
+        final AlertDialog dialog = new AlertDialog.Builder(this)
+                .create();
+
+        DialogReportBinding binding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.dialog_report, null, false);
+
+        binding.recView.setLayoutManager(new LinearLayoutManager(this));
+        ReportReasonAdapter adapter = new ReportReasonAdapter(this,reportReasonModelList);
+        binding.recView.setAdapter(adapter);
+        binding.btnCancel.setOnClickListener(v -> dialog.dismiss()
+
+        );
+
+        binding.btnSend.setOnClickListener(v ->
+                {
+                    dialog.dismiss();
+
+                    if (reportReasonModelList.size()>0)
+                    {
+                        if (reason_id==-1)
+                        {
+                            Toast.makeText(this, R.string.ch_reason, Toast.LENGTH_SHORT).show();
+                        }else
+                            {
+                                sendReport();
+                            }
+                    }else
+                        {
+                            Toast.makeText(this, R.string.no_reasons, Toast.LENGTH_SHORT).show();
+
+                        }
+
+                }
+
+        );
+
+        dialog.getWindow().getAttributes().windowAnimations = R.style.dialog_congratulation_animation;
+        dialog.getWindow().setBackgroundDrawableResource(R.drawable.dialog_window_bg);
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.setView(binding.getRoot());
+        dialog.show();
+    }
+
+    private void sendReport()
+    {
+        Log.e("user_id",userModel.getId()+"_");
+        ProgressDialog dialog = Common.createProgressDialog(this,getString(R.string.wait));
+        dialog.setCancelable(false);
+        dialog.show();
+        try {
+
+            Api.getService(Tags.base_url)
+                    .addReportAds(userModel.getId(),adModel.getId(),reason_id)
+                    .enqueue(new Callback<ResponseBody>() {
+                        @Override
+                        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                            dialog.dismiss();
+                            if (response.isSuccessful()&&response.body()!=null)
+                            {
+                                Toast.makeText(SliderDetailsActivity.this, getString(R.string.suc), Toast.LENGTH_SHORT).show();
+                            }else
+                            {
+
+                                if (response.code() == 500) {
+                                    Toast.makeText(SliderDetailsActivity.this, "Server Error", Toast.LENGTH_SHORT).show();
+
+
+                                }else
+                                {
+                                    Toast.makeText(SliderDetailsActivity.this, getString(R.string.failed), Toast.LENGTH_SHORT).show();
+
+                                    try {
+
+                                        Log.e("error",response.code()+"_"+response.errorBody().string());
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<ResponseBody> call, Throwable t) {
+                            try {
+                                dialog.dismiss();
+                                if (t.getMessage()!=null)
+                                {
+                                    Log.e("error",t.getMessage());
+                                    if (t.getMessage().toLowerCase().contains("failed to connect")||t.getMessage().toLowerCase().contains("unable to resolve host"))
+                                    {
+                                        Toast.makeText(SliderDetailsActivity.this,R.string.something, Toast.LENGTH_SHORT).show();
+                                    }else
+                                    {
+                                        Toast.makeText(SliderDetailsActivity.this,t.getMessage(), Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+
+                            }catch (Exception e){}
+                        }
+                    });
+        }catch (Exception e){
+            dialog.dismiss();
+
+        }
+    }
+
+
+    public void setReasonItem(ReportReasonDataModel.ReportReasonModel reasonModel) {
+        reason_id = reasonModel.getId();
+    }
     private File createFile(Bitmap bitmap)
     {
         File file = null;
@@ -530,6 +1114,9 @@ public class SliderDetailsActivity extends AppCompatActivity implements Listener
 
         return file;
     }
+
+
+
     public class MyTimerTask extends TimerTask{
         @Override
         public void run() {

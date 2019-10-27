@@ -16,7 +16,7 @@
     <string name="notifications">Notifications</string>
     <string name="more">More</string>
     <string name="bank_account">Bank account </string>
-    <string name="terms_and_conditions">Terms And Conditions</string>
+    <string name="terms_and_conditions">Terms of use</string>
     <string name="about_app">About Tour</string>
     <string name="contact_us">Contact Us</string>
     <string name="logout">Logout</string>
@@ -87,14 +87,14 @@
     <string name="upload_image">Upload Image</string>
     <string name="please_add_at_least_one_image_the_more_pictures_you_add_the_more_chances_the_customer_will_buy_the_product">Please add at least one image. The more pictures you add, the more chances the customer will buy the product</string>
     <string name="advertising_catogry">Advertising Catogry</string>
-    <string name="catogry_filters">Category filters</string>
+    <string name="catogry_filters">Filters of category</string>
     <string name="name_of_the_ad_in_arabic">Name of the ad in Arabic</string>
     <string name="name_of_the_ad_in_english">Name of the ad in English</string>
     <string name="ad_description_in_arabic">Ad description in Arabic</string>
     <string name="ad_description_in_english">Ad description in English</string>
     <string name="ads_photos">Ads Photos</string>
-    <string name="add_ads">Add Ads</string>
-    <string name="the_more_you_enter_the_correct_ad_information_the_more_the_viewership_of_the_ad_will_be_used_by_your_phone_number_so_that_the_client_can_call_you_or_send_you_a_message">The more you enter the correct ad information, the more the viewership of the ad will be used by your phone number so that the client can call you or send you a message</string>
+    <string name="add_ads">Add Ad</string>
+    <string name="the_more_you_enter_the_correct_ad_information">Enter the ad information correctly,so your ad can be viewed more by people ,we will use the number you registered with so we can allow user to call you or sms you</string>
     <string name="maximum_of_40_characters">Maximum of 40 characters</string>
     <string name="ad_types">Ad Types</string>
     <string name="sections">Sections</string>
@@ -166,6 +166,32 @@
     <string name="view">View</string>
     <string name="no_companies">No companies</string>
     <string name="ad">ad</string>
+    <string name="sms">Sms</string>
+    <string name="sign_out">Sign out</string>
+    <string name="share_text">I recommended downloading #Heraj #Alawal ,Heraj #Alawal is free application to #buy and #sell everything #cars ,property #car plat , mobile number and more download #Heraj #Alawal from the following link :</string>
+    <string name="sms_us">Sms us</string>
+    <string name="email_us">Email us</string>
+    <string name="website">Website</string>
+    <string name="call_us">Call</string>
+    <string name="no_email">No email for contacting</string>
+    <string name="no_terms">No terms of use</string>
+    <string name="no_website">No website link</string>
+    <string name="repo_sent">the report was sent before</string>
+    <string name="report2">Report</string>
+    <string name="help_us_to_understand_the_problem">Help us to understand the problem</string>
+    <string name="why_don_t_you_want_to_see_this">Why don\'t you want to see this ?</string>
+    <string name="ch_reason">Choose reason</string>
+    <string name="no_reasons">No reasons</string>
+    <string name="will_review">Will review comment by admin</string>
+    <string name="select_location_on_map">Select location on map</string>
+    <string name="max_150_characters">max 150 characters</string>
+    <string name="ch_cat">Choose Category</string>
+    <string name="wil_rev_req">Will review your request by admin</string>
+    <string name="add_photo">Add photo</string>
+    <string name="category">Category</string>
+    <string name="ad_name">Ad name</string>
+    <string name="ad_price">Ad price</string>
+    <string name="ad_details">Ad details</string>
 
 
 </resources>

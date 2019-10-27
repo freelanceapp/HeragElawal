@@ -28,6 +28,7 @@ import com.creative.share.apps.heragelawal.preferences.Preferences;
 import com.creative.share.apps.heragelawal.remote.Api;
 import com.creative.share.apps.heragelawal.share.Common;
 import com.creative.share.apps.heragelawal.tags.Tags;
+import com.google.gson.Gson;
 import com.mukesh.countrypicker.Country;
 import com.mukesh.countrypicker.CountryPicker;
 import com.mukesh.countrypicker.listeners.OnCountryPickerListener;
@@ -74,6 +75,11 @@ public class Fragment_Sign_In extends Fragment implements Listeners.LoginListene
         binding.setLoginListener(this);
         createCountryDialog();
 
+        if (activity.isOut)
+        {
+            binding.tvSkip.setVisibility(View.GONE);
+        }
+
 
 
 
@@ -89,22 +95,30 @@ public class Fragment_Sign_In extends Fragment implements Listeners.LoginListene
 
         TelephonyManager telephonyManager = (TelephonyManager) activity.getSystemService(Context.TELEPHONY_SERVICE);
 
-        if (countryPicker.getCountryFromSIM()!=null)
-        {
-            updatePhoneCode(countryPicker.getCountryFromSIM());
-        }else if (telephonyManager!=null&&countryPicker.getCountryByISO(telephonyManager.getNetworkCountryIso())!=null)
-        {
-            updatePhoneCode(countryPicker.getCountryByISO(telephonyManager.getNetworkCountryIso()));
-        }else if (countryPicker.getCountryByLocale(Locale.getDefault())!=null)
-        {
-            updatePhoneCode(countryPicker.getCountryByLocale(Locale.getDefault()));
-        }else
+        try {
+            if (countryPicker.getCountryFromSIM()!=null)
+            {
+                updatePhoneCode(countryPicker.getCountryFromSIM());
+            }else if (telephonyManager!=null&&countryPicker.getCountryByISO(telephonyManager.getNetworkCountryIso())!=null)
+            {
+                updatePhoneCode(countryPicker.getCountryByISO(telephonyManager.getNetworkCountryIso()));
+            }else if (countryPicker.getCountryByLocale(Locale.getDefault())!=null)
+            {
+                updatePhoneCode(countryPicker.getCountryByLocale(Locale.getDefault()));
+            }else
             {
                 String code = "+966";
                 binding.tvCode.setText(code);
                 loginModel.setPhone_code(code.replace("+","00"));
 
             }
+        }catch (Exception e)
+        {
+            String code = "+966";
+            binding.tvCode.setText(code);
+            loginModel.setPhone_code(code.replace("+","00"));
+        }
+
 
     }
 
@@ -116,7 +130,8 @@ public class Fragment_Sign_In extends Fragment implements Listeners.LoginListene
 
         if (loginModel.isDataValid(activity))
         {
-            //login(loginModel);
+            Common.CloseKeyBoard(activity,binding.edtPhone);
+            login(loginModel);
         }
     }
 
@@ -137,19 +152,32 @@ public class Fragment_Sign_In extends Fragment implements Listeners.LoginListene
                             {
                                 preferences.create_update_userData(activity,response.body());
                                 preferences.createSession(activity, Tags.session_login);
-                                Intent intent = new Intent(activity, HomeActivity.class);
-                                startActivity(intent);
+
+                                if (!activity.isOut)
+                                {
+                                    Intent intent = new Intent(activity, HomeActivity.class);
+                                    startActivity(intent);
+                                }
+
+
                                 activity.finish();
 
                             }else
                             {
+
                                 if (response.code() == 500) {
                                     Toast.makeText(activity, "Server Error", Toast.LENGTH_SHORT).show();
 
 
                                 }else if (response.code()==401)
                                 {
-                                    CreateDialogAlert(response.body());
+                                    try {
+                                        UserModel userModel = new Gson().fromJson(response.errorBody().string(),UserModel.class);
+                                        CreateDialogAlert(userModel);
+
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
 
                                 }else if (response.code()==402)
                                 {
@@ -200,7 +228,7 @@ public class Fragment_Sign_In extends Fragment implements Listeners.LoginListene
 
         DialogAlertBinding binding = DataBindingUtil.inflate(LayoutInflater.from(activity), R.layout.dialog_alert, null, false);
 
-        binding.tvMsg.setText("");
+        binding.tvMsg.setText(getString(R.string.you_will_receive_4_digit));
         binding.btnCancel.setOnClickListener(v -> {
 
             dialog.dismiss();

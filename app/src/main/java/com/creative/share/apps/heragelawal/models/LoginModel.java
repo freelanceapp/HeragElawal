@@ -14,25 +14,19 @@ public class LoginModel extends BaseObservable {
 
     private String phone_code;
     private String phone;
-    private ObservableField<String> error_phone_code = new ObservableField<>();
-    private ObservableField<String> error_phone = new ObservableField<>();
+    public ObservableField<String> error_phone_code = new ObservableField<>();
+    public ObservableField<String> error_phone = new ObservableField<>();
 
 
 
     public LoginModel() {
         this.phone_code = "";
-        this.phone="";
-    }
-
-    public LoginModel(String phone_code, String phone) {
-        this.phone_code = phone_code;
         notifyPropertyChanged(BR.phone_code);
-        this.phone = phone;
+        this.phone="";
         notifyPropertyChanged(BR.phone);
-
-
-
     }
+
+
 
     @Bindable
     public String getPhone_code() {
