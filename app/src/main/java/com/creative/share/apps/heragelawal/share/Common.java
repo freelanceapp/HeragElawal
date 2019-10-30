@@ -19,14 +19,11 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ProgressBar;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 
-
 import com.creative.share.apps.heragelawal.R;
 import com.creative.share.apps.heragelawal.databinding.DialogAlertBinding;
-import com.creative.share.apps.heragelawal.databinding.DialogCustomBinding;
 import com.creative.share.apps.heragelawal.databinding.DialogNotSignBinding;
 
 import java.io.File;
@@ -240,13 +237,25 @@ public class Common {
     public static MultipartBody.Part getMultiPart(Context context, Uri uri, String partName) {
         File file = getFileFromImagePath(getImagePath(context, uri));
         RequestBody requestBody = getRequestBodyImage(file);
-        MultipartBody.Part part = MultipartBody.Part.createFormData(partName, file.getName(), requestBody);
+        MultipartBody.Part part = MultipartBody.Part.createFormData(partName, System.currentTimeMillis()+".png", requestBody);
+        return part;
+
+    }
+    public static MultipartBody.Part getMultiPartVideo(Context context, Uri uri, String partName) {
+        File file = getFileFromImagePath(getImagePath(context, uri));
+        RequestBody requestBody = getRequestBodyVideo(file);
+        MultipartBody.Part part = MultipartBody.Part.createFormData(partName, System.currentTimeMillis()+".mp4", requestBody);
         return part;
 
     }
 
     private static RequestBody getRequestBodyImage(File file) {
         RequestBody requestBody = RequestBody.create(MediaType.parse("image/*"), file);
+        return requestBody;
+    }
+
+    private static RequestBody getRequestBodyVideo(File file) {
+        RequestBody requestBody = RequestBody.create(MediaType.parse("video/*"), file);
         return requestBody;
     }
 

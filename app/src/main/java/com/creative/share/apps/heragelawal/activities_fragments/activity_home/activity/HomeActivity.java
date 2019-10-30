@@ -16,6 +16,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -215,6 +216,7 @@ public class HomeActivity extends AppCompatActivity {
         });
 
         btnAddAd.setOnClickListener(view -> {
+            btnAddAd.setEnabled(false);
             userModel = preferences.getUserData(this);
             if (userModel==null)
             {
@@ -222,8 +224,10 @@ public class HomeActivity extends AppCompatActivity {
             }else
             {
                 Intent intent = new Intent(this, AddAdsActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent,1);
             }
+            btnAddAd.setEnabled(true);
+
         });
         getMainCategory();
 
@@ -478,6 +482,7 @@ public class HomeActivity extends AppCompatActivity {
         }
         if (fragment_my_adversiment.isAdded()) {
             fragmentManager.beginTransaction().show(fragment_my_adversiment).commit();
+            fragment_my_adversiment.getMyAds();
 
         } else {
             fragmentManager.beginTransaction().add(R.id.fragment_home_container, fragment_my_adversiment, "fragment_my_adversiment").addToBackStack("fragment_my_adversiment").commit();
@@ -636,5 +641,14 @@ public class HomeActivity extends AppCompatActivity {
         Intent intent = new Intent(this, SubCategoryActivity.class);
         intent.putExtra("sub_id", subCategoryModel.getId());
         startActivity(intent);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode==1&&resultCode==RESULT_OK&&data!=null)
+        {
+            DisplayFragmentMyAds();
+        }
     }
 }

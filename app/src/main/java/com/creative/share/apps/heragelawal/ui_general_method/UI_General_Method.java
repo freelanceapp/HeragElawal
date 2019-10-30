@@ -39,6 +39,20 @@ public class UI_General_Method {
         }
     }
 
+    @BindingAdapter("adImage")
+    public static void adImage(View view,String endPoint)
+    {
+        if (view instanceof ImageView)
+        {
+            ImageView imageView = (ImageView) view;
+
+            if (endPoint!=null)
+            {
+                Picasso.with(imageView.getContext()).load(Uri.parse(Tags.IMAGE_URL_ADS+endPoint)).fit().into(imageView);
+            }
+        }
+
+    }
 
     @BindingAdapter("subCategoryImage")
     public static void subCategoryImage(RoundedImageView roundedImageView,String endPoint)
@@ -67,7 +81,20 @@ public class UI_General_Method {
     @BindingAdapter("avatarUser")
     public static void avatarUser(View view,String endPoint)
     {
-        if (view instanceof ImageView)
+        if (view instanceof CircleImageView)
+        {
+            CircleImageView imageView = (CircleImageView) view;
+
+            if (endPoint!=null)
+            {
+
+                Picasso.with(imageView.getContext()).load(Uri.parse(Tags.IMAGE_AVATAR+endPoint)).placeholder(R.drawable.ic_user).fit().into(imageView);
+            }else
+            {
+                Picasso.with(imageView.getContext()).load(R.drawable.ic_user).fit().into(imageView);
+
+            }
+        }else if (view instanceof ImageView)
         {
             ImageView imageView = (ImageView) view;
 

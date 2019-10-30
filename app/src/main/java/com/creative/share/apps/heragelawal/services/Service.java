@@ -8,7 +8,9 @@ import com.creative.share.apps.heragelawal.models.AdTypeDataModel;
 import com.creative.share.apps.heragelawal.models.CompanyAdDataModel;
 import com.creative.share.apps.heragelawal.models.CompanyDataModel;
 import com.creative.share.apps.heragelawal.models.FavoriteDataModel;
+import com.creative.share.apps.heragelawal.models.FormDataModel;
 import com.creative.share.apps.heragelawal.models.MainCategoryDataModel;
+import com.creative.share.apps.heragelawal.models.MyAdsDataModel;
 import com.creative.share.apps.heragelawal.models.PlaceGeocodeData;
 import com.creative.share.apps.heragelawal.models.PlaceMapDetailsData;
 import com.creative.share.apps.heragelawal.models.ReportReasonDataModel;
@@ -18,12 +20,20 @@ import com.creative.share.apps.heragelawal.models.SubCategoryDataModel;
 import com.creative.share.apps.heragelawal.models.SubSubCategoryModel;
 import com.creative.share.apps.heragelawal.models.UserModel;
 
+import java.util.List;
+import java.util.Map;
+
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
+import retrofit2.http.PartMap;
 import retrofit2.http.Query;
 
 public interface Service {
@@ -164,7 +174,56 @@ public interface Service {
                                   @Field("category_id") int category_id,
                                   @Field("user_id") int user_id,
                                   @Field("address") String address
-                                  );
+    );
+
+
+    @GET("api/adv-form")
+    Call<FormDataModel> getForms(@Query("cat_id") int cat_id);
+
+    @Multipart
+    @POST("api/create-adv")
+    Call<ResponseBody> addAdsWithVideo(@Part("main_category_id") RequestBody main_category_id,
+                                       @Part("category_id") RequestBody category_id,
+                                       @Part("sub_id") RequestBody sub_id,
+                                       @Part("user_id") RequestBody user_id,
+                                       @Part("ad_title") RequestBody ad_title,
+                                       @Part("ad_desc") RequestBody ad_desc,
+                                       @Part("type_id") RequestBody type_id,
+                                       @Part("city_id") RequestBody city_id,
+                                       @Part("price") RequestBody price,
+                                       @Part("address") RequestBody address,
+                                       @Part("latitude") RequestBody latitude,
+                                       @Part("longitude") RequestBody longitude,
+                                       @Part MultipartBody.Part ad_video,
+                                       @Part List<MultipartBody.Part> ad_images,
+                                       @PartMap() Map<String, RequestBody> map
+
+    );
+
+    @Multipart
+    @POST("api/create-adv")
+    Call<ResponseBody> addAdsWithoutVideo(@Part("main_category_id") RequestBody main_category_id,
+                                          @Part("category_id") RequestBody category_id,
+                                          @Part("sub_id") RequestBody sub_id,
+                                          @Part("user_id") RequestBody user_id,
+                                          @Part("ad_title") RequestBody ad_title,
+                                          @Part("ad_desc") RequestBody ad_desc,
+                                          @Part("type_id") RequestBody type_id,
+                                          @Part("city_id") RequestBody city_id,
+                                          @Part("price") RequestBody price,
+                                          @Part("address") RequestBody address,
+                                          @Part("latitude") RequestBody latitude,
+                                          @Part("longitude") RequestBody longitude,
+                                          @Part List<MultipartBody.Part> ad_images,
+                                          @PartMap() Map<String, RequestBody> map
+
+    );
+
+    @FormUrlEncoded
+    @POST("api/myads")
+    Call<MyAdsDataModel> getMyAds(@Field("user_id") int user_id,
+                                  @Field("page") int page
+    );
 
 }
 

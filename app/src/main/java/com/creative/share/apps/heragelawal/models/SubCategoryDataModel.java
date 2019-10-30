@@ -16,7 +16,7 @@ public class SubCategoryDataModel implements Serializable {
         private int id;
         private String title;
         private String icon;
-
+        private int parent_id;
         public SubCategoryModel() {
         }
 
@@ -35,6 +35,10 @@ public class SubCategoryDataModel implements Serializable {
 
         public String getIcon() {
             return icon;
+        }
+
+        public int getParent_id() {
+            return parent_id;
         }
     }
 }

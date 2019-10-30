@@ -195,6 +195,18 @@
     <string name="ad_name">إسم الإعلان</string>
     <string name="ad_price">سعر الإعلان</string>
     <string name="ad_details">تفاصيل الإعلان</string>
+    <string name="city">المدينة</string>
+    <string name="sub_category">الأقسام الفرعية</string>
+    <string name="ch_city">إختر المدينة</string>
+    <string name="ch_type">إختر النوع</string>
+    <string name="ch">إختر</string>
+    <string name="select">تحديد</string>
+    <string name="video">إختر فيديو</string>
+    <string name="select_picture">إختر الصور</string>
+    <string name="all_filter_ched">جيمع الفلاتر مختارة</string>
+    <string name="ch_filters">إختر فلاتر القسم</string>
+    <string name="ch_1_img">إختر على الاقل صورة واحده للإعلان</string>
+    <string name="approved">تم إعتماد</string>
 
 
 </resources>

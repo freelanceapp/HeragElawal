@@ -192,6 +192,18 @@
     <string name="ad_name">Ad name</string>
     <string name="ad_price">Ad price</string>
     <string name="ad_details">Ad details</string>
+    <string name="city">City</string>
+    <string name="sub_category">Sub category</string>
+    <string name="ch_city">Choose city</string>
+    <string name="ch_type">Choose type</string>
+    <string name="ch">Choose</string>
+    <string name="select">Select</string>
+    <string name="video">Select video</string>
+    <string name="select_picture">Select picture</string>
+    <string name="all_filter_ched">All filters selected</string>
+    <string name="ch_filters">Choose filters</string>
+    <string name="ch_1_img">Choose at least 1 image</string>
+    <string name="approved">Approved</string>
 
 
 </resources>
