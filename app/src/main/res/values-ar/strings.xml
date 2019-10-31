@@ -207,6 +207,7 @@
     <string name="ch_filters">إختر فلاتر القسم</string>
     <string name="ch_1_img">إختر على الاقل صورة واحده للإعلان</string>
     <string name="approved">تم إعتماد</string>
+    <string name="no_notifications_to_display">لا يوجد إشعارات لعرضها</string>
 
 
 </resources>

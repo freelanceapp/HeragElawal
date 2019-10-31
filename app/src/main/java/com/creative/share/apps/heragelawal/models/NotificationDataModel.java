@@ -1,42 +1,38 @@
 package com.creative.share.apps.heragelawal.models;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class NotificationDataModel implements Serializable {
     private int current_page;
+    private List<NotificationModel> data;
 
-    public class NotificationModel implements Serializable
-    {
-        private int id;
-        private int from_user_id;
-        private int to_user_id;
-        private int notification_type;
-        private int action_type;
-        private int is_read;
-        private int notification_time;
-
-
-
+    public int getCurrent_page() {
+        return current_page;
     }
 
+    public List<NotificationModel> getData() {
+        return data;
+    }
 
-    public class NotificationBody implements Serializable
-    {
+    public class NotificationModel implements Serializable {
         private int id;
-        private String title;
-        private String body;
+        private String created_at;
+        private String notification_message;
 
         public int getId() {
             return id;
         }
 
-        public String getTitle() {
-            return title;
+        public String getCreated_at() {
+            return created_at;
         }
 
-        public String getBody() {
-            return body;
+        public String getNotification_message() {
+            return notification_message;
         }
     }
+
+
 
 }

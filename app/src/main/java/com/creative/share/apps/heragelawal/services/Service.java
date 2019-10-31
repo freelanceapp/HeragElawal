@@ -11,6 +11,7 @@ import com.creative.share.apps.heragelawal.models.FavoriteDataModel;
 import com.creative.share.apps.heragelawal.models.FormDataModel;
 import com.creative.share.apps.heragelawal.models.MainCategoryDataModel;
 import com.creative.share.apps.heragelawal.models.MyAdsDataModel;
+import com.creative.share.apps.heragelawal.models.NotificationDataModel;
 import com.creative.share.apps.heragelawal.models.PlaceGeocodeData;
 import com.creative.share.apps.heragelawal.models.PlaceMapDetailsData;
 import com.creative.share.apps.heragelawal.models.ReportReasonDataModel;
@@ -225,6 +226,12 @@ public interface Service {
                                   @Field("page") int page
     );
 
+
+    @FormUrlEncoded
+    @POST("api/my-notifications")
+    Call<NotificationDataModel> getNotifications(@Field("user_id") int user_id,
+                                                 @Field("page") int page
+    );
 }
 
 

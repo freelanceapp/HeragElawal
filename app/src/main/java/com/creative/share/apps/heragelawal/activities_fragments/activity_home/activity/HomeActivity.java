@@ -39,6 +39,7 @@ import com.creative.share.apps.heragelawal.activities_fragments.activity_home.fr
 import com.creative.share.apps.heragelawal.activities_fragments.activity_home.fragments.Fragment_Main;
 import com.creative.share.apps.heragelawal.activities_fragments.activity_home.fragments.Fragment_My_Adversiment;
 import com.creative.share.apps.heragelawal.activities_fragments.activity_home.fragments.fragment_company.Fragment_Companies_Feature;
+import com.creative.share.apps.heragelawal.activities_fragments.activity_notification.NotificationActivity;
 import com.creative.share.apps.heragelawal.activities_fragments.activity_search.SearchActivity;
 import com.creative.share.apps.heragelawal.activities_fragments.activity_sign_in.SignInActivity;
 import com.creative.share.apps.heragelawal.activities_fragments.activity_slider_details.SliderDetailsActivity;
@@ -83,7 +84,7 @@ public class HomeActivity extends AppCompatActivity {
     private RecyclerView recView;
     private ProgressBar progBar;
     private TextView tvNoAds;
-    private ImageView imageSearch;
+    private ImageView imageSearch,imageNotification;
     private Button btnAddAd, btnAddCompany;
     private LinearLayout llLogout,llShare,llAbout;
     private List<MainCategoryDataModel.MainCategoryModel> mainCategoryModelList;
@@ -170,6 +171,7 @@ public class HomeActivity extends AppCompatActivity {
         recView = findViewById(R.id.recView);
         tvNoAds = findViewById(R.id.tvNoAds);
         imageSearch = findViewById(R.id.imageSearch);
+        imageNotification = findViewById(R.id.imageNotification);
 
 
         recView.setNestedScrollingEnabled(true);
@@ -180,6 +182,11 @@ public class HomeActivity extends AppCompatActivity {
 
         imageSearch.setOnClickListener(view -> {
             Intent intent = new Intent(this, SearchActivity.class);
+            startActivity(intent);
+        });
+
+        imageNotification.setOnClickListener(view -> {
+            Intent intent = new Intent(this, NotificationActivity.class);
             startActivity(intent);
         });
 

@@ -204,6 +204,7 @@
     <string name="ch_filters">Choose filters</string>
     <string name="ch_1_img">Choose at least 1 image</string>
     <string name="approved">Approved</string>
+    <string name="no_notifications_to_display">No notifications to display</string>
 
 
 </resources>
