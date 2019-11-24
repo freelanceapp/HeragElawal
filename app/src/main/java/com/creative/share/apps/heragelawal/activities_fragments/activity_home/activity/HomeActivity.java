@@ -1,6 +1,7 @@
 package com.creative.share.apps.heragelawal.activities_fragments.activity_home.activity;
 
 import android.app.AlertDialog;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.PorterDuff;
@@ -16,6 +17,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -24,6 +26,7 @@ import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -48,11 +51,17 @@ import com.creative.share.apps.heragelawal.adapter.MainCategoryNavParentAdapter;
 import com.creative.share.apps.heragelawal.databinding.DialogLanguageBinding;
 import com.creative.share.apps.heragelawal.language.LanguageHelper;
 import com.creative.share.apps.heragelawal.models.MainCategoryDataModel;
+import com.creative.share.apps.heragelawal.models.MessageModel;
 import com.creative.share.apps.heragelawal.models.UserModel;
 import com.creative.share.apps.heragelawal.preferences.Preferences;
 import com.creative.share.apps.heragelawal.remote.Api;
 import com.creative.share.apps.heragelawal.tags.Tags;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.iid.FirebaseInstanceId;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -60,6 +69,7 @@ import java.util.List;
 import java.util.Locale;
 
 import io.paperdb.Paper;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -99,6 +109,8 @@ public class HomeActivity extends AppCompatActivity {
     }
 
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -117,11 +129,20 @@ public class HomeActivity extends AppCompatActivity {
             Intent intent2 = new Intent(this, SliderDetailsActivity.class);
             intent2.putExtra("ad_id", ad_id);
             startActivity(intent2);
+        }else if (intent != null && intent.hasExtra("not"))
+        {
+            removeNotificationFromBackGround();
+            Intent intent3 = new Intent(this, NotificationActivity.class);
+            startActivity(intent3);
+
         }
+
+
     }
 
 
     private void initView() {
+        EventBus.getDefault().register(this);
         fragmentManager = getSupportFragmentManager();
         mainCategoryModelList = new ArrayList<>();
 
@@ -142,6 +163,7 @@ public class HomeActivity extends AppCompatActivity {
         Paper.init(this);
         lang = Paper.book().read("lang", Locale.getDefault().getLanguage());
 
+        Log.e("user_id",userModel.getId()+"__");
         arrow1 = findViewById(R.id.arrow1);
         arrow2 = findViewById(R.id.arrow2);
         arrow3 = findViewById(R.id.arrow3);
@@ -236,9 +258,81 @@ public class HomeActivity extends AppCompatActivity {
             btnAddAd.setEnabled(true);
 
         });
+
+        if (userModel!=null)
+        {
+            updateToken();
+        }
+        removeNotificationFromBackGround();
         getMainCategory();
 
 
+    }
+
+    private void removeNotificationFromBackGround() {
+
+        new Handler()
+                .postDelayed(() -> {
+                    NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+                    if (manager!=null)
+                    {
+                        manager.cancel(12352);
+                    }
+                },100);
+    }
+
+    private void updateToken() {
+
+        FirebaseInstanceId.getInstance()
+                .getInstanceId().addOnCompleteListener(task -> {
+                    if (task.isSuccessful())
+                    {
+                        String token = task.getResult().getToken();
+
+                        try {
+
+                            Api.getService(Tags.base_url)
+                                    .updateToken(userModel.getId(),token,1)
+                                    .enqueue(new Callback<ResponseBody>() {
+                                        @Override
+                                        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                            if (response.isSuccessful() && response.body() != null )
+                                            {
+                                                Log.e("token","updated successfully");
+                                            } else {
+                                                try {
+
+                                                    Log.e("error", response.code() + "_" + response.errorBody().string());
+                                                } catch (IOException e) {
+                                                    e.printStackTrace();
+                                                }
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onFailure(Call<ResponseBody> call, Throwable t) {
+                                            try {
+
+                                                if (t.getMessage() != null) {
+                                                    Log.e("error", t.getMessage());
+                                                    if (t.getMessage().toLowerCase().contains("failed to connect") || t.getMessage().toLowerCase().contains("unable to resolve host")) {
+                                                        Toast.makeText(HomeActivity.this, R.string.something, Toast.LENGTH_SHORT).show();
+                                                    } else {
+                                                        Toast.makeText(HomeActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                                                    }
+                                                }
+
+                                            } catch (Exception e) {
+                                            }
+                                        }
+                                    });
+                        } catch (Exception e) {
+
+
+                        }
+
+                    }
+                });
     }
 
     private void logOut() {
@@ -552,7 +646,7 @@ public class HomeActivity extends AppCompatActivity {
         }
         if (fragment_chat.isAdded()) {
             fragmentManager.beginTransaction().show(fragment_chat).commit();
-
+            fragment_chat.getRooms();
         } else {
             fragmentManager.beginTransaction().add(R.id.fragment_home_container, fragment_chat, "fragment_chat").addToBackStack("fragment_chat").commit();
 
@@ -618,6 +712,14 @@ public class HomeActivity extends AppCompatActivity {
 
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void listenToNewMessage(MessageModel messageModel)
+    {
+        if (fragment_chat!=null&&fragment_chat.isAdded())
+        {
+            fragment_chat.getRooms();
+        }
+    }
 
     @Override
     public void onBackPressed() {
@@ -651,11 +753,35 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        List<Fragment> fragmentList = fragmentManager.getFragments();
+        for (Fragment fragment :fragmentList)
+        {
+            fragment.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        List<Fragment> fragmentList = fragmentManager.getFragments();
+        for (Fragment fragment :fragmentList)
+        {
+            fragment.onActivityResult(requestCode, resultCode, data);
+        }
         if (requestCode==1&&resultCode==RESULT_OK&&data!=null)
         {
             DisplayFragmentMyAds();
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (EventBus.getDefault().isRegistered(this))
+        {
+            EventBus.getDefault().unregister(this);
         }
     }
 }

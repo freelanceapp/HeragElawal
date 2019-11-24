@@ -28,6 +28,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.creative.share.apps.heragelawal.BuildConfig;
 import com.creative.share.apps.heragelawal.R;
+import com.creative.share.apps.heragelawal.activities_fragments.activity_chat.ChatActivity;
 import com.creative.share.apps.heragelawal.activities_fragments.activity_sign_in.SignInActivity;
 import com.creative.share.apps.heragelawal.adapter.CommentAdapter;
 import com.creative.share.apps.heragelawal.adapter.PropertyAdapter;
@@ -38,7 +39,9 @@ import com.creative.share.apps.heragelawal.databinding.DialogReportBinding;
 import com.creative.share.apps.heragelawal.interfaces.Listeners;
 import com.creative.share.apps.heragelawal.language.LanguageHelper;
 import com.creative.share.apps.heragelawal.models.AdModel;
+import com.creative.share.apps.heragelawal.models.ChatUserModel;
 import com.creative.share.apps.heragelawal.models.ReportReasonDataModel;
+import com.creative.share.apps.heragelawal.models.RoomIdModel;
 import com.creative.share.apps.heragelawal.models.SliderImageVideoModel;
 import com.creative.share.apps.heragelawal.models.UserModel;
 import com.creative.share.apps.heragelawal.preferences.Preferences;
@@ -371,6 +374,84 @@ public class SliderDetailsActivity extends AppCompatActivity implements Listener
 
     @Override
     public void chat() {
+
+        userModel = preferences.getUserData(this);
+
+        if (userModel==null)
+        {
+            Intent intent = new Intent(this, SignInActivity.class);
+            intent.putExtra("out",true);
+            startActivity(intent);
+        }else
+        {
+            getChatRoomId();
+        }
+
+
+    }
+
+    private void getChatRoomId() {
+
+        ProgressDialog dialog = Common.createProgressDialog(this,getString(R.string.wait));
+        dialog.setCancelable(false);
+        dialog.show();
+        try {
+
+            Api.getService(Tags.base_url)
+                    .getRoomId(userModel.getId(),adModel.getUser_id())
+                    .enqueue(new Callback<RoomIdModel>() {
+                        @Override
+                        public void onResponse(Call<RoomIdModel> call, Response<RoomIdModel> response) {
+                            dialog.dismiss();
+                            if (response.isSuccessful()&&response.body()!=null)
+                            {
+                                ChatUserModel chatUserModel = new ChatUserModel(adModel.getUser_name(),adModel.getUser_avatar(),adModel.getUser_id(),response.body().getRoom_id(),"",adModel.getUser_phone());
+                                Intent intent = new Intent(SliderDetailsActivity.this, ChatActivity.class);
+                                intent.putExtra("chat_user_data",chatUserModel);
+                                startActivity(intent);
+                            }else
+                            {
+                                if (response.code() == 500) {
+                                    Toast.makeText(SliderDetailsActivity.this, "Server Error", Toast.LENGTH_SHORT).show();
+
+
+                                }else
+                                {
+                                    Toast.makeText(SliderDetailsActivity.this, getString(R.string.failed), Toast.LENGTH_SHORT).show();
+
+                                    try {
+
+                                        Log.e("error",response.code()+"_"+response.errorBody().string());
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<RoomIdModel> call, Throwable t) {
+                            try {
+                                dialog.dismiss();
+                                if (t.getMessage()!=null)
+                                {
+                                    Log.e("error",t.getMessage());
+                                    if (t.getMessage().toLowerCase().contains("failed to connect")||t.getMessage().toLowerCase().contains("unable to resolve host"))
+                                    {
+                                        Toast.makeText(SliderDetailsActivity.this,R.string.something, Toast.LENGTH_SHORT).show();
+                                    }else
+                                    {
+                                        Toast.makeText(SliderDetailsActivity.this,t.getMessage(), Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+
+                            }catch (Exception e){}
+                        }
+                    });
+        }catch (Exception e){
+            dialog.dismiss();
+
+        }
 
     }
 

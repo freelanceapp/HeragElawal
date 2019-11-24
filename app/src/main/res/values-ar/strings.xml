@@ -208,6 +208,16 @@
     <string name="ch_1_img">إختر على الاقل صورة واحده للإعلان</string>
     <string name="approved">تم إعتماد</string>
     <string name="no_notifications_to_display">لا يوجد إشعارات لعرضها</string>
+    <string name="no_conversation_to_display">لا توجد محادثات لعرضها</string>
+    <string name="just_now">الان</string>
+    <string name="a_minute_ago">منذ دقيقة</string>
+    <string name="min">دقيقة</string>
+    <string name="an_hour_ago">منذ ساعة</string>
+    <string name="hs">ساعة</string>
+    <string name="yesterday">امس</string>
+    <string name="day">يوم</string>
+    <string name="type_a_message">إكتب رسالة....</string>
+    <string name="img_sent">تم إرسال صورة لك</string>
 
 
 </resources>

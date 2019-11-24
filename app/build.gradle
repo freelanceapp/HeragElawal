@@ -59,6 +59,14 @@ dependencies {
     implementation 'net.cachapa.expandablelayout:expandablelayout:2.9.2'
     implementation 'com.google.maps.android:android-maps-utils:0.5'
     implementation 'com.github.thorbenprimke:realm-mapview:0.9.2'
+    implementation 'com.eyalbira.loadingdots:loading-dots:1.0.2'
+    implementation 'com.google.firebase:firebase-core:17.2.1'
+    implementation 'com.google.firebase:firebase-messaging:20.0.0'
+    implementation 'org.greenrobot:eventbus:3.1.1'
+
+
 
 
 }
+apply plugin: 'com.google.gms.google-services'
+

@@ -29,7 +29,7 @@ public class SplashActivity extends AppCompatActivity {
     @Override
     protected void attachBaseContext(Context newBase) {
         Paper.init(newBase);
-        super.attachBaseContext(LanguageHelper.updateResources(newBase,Paper.book().read("lang", Locale.getDefault().getLanguage())));
+        super.attachBaseContext(LanguageHelper.updateResources(newBase, Paper.book().read("lang", Locale.getDefault().getLanguage())));
 
     }
 
@@ -37,10 +37,10 @@ public class SplashActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        binding = DataBindingUtil.setContentView(this,R.layout.activity_splash);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_splash);
         preferences = Preferences.newInstance();
 
-        animation= AnimationUtils.loadAnimation(getBaseContext(), R.anim.lanuch);
+        animation = AnimationUtils.loadAnimation(getBaseContext(), R.anim.lanuch);
         binding.cons.startAnimation(animation);
 
         animation.setAnimationListener(new Animation.AnimationListener() {
@@ -52,14 +52,12 @@ public class SplashActivity extends AppCompatActivity {
             @Override
             public void onAnimationEnd(Animation animation) {
                 String session = preferences.getSession(SplashActivity.this);
-                if (session.equals(Tags.session_login))
-                {
-                   Intent intent=new Intent(SplashActivity.this, HomeActivity.class);
+                if (session.equals(Tags.session_login)) {
+                    Intent intent = new Intent(SplashActivity.this, HomeActivity.class);
                     startActivity(intent);
                     finish();
-                }else
-                {
-                    Intent intent=new Intent(SplashActivity.this, SignInActivity.class);
+                } else {
+                    Intent intent = new Intent(SplashActivity.this, SignInActivity.class);
                     startActivity(intent);
                     finish();
                 }

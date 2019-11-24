@@ -205,6 +205,16 @@
     <string name="ch_1_img">Choose at least 1 image</string>
     <string name="approved">Approved</string>
     <string name="no_notifications_to_display">No notifications to display</string>
+    <string name="no_conversation_to_display">No conversation to display</string>
 
+    <string name="just_now">Just Now</string>
+    <string name="a_minute_ago">Minute Ago</string>
+    <string name="min">Minute</string>
+    <string name="an_hour_ago">An Hour Ago</string>
+    <string name="hs">Hour</string>
+    <string name="yesterday">Yesterday</string>
+    <string name="day">day</string>
+    <string name="type_a_message">type a message....</string>
+    <string name="img_sent">image sent</string>
 
 </resources>

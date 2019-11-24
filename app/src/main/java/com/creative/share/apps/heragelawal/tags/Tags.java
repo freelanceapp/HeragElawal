@@ -9,6 +9,9 @@ public class Tags {
     public static final String IMAGE_URL_ADS_CATEGORY_ICON = base_url+"storage/categories/icons/";
     public static final String IMAGE_URL_ADS_CATEGORY = base_url+"storage/categories/images/";
     public static final String IMAGE_URL_SETTINGS = base_url+"storage/settings/";
+    public static final String IMAGE_URL_CHAT = base_url+"storage/chatFiles/";
+
+
 
     public static final String session_login = "login";
     public static final String session_logout = "logout";

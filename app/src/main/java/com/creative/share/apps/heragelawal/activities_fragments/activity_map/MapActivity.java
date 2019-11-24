@@ -92,22 +92,9 @@ public class MapActivity extends AppCompatActivity implements Listeners.BackList
             ad_type = intent.getStringExtra("ad_type");
             adModelList = (List<AdModel>) intent.getSerializableExtra("adData");
 
-            adModelList.add(new AdModel(350,"الرياض",23.574057,45.197684));
-            adModelList.add(new AdModel(350,"الرياض",19.983674,45.373385));
-            adModelList.add(new AdModel(350,"الرياض",19.983674,50.468730));
-            adModelList.add(new AdModel(350,"الرياض",23.089838,39.750936));
-            adModelList.add(new AdModel(250,"الرياض",23.089838,39.751936));
-
-
-            adModelList.add(new AdModel(500.0,"p1",30.133053,31.236396));
-            adModelList.add(new AdModel(500.0,"p2",30.129589,31.152936));
-            adModelList.add(new AdModel(500.0,"p3",30.224563,30.878400));
-            adModelList.add(new AdModel(500.0,"p4",30.589208,30.916979));
-            adModelList.add(new AdModel(500.0,"p5",30.549721,31.008252));
-
             for (AdModel adModel :adModelList)
             {
-                AdLocation adLocation = new AdLocation(adModel.getPrice()+"رس",adModel.getAddress(),new LatLng(adModel.getLatitude(),adModel.getLongitude()));
+                AdLocation adLocation = new AdLocation(adModel.getPrice()+getString(R.string.sar),adModel.getAddress(),new LatLng(adModel.getLatitude(),adModel.getLongitude()));
                 adLocationList.add(adLocation);
             }
 

@@ -10,16 +10,20 @@ import com.creative.share.apps.heragelawal.models.CompanyDataModel;
 import com.creative.share.apps.heragelawal.models.FavoriteDataModel;
 import com.creative.share.apps.heragelawal.models.FormDataModel;
 import com.creative.share.apps.heragelawal.models.MainCategoryDataModel;
+import com.creative.share.apps.heragelawal.models.MessageDataModel;
+import com.creative.share.apps.heragelawal.models.MessageModel;
 import com.creative.share.apps.heragelawal.models.MyAdsDataModel;
 import com.creative.share.apps.heragelawal.models.NotificationDataModel;
 import com.creative.share.apps.heragelawal.models.PlaceGeocodeData;
 import com.creative.share.apps.heragelawal.models.PlaceMapDetailsData;
 import com.creative.share.apps.heragelawal.models.ReportReasonDataModel;
+import com.creative.share.apps.heragelawal.models.RoomIdModel;
 import com.creative.share.apps.heragelawal.models.SearchDataModel;
 import com.creative.share.apps.heragelawal.models.SliderModelData;
 import com.creative.share.apps.heragelawal.models.SubCategoryDataModel;
 import com.creative.share.apps.heragelawal.models.SubSubCategoryModel;
 import com.creative.share.apps.heragelawal.models.UserModel;
+import com.creative.share.apps.heragelawal.models.UserRoomModelData;
 
 import java.util.List;
 import java.util.Map;
@@ -231,6 +235,65 @@ public interface Service {
     @POST("api/my-notifications")
     Call<NotificationDataModel> getNotifications(@Field("user_id") int user_id,
                                                  @Field("page") int page
+    );
+
+    @FormUrlEncoded
+    @POST("api/my-chat-rooms")
+    Call<UserRoomModelData> getRooms(@Field("user_id") int user_id,
+                                     @Field("page") int page
+    );
+
+    @FormUrlEncoded
+    @POST("api/single-chat-room")
+    Call<MessageDataModel> getRoomMessages(@Field("user_id") int user_id,
+                                           @Field("room_id") int room_id,
+                                           @Field("page") int page
+    );
+
+
+    @FormUrlEncoded
+    @POST("api/message/send")
+    Call<MessageModel> sendChatMessage(@Field("room_id") int room_id,
+                                       @Field("from_user_id") int from_user_id,
+                                       @Field("to_user_id") int to_user_id,
+                                       @Field("message_type") int message_type,
+                                       @Field("message") String message,
+                                       @Field("date") long date
+
+
+    );
+
+
+    @Multipart
+    @POST("api/message/send")
+    Call<MessageModel> sendChatImage(@Part("room_id") RequestBody room_id,
+                                     @Part("from_user_id") RequestBody from_user_id,
+                                     @Part("to_user_id") RequestBody to_user_id,
+                                     @Part("message_type") RequestBody message_type,
+                                     @Part("message") RequestBody message,
+                                     @Part("date") RequestBody date,
+                                     @Part MultipartBody.Part image
+
+
+    );
+
+
+    @FormUrlEncoded
+    @POST("api/chatRoom/get")
+    Call<RoomIdModel> getRoomId(@Field("from_user_id") int from_user_id,
+                                @Field("to_user_id") int to_user_id
+
+
+    );
+
+
+    @FormUrlEncoded
+    @POST("api/phone-tokens")
+    Call<ResponseBody> updateToken(@Field("user_id") int user_id,
+                                   @Field("number_token") String number_token,
+                                   @Field("software_type") int software_type
+
+
     );
 }
 

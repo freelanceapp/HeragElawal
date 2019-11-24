@@ -19,7 +19,6 @@ import java.util.Date;
 import java.util.Locale;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-import io.paperdb.Paper;
 
 public class UI_General_Method {
 
@@ -112,6 +111,16 @@ public class UI_General_Method {
 
     }
 
+    @BindingAdapter("chatImage")
+    public static void chatImage(RoundedImageView roundedImageView,String endPoint)
+    {
+        if (endPoint!=null)
+        {
+
+            Picasso.with(roundedImageView.getContext()).load(Uri.parse(Tags.IMAGE_URL_CHAT+endPoint)).fit().into(roundedImageView);
+        }
+
+    }
     @BindingAdapter("avatarCompany")
     public static void avatarCompany(View view,String endPoint)
     {
@@ -128,54 +137,19 @@ public class UI_General_Method {
 
     }
 
-    @BindingAdapter({"startDate","endDate"})
-    public static void displayDate(TextView textView,String start_date,String end_date)
-    {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
-        String sDate = dateFormat.format(new Date(Long.parseLong(start_date)*1000));
 
-        SimpleDateFormat dateFormat2 = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH);
-
-        String eDate = dateFormat2.format(new Date(Long.parseLong(end_date)*1000));
-
-        textView.setText(String.format("%s - %s",sDate,eDate));
-    }
-
-    @BindingAdapter({"startTime"})
-    public static void displayTime(TextView textView,long start_time)
+    @BindingAdapter({"date"})
+    public static void displayTime(TextView textView,long time)
     {
         SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm aa", Locale.ENGLISH);
-        String sTime = dateFormat.format(new Date(start_time*1000));
-
-     //   SimpleDateFormat dateFormat2 = new SimpleDateFormat("hh:mm aa", Locale.ENGLISH);
-
-      //  String eTime = dateFormat2.format(new Date(Long.parseLong(end_time)*1000));
-
+        String sTime = dateFormat.format(new Date(time*1000));
         textView.setText(sTime);
     }
 
 
-    @BindingAdapter("date")
-    public static void convertToDate(TextView textView,long date)
-    {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("EEE dd/MM/yyy", Locale.ENGLISH);
-        String d = dateFormat.format(new Date(date*1000));
-        textView.setText(d);
-
-    }
 
 
-    @BindingAdapter("event_date")
-    public static void convertToEventDate(TextView textView,String date)
-    {
-        Paper.init(textView.getContext());
-        String lang = Paper.book().read("lang",Locale.getDefault().getLanguage());
-        long d = Long.parseLong(date)*1000;
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd\n MMM",new Locale(lang));
-        String dd = dateFormat.format(new Date(d));
-        textView.setText(dd);
 
-    }
 
 
 
