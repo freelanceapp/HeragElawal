@@ -90,7 +90,7 @@ public class HomeActivity extends AppCompatActivity {
     private Preferences preferences;
     private UserModel userModel;
     private ImageView arrow1, arrow2, arrow3, arrow4, arrow5;
-    private LinearLayout llChangeLanguage;
+    private LinearLayout llChangeLanguage,llAddAd;
     private RecyclerView recView;
     private ProgressBar progBar;
     private TextView tvNoAds;
@@ -163,7 +163,6 @@ public class HomeActivity extends AppCompatActivity {
         Paper.init(this);
         lang = Paper.book().read("lang", Locale.getDefault().getLanguage());
 
-        Log.e("user_id",userModel.getId()+"__");
         arrow1 = findViewById(R.id.arrow1);
         arrow2 = findViewById(R.id.arrow2);
         arrow3 = findViewById(R.id.arrow3);
@@ -182,6 +181,8 @@ public class HomeActivity extends AppCompatActivity {
         btnAddAd = findViewById(R.id.btnAddAd);
         btnAddCompany = findViewById(R.id.btnAddCompany);
         llChangeLanguage = findViewById(R.id.llChangeLanguage);
+        llAddAd = findViewById(R.id.llAddAd);
+
         llLogout = findViewById(R.id.llLogout);
         llShare = findViewById(R.id.llShare);
         llAbout = findViewById(R.id.llAbout);
@@ -208,8 +209,17 @@ public class HomeActivity extends AppCompatActivity {
         });
 
         imageNotification.setOnClickListener(view -> {
-            Intent intent = new Intent(this, NotificationActivity.class);
-            startActivity(intent);
+            userModel = preferences.getUserData(this);
+
+            if (userModel==null)
+            {
+                navigateToSignInActivity2();
+            }else
+            {
+                Intent intent = new Intent(this, NotificationActivity.class);
+                startActivity(intent);
+            }
+
         });
 
         llChangeLanguage.setOnClickListener(view -> CreateLangDialog());
@@ -256,6 +266,20 @@ public class HomeActivity extends AppCompatActivity {
                 startActivityForResult(intent,1);
             }
             btnAddAd.setEnabled(true);
+
+        });
+
+        llAddAd.setOnClickListener(view -> {
+            drawer.closeDrawer(GravityCompat.START);
+            userModel = preferences.getUserData(this);
+            if (userModel==null)
+            {
+                navigateToSignInActivity2();
+            }else
+            {
+                Intent intent = new Intent(this, AddAdsActivity.class);
+                startActivityForResult(intent,1);
+            }
 
         });
 
