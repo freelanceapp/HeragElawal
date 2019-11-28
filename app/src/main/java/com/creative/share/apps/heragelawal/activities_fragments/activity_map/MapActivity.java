@@ -10,7 +10,6 @@ import android.graphics.PorterDuff;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Looper;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -355,7 +354,6 @@ public class MapActivity extends AppCompatActivity implements Listeners.BackList
 
     @Override
     public void onLocationChanged(Location location) {
-        Log.e("ddd","ddd");
 
         this.myLocation = location;
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(),location.getLongitude()),4.8f));
@@ -398,7 +396,6 @@ public class MapActivity extends AppCompatActivity implements Listeners.BackList
 
             double dis = getDistance(lat,lng,adLocation.getPosition().latitude,adLocation.getPosition().longitude)/1000.0;
 
-            Log.e("ddd",dis+"__ddd");
 
             if (dis<=distance)
             {
@@ -407,7 +404,6 @@ public class MapActivity extends AppCompatActivity implements Listeners.BackList
             }
         }
 
-        Log.e("Ddd",adModelList.size()+"__::__");
         return adLocationList;
 
 
