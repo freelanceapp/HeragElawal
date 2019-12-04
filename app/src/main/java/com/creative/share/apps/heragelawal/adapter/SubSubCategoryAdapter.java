@@ -3,6 +3,7 @@ package com.creative.share.apps.heragelawal.adapter;
 import android.content.Context;
 import android.graphics.PorterDuff;
 import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -60,6 +61,8 @@ public class SubSubCategoryAdapter extends RecyclerView.Adapter {
             MyHolder myHolder = (MyHolder) holder;
             myHolder.binding.setSubCategory(subCategories);
             myHolder.binding.progBar.getIndeterminateDrawable().setColorFilter(ContextCompat.getColor(context,R.color.colorPrimary), PorterDuff.Mode.SRC_IN);
+
+            Log.e("icon",subCategories.getIcon()+"__");
 
             Picasso.with(context).load(Uri.parse(Tags.IMAGE_URL_ADS_CATEGORY_ICON+subCategories.getIcon())).fit().into(myHolder.binding.image, new Callback() {
                 @Override
