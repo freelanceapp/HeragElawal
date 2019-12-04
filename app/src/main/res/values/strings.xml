@@ -216,5 +216,6 @@
     <string name="day">day</string>
     <string name="type_a_message">type a message....</string>
     <string name="img_sent">image sent</string>
+    <string name="search">Search....</string>
 
 </resources>

@@ -75,7 +75,7 @@ public class SubSubCategoryDetailsActivity extends AppCompatActivity implements 
         binding.pager.setOffscreenPageLimit(adTypeModelList.size());
         for (int i =0;i<adTypeModelList.size();i++)
         {
-            fragmentList.add(FragmentSubSubCategoryDetails.newInstance(sub_sub_id,ad_type_id));
+            fragmentList.add(FragmentSubSubCategoryDetails.newInstance(sub_sub_id,adTypeModelList.get(i).getId()));
             titles.add(adTypeModelList.get(i).getTitle());
 
         }

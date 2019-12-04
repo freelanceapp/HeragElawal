@@ -9,6 +9,7 @@ public class MessageModel implements Serializable {
     private int  from_user_id;
     private int to_user_id;
     private int message_type;
+    private int type;
     private String message;
     private String file_link;
     private int date;

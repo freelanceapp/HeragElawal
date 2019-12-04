@@ -218,6 +218,7 @@ public class ChatActivity extends AppCompatActivity implements Listeners.BackLis
                         public void onResponse(Call<MessageModel> call, Response<MessageModel> response) {
                             if (response.isSuccessful() && response.body() != null) {
                                 hasNewMsg =  true;
+                                Log.e("ddd",response.body().getMessage_type()+"__");
                                 messageModelList.add(response.body());
                                 adapter.notifyDataSetChanged();
                                 scrollToLastPosition();

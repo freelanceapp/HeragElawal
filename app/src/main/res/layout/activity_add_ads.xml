@@ -331,22 +331,65 @@
                         android:text="@string/city"
                         />
 
-                    <FrameLayout
+                    <LinearLayout
+                        android:id="@+id/llCity"
                         android:layout_width="match_parent"
-                        android:layout_height="40dp"
-                        android:layout_marginTop="8dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:orientation="horizontal"
+                        android:weightSum="1"
                         android:background="@drawable/edt_bg"
-                        >
-                        <Spinner
-                            android:id="@+id/spinnerCity"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
 
-                            android:layout_marginLeft="8dp"
-                            android:layout_marginRight="8dp"
-                            app:backgroundTint="@color/black"
+                        >
+                        <TextView
+                            android:id="@+id/tvCity"
+                            android:layout_width="0dp"
+                            android:layout_weight=".85"
+                            android:layout_height="40dp"
+                            android:layout_marginTop="5dp"
+                            android:hint="@string/ch_city"
+                            android:gravity="center_vertical"
+                            android:paddingLeft="10dp"
+                            android:paddingRight="10dp"
+                            android:textSize="14sp"
+                            android:clickable="false"
+                            android:longClickable="false"
+                            android:textColor="@color/black"
+
                             />
-                    </FrameLayout>
+                        <ImageView
+                            android:layout_width="0dp"
+                            android:layout_weight=".15"
+                            android:layout_height="match_parent"
+                            android:src="@drawable/ic_right_arrow"
+                            android:padding="15dp"
+                            android:rotation='@{lang.equals("ar")?180:0}'
+                            android:clickable="false"
+                            android:longClickable="false"
+                            />
+                    </LinearLayout>
+
+                    <!--
+                                        <FrameLayout
+                                            android:layout_width="match_parent"
+                                            android:layout_height="40dp"
+                                            android:layout_marginTop="8dp"
+                                            android:background="@drawable/edt_bg"
+                                            >
+                                            &lt;!&ndash;<Spinner
+                                                android:id="@+id/spinnerCity"
+                                                android:layout_width="match_parent"
+                                                android:layout_height="match_parent"
+
+                                                android:layout_marginLeft="8dp"
+                                                android:layout_marginRight="8dp"
+                                                app:backgroundTint="@color/black"
+                                                />&ndash;&gt;
+
+
+
+                                        </FrameLayout>
+                    -->
 
 
                     <TextView
@@ -438,7 +481,6 @@
                         android:textSize="14sp"
                         android:inputType="numberDecimal"
                         android:text="@={addAdModel.ad_price}"
-                        error="@{addAdModel.error_price}"
 
                         />
 

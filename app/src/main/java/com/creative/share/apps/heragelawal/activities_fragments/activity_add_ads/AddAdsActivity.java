@@ -17,7 +17,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.provider.MediaStore;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,18 +35,20 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.creative.share.apps.heragelawal.R;
 import com.creative.share.apps.heragelawal.activities_fragments.activity_add_company.FragmentMapTouchListener;
 import com.creative.share.apps.heragelawal.activities_fragments.activity_filter.FilterActivity;
 import com.creative.share.apps.heragelawal.activities_fragments.activity_video.VideoActivity;
+import com.creative.share.apps.heragelawal.adapter.CityAdapter;
 import com.creative.share.apps.heragelawal.adapter.SliderAddAdAdapter;
-import com.creative.share.apps.heragelawal.adapter.SpinnerCityAdapter;
 import com.creative.share.apps.heragelawal.adapter.SpinnerSubCategoryAdapter;
 import com.creative.share.apps.heragelawal.adapter.SpinnerSubSubCategoryFormAdapter;
 import com.creative.share.apps.heragelawal.adapter.SpinnerTypeAdapter;
 import com.creative.share.apps.heragelawal.databinding.ActivityAddAdsBinding;
 import com.creative.share.apps.heragelawal.databinding.DialogAddAddSelectImageBinding;
+import com.creative.share.apps.heragelawal.databinding.DialogCitiesBinding;
 import com.creative.share.apps.heragelawal.interfaces.Listeners;
 import com.creative.share.apps.heragelawal.language.LanguageHelper;
 import com.creative.share.apps.heragelawal.models.AdImageVideoModel;
@@ -122,10 +126,10 @@ public class AddAdsActivity extends AppCompatActivity  implements  OnMapReadyCal
     private List<SubCategoryDataModel.SubCategoryModel> subCategoryModelList;
     private List<FormDataModel.SubCategory> subSubCategoryModelList;
     private List<FormDataModel.TypeModel> typeModelList;
-    private List<FormDataModel.CityModel> cityModelList;
+    private List<FormDataModel.CityModel> cityModelList,cityModelListSearch;
 
     private SpinnerSubCategoryAdapter adapter;
-    private SpinnerCityAdapter cityAdapter;
+    private CityAdapter cityAdapter;
     private SpinnerTypeAdapter typeAdapter;
     private SpinnerSubSubCategoryFormAdapter subSubCategoryFormAdapter;
     private boolean isFirstTime = true;
@@ -139,6 +143,9 @@ public class AddAdsActivity extends AppCompatActivity  implements  OnMapReadyCal
     private List<FormDataModel.FormModel> formModelList;
     private List<FormDataModel.OptionModel> optionModelList;
     private AddAdModel addAdModel;
+    private  AlertDialog dialogCity;
+
+
 
 
 
@@ -161,6 +168,7 @@ public class AddAdsActivity extends AppCompatActivity  implements  OnMapReadyCal
         addAdModel = new AddAdModel();
         optionModelList = new ArrayList<>();
         formModelList = new ArrayList<>();
+        cityModelListSearch = new ArrayList<>();
         adImageVideoModelList = new ArrayList<>();
         subSubCategoryModelList = new ArrayList<>();
         typeModelList = new ArrayList<>();
@@ -292,6 +300,8 @@ public class AddAdsActivity extends AppCompatActivity  implements  OnMapReadyCal
             }
         });
 
+        binding.llCity.setOnClickListener(view1 -> CreateCityAlert());
+/*
         binding.spinnerCity.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -312,6 +322,7 @@ public class AddAdsActivity extends AppCompatActivity  implements  OnMapReadyCal
 
             }
         });
+*/
 
         binding.spinnerSubSubCategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -352,6 +363,90 @@ public class AddAdsActivity extends AppCompatActivity  implements  OnMapReadyCal
 
     }
 
+
+
+    private void CreateCityAlert() {
+        dialogCity = new AlertDialog.Builder(this)
+                .create();
+
+        cityAdapter = new CityAdapter(this,cityModelListSearch);
+
+        DialogCitiesBinding binding = DataBindingUtil.inflate(LayoutInflater.from(this), R.layout.dialog_cities, null, false);
+        binding.recView.setLayoutManager(new LinearLayoutManager(this));
+        binding.recView.setAdapter(cityAdapter);
+
+        binding.edtSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                String query = editable.toString();
+                if (query.length()>0)
+                {
+                    List<FormDataModel.CityModel> cityModels = searchCity(query);
+                    cityModelListSearch.clear();
+                    cityModelListSearch.addAll(cityModels);
+                    cityAdapter.notifyDataSetChanged();
+                }else
+                    {
+                        cityModelListSearch.clear();
+                        cityModelListSearch.addAll(cityModelList);
+                        cityAdapter.notifyDataSetChanged();
+
+                    }
+
+            }
+        });
+
+
+
+        dialogCity.getWindow().getAttributes().windowAnimations = R.style.dialog_congratulation_animation;
+        dialogCity.getWindow().setBackgroundDrawableResource(R.drawable.dialog_window_bg);
+        dialogCity.setCanceledOnTouchOutside(false);
+        dialogCity.setView(binding.getRoot());
+        dialogCity.show();
+    }
+
+    private List<FormDataModel.CityModel> searchCity(String query) {
+        List<FormDataModel.CityModel> cityModelList = new ArrayList<>();
+
+        for (FormDataModel.CityModel cityModel:this.cityModelList)
+        {
+
+            if (cityModel.getAr_name().contains(query))
+            {
+                cityModelList.add(cityModel);
+            }
+        }
+
+        return cityModelList;
+    }
+
+    public void setCityModel(FormDataModel.CityModel cityModel) {
+        if (dialogCity!=null)
+        {
+            dialogCity.dismiss();
+        }
+        if (cityModel.getCity_id()==0)
+        {
+            binding.tvCity.setText("");
+
+        }else
+            {
+                binding.tvCity.setText(cityModel.getAr_name());
+
+            }
+        addAdModel.setCity_id(cityModel.getCity_id());
+    }
+
     private void addAd() {
 
         String video_uri = isListHasVideo();
@@ -365,6 +460,7 @@ public class AddAdsActivity extends AppCompatActivity  implements  OnMapReadyCal
             }
 
     }
+
 
 
 
@@ -777,12 +873,15 @@ public class AddAdsActivity extends AppCompatActivity  implements  OnMapReadyCal
 
             if (isFirstTime)
             {
+                cityModelListSearch.clear();
+                cityModelListSearch.add(new FormDataModel.CityModel(0,getString(R.string.ch_city)));
                 cityModelList.clear();
                 cityModelList.add(new FormDataModel.CityModel(0,getString(R.string.ch_city)));
                 cityModelList.addAll(body.getCities());
+                cityModelListSearch.addAll(body.getCities());
 
-                cityAdapter = new SpinnerCityAdapter(cityModelList,this);
-                binding.spinnerCity.setAdapter(cityAdapter);
+
+                //binding.spinnerCity.setAdapter(cityAdapter);
 
             }
 
@@ -791,11 +890,15 @@ public class AddAdsActivity extends AppCompatActivity  implements  OnMapReadyCal
 
                 if (cityAdapter==null)
                 {
-                    cityModelList.clear();
+                   /* cityModelList.clear();
                     cityModelList.add(new FormDataModel.CityModel(0,getString(R.string.ch_city)));
+*/
+                    cityModelListSearch.clear();
+                    cityModelListSearch.add(new FormDataModel.CityModel(0,getString(R.string.ch_city)));
 
-                    cityAdapter = new SpinnerCityAdapter(cityModelList,this);
-                    binding.spinnerCity.setAdapter(cityAdapter);
+
+                    /*cityAdapter = new SpinnerCityAdapter(cityModelList,this);
+                    binding.spinnerCity.setAdapter(cityAdapter);*/
 
                 }
             }
@@ -863,8 +966,8 @@ public class AddAdsActivity extends AppCompatActivity  implements  OnMapReadyCal
             cityAdapter.notifyDataSetChanged();
         }else
             {
-                cityAdapter = new SpinnerCityAdapter(cityModelList,this);
-                binding.spinnerCity.setAdapter(cityAdapter);
+                /*cityAdapter = new SpinnerCityAdapter(cityModelList,this);
+                binding.spinnerCity.setAdapter(cityAdapter);*/
 
             }
 
@@ -1384,4 +1487,6 @@ public class AddAdsActivity extends AppCompatActivity  implements  OnMapReadyCal
 
         return pos;
     }
+
+
 }

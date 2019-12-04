@@ -11,7 +11,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.GET_TASKS"/>
+    <uses-permission android:name="android.permission.GET_TASKS" />
 
     <application
         android:name=".language.App"
@@ -25,6 +25,7 @@
         tools:ignore="GoogleAppIndexingWarning"
         tools:targetApi="m">
 
+
         <service
             android:name=".notification.FireBaseMessaging"
             android:exported="false">
@@ -32,6 +33,7 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
+
         <uses-library
             android:name="org.apache.http.legacy"
             android:required="false" />
@@ -43,15 +45,14 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
-        <activity android:name=".activities_fragments.activity_chat.ChatActivity"
+        <activity
+            android:name=".activities_fragments.activity_chat.ChatActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize|adjustPan"
-            android:taskAffinity=""
-            android:launchMode="singleTask"
             android:excludeFromRecents="true"
-
+            android:launchMode="singleTask"
+            android:taskAffinity=""
             />
-
         <activity
             android:name=".activities_fragments.activity_notification.NotificationActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
@@ -122,11 +123,10 @@
         <activity
             android:name=".activities_fragments.activity_home.activity.HomeActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
-            android:windowSoftInputMode="stateAlwaysHidden|adjustResize"
-            android:taskAffinity=""
             android:excludeFromRecents="true"
             android:launchMode="singleTask"
-            />
+            android:taskAffinity=""
+            android:windowSoftInputMode="stateAlwaysHidden|adjustResize" />
 
         <uses-library
             android:name="org.apache.http.legacy"

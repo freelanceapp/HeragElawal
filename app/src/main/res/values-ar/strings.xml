@@ -218,6 +218,7 @@
     <string name="day">يوم</string>
     <string name="type_a_message">إكتب رسالة....</string>
     <string name="img_sent">تم إرسال صورة لك</string>
+    <string name="search">بحث....</string>
 
 
 </resources>

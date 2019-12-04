@@ -55,7 +55,6 @@ public class AddAdModel extends BaseObservable implements Serializable{
                 city_id!=0&&
                 optionModelList.size()>0&&
                 !ad_name.isEmpty()&&
-                !ad_price.isEmpty()&&
                 !ad_details.isEmpty()&&
                 !address.isEmpty()&&
                 isListHasImage()&&
@@ -64,20 +63,21 @@ public class AddAdModel extends BaseObservable implements Serializable{
         {
 
             error_name.set(null);
-            error_price.set(null);
+            //error_price.set(null);
             error_details.set(null);
             error_address.set(null);
             return true;
         }else
             {
+                if (!isListHasImage())
+                {
+                    Toast.makeText(context,context.getString(R.string.ch_1_img), Toast.LENGTH_SHORT).show();
+                }else
                 if (images.size()==0)
                 {
                     Toast.makeText(context, R.string.ch_1_img, Toast.LENGTH_SHORT).show();
                 }
-                if (!isListHasImage())
-                {
-                    Toast.makeText(context,context.getString(R.string.ch_1_img), Toast.LENGTH_SHORT).show();
-                }
+
 
                 if (cat_id==0)
                 {
@@ -111,14 +111,14 @@ public class AddAdModel extends BaseObservable implements Serializable{
                         error_name.set(null);
                     }
 
-                if (ad_price.isEmpty())
+                /*if (ad_price.isEmpty())
                 {
                     error_price.set(context.getString(R.string.field_req));
 
                 }else
                 {
                     error_price.set(null);
-                }
+                }*/
 
                 if (ad_details.isEmpty())
                 {

@@ -141,7 +141,8 @@ public class HomeActivity extends AppCompatActivity {
     }
 
 
-    private void initView() {
+    private void initView()
+    {
         EventBus.getDefault().register(this);
         fragmentManager = getSupportFragmentManager();
         mainCategoryModelList = new ArrayList<>();

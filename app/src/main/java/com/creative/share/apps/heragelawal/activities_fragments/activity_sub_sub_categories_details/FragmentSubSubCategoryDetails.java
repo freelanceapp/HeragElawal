@@ -91,6 +91,9 @@ public class FragmentSubSubCategoryDetails extends Fragment {
             sub_sub_id = bundle.getInt(DATA1);
             type_id = bundle.getInt(DATA2);
 
+
+
+
         }
 
         updateManager();
