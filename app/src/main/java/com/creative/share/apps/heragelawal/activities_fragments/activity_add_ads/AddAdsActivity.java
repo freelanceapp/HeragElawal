@@ -242,27 +242,16 @@ public class AddAdsActivity extends AppCompatActivity  implements  OnMapReadyCal
             binding.edtName.setText(addAdModel.getAd_name());
             binding.edtPrice.setText(addAdModel.getAd_price());
             binding.edtDetails.setText(addAdModel.getAd_details());
-
-            try {
-                binding.spinnerCategory.setSelection(addAdModel.getCat_pos());
-            }catch (ArrayIndexOutOfBoundsException e){
-                binding.spinnerCategory.setSelection(0);
-
-            }
-
-            try {
-                binding.spinnerSubSubCategory.setSelection(addAdModel.getSub_cat_pos());
-            }catch (ArrayIndexOutOfBoundsException e){
-                binding.spinnerSubSubCategory.setSelection(0);
+            adImageVideoModelList.clear();
+            adImageVideoModelList.addAll(addAdModel.getImages());
+            binding.tvCity.setText(addAdModel.getCity_name());
+            if (addAdModel.getOptionModelList().size()>0){
+                binding.tvFilter.setText(R.string.all_filter_ched);
 
             }
+            setAdapterData();
 
-            try {
-                binding.spinnerType.setSelection(addAdModel.getAd_type_pos());
-            }catch (ArrayIndexOutOfBoundsException e){
-                binding.spinnerType.setSelection(0);
 
-            }
         }
 
 
@@ -285,7 +274,6 @@ public class AddAdsActivity extends AppCompatActivity  implements  OnMapReadyCal
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
-                addAdModel.setCat_pos(i);
                 if (i==0)
                 {
                     clearSpinnerData();
@@ -301,7 +289,9 @@ public class AddAdsActivity extends AppCompatActivity  implements  OnMapReadyCal
 
                     addAdModel.setMain_cat_id(subCategoryModelList.get(i).getParent_id());
                     addAdModel.setCat_id(cat_id);
+                    addAdModel.setCat_pos(i);
                     binding.setAddAdModel(addAdModel);
+
                     preferences.create_update_addAdsData(AddAdsActivity.this,addAdModel);
 
                     getFormData(cat_id);
@@ -320,7 +310,6 @@ public class AddAdsActivity extends AppCompatActivity  implements  OnMapReadyCal
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
-                addAdModel.setAd_type_pos(i);
                 if (i==0)
                 {
                     addAdModel.setAd_type_id(0);
@@ -329,6 +318,7 @@ public class AddAdsActivity extends AppCompatActivity  implements  OnMapReadyCal
 
                 }else
                     {
+                        addAdModel.setAd_type_pos(i);
                         addAdModel.setAd_type_id(typeModelList.get(i).getType_id());
                         binding.setAddAdModel(addAdModel);
                         preferences.create_update_addAdsData(AddAdsActivity.this,addAdModel);
@@ -370,7 +360,6 @@ public class AddAdsActivity extends AppCompatActivity  implements  OnMapReadyCal
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
-                addAdModel.setSub_cat_pos(i);
 
                 if (i==0)
                 {
@@ -485,13 +474,17 @@ public class AddAdsActivity extends AppCompatActivity  implements  OnMapReadyCal
         if (cityModel.getCity_id()==0)
         {
             binding.tvCity.setText("");
+            addAdModel.setCity_name("");
 
         }else
             {
                 binding.tvCity.setText(cityModel.getAr_name());
+                addAdModel.setCity_name(cityModel.getAr_name());
+
 
             }
         addAdModel.setCity_id(cityModel.getCity_id());
+        preferences.create_update_addAdsData(this,addAdModel);
     }
 
     private void addAd() {
@@ -578,6 +571,8 @@ public class AddAdsActivity extends AppCompatActivity  implements  OnMapReadyCal
 
                             if (response.isSuccessful()&&response.body()!=null)
                             {
+                                preferences.clearAddAds(AddAdsActivity.this);
+
                                 Toast.makeText(AddAdsActivity.this, getString(R.string.suc), Toast.LENGTH_SHORT).show();
                                 Intent intent = getIntent();
                                 if (intent!=null)
@@ -680,6 +675,7 @@ public class AddAdsActivity extends AppCompatActivity  implements  OnMapReadyCal
 
                             if (response.isSuccessful()&&response.body()!=null)
                             {
+                                preferences.clearAddAds(AddAdsActivity.this);
 
                                 Toast.makeText(AddAdsActivity.this, getString(R.string.suc), Toast.LENGTH_SHORT).show();
                                 Intent intent = getIntent();
@@ -807,6 +803,20 @@ public class AddAdsActivity extends AppCompatActivity  implements  OnMapReadyCal
                                 subCategoryModelList.add(new SubCategoryDataModel.SubCategoryModel(0,getString(R.string.ch_cat)));
                                 subCategoryModelList.addAll(response.body().getData());
                                 adapter.notifyDataSetChanged();
+
+                                if (preferences.getAddAdsData(AddAdsActivity.this)!=null){
+                                    try {
+
+                                        Log.e("pos1",addAdModel.getSub_cat_pos()+"__");
+
+                                        new Handler().postDelayed(() -> binding.spinnerCategory.setSelection(addAdModel.getSub_cat_pos()),2000);
+
+                                    }catch (ArrayIndexOutOfBoundsException e){
+
+                                    }
+
+                                }
+
                             }else
                             {
                                 if (response.code() == 500) {
@@ -969,6 +979,15 @@ public class AddAdsActivity extends AppCompatActivity  implements  OnMapReadyCal
                 typeAdapter = new SpinnerTypeAdapter(typeModelList,this);
                 binding.spinnerType.setAdapter(typeAdapter);
 
+                if (preferences.getAddAdsData(AddAdsActivity.this)!=null){
+                    try {
+                        binding.spinnerType.setSelection(addAdModel.getAd_type_pos());
+                    }catch (ArrayIndexOutOfBoundsException e){
+
+                    }
+                }
+
+
             }
 
         }else
@@ -989,8 +1008,13 @@ public class AddAdsActivity extends AppCompatActivity  implements  OnMapReadyCal
         subSubCategoryModelList.add(new FormDataModel.SubCategory(0,getString(R.string.ch)));
         subSubCategoryModelList.addAll(body.getSub_cat());
 
+
+
+
+
         subSubCategoryFormAdapter = new SpinnerSubSubCategoryFormAdapter(subSubCategoryModelList,this);
         binding.spinnerSubSubCategory.setAdapter(subSubCategoryFormAdapter);
+
 
         isFirstTime = false;
 
@@ -1364,6 +1388,7 @@ public class AddAdsActivity extends AppCompatActivity  implements  OnMapReadyCal
             binding.setAddAdModel(addAdModel);
             preferences.create_update_addAdsData(AddAdsActivity.this,addAdModel);
 
+
             setAdapterData();
             closeSheet();
 
@@ -1422,7 +1447,7 @@ public class AddAdsActivity extends AppCompatActivity  implements  OnMapReadyCal
                 addAdModel.setOptionModelList(this.optionModelList);
                 binding.setAddAdModel(addAdModel);
                 preferences.create_update_addAdsData(this,addAdModel);
-
+                preferences.create_update_addAdsData(this,addAdModel);
                 binding.tvFilter.setText(R.string.all_filter_ched);
             }
         }
@@ -1566,4 +1591,11 @@ public class AddAdsActivity extends AppCompatActivity  implements  OnMapReadyCal
     }
 
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (addAdModel!=null){
+            preferences.create_update_addAdsData(this,addAdModel);
+        }
+    }
 }

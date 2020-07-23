@@ -126,19 +126,6 @@ public class Preferences {
 
 
 
-    public void setLastVisit(Context context,String date)
-    {
-        SharedPreferences preferences = context.getSharedPreferences("visit",Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putString("lastVisit",date);
-        editor.apply();
-
-    }
-    public String getLastVisit(Context context)
-    {
-        SharedPreferences preferences = context.getSharedPreferences("visit",Context.MODE_PRIVATE);
-        return preferences.getString("lastVisit","0");
-    }
 
     public void clear(Context context)
     {
@@ -151,6 +138,22 @@ public class Preferences {
         SharedPreferences.Editor editor2 = preferences2.edit();
         editor2.clear();
         editor2.apply();
+
+
+        SharedPreferences preferences3 = context.getSharedPreferences("adsPref",Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor3 = preferences3.edit();
+        editor3.clear();
+        editor3.apply();
+
+    }
+
+
+    public void clearAddAds(Context context)
+    {
+        SharedPreferences preferences3 = context.getSharedPreferences("adsPref",Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor3 = preferences3.edit();
+        editor3.clear();
+        editor3.apply();
 
     }
 

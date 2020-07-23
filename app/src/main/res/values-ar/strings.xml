@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">حراج الاول</string>
-    <string name="map_api_key">AIzaSyCbc2Y5AIwZ8uUeHRUXiozGN3CnpjKT0oI</string>
+    <string name="map_api_key">AIzaSyAeyMUJgKAhnNXbILHONb1um72CNzELFRY</string>
 
 
     <string name="log_in">تسجيل الدخول</string>
@@ -203,7 +203,7 @@
     <string name="select">تحديد</string>
     <string name="video">إختر فيديو</string>
     <string name="select_picture">إختر الصور</string>
-    <string name="all_filter_ched">جيمع الفلاتر مختارة</string>
+    <string name="all_filter_ched">جميع الفلاتر مختارة</string>
     <string name="ch_filters">إختر فلاتر القسم</string>
     <string name="ch_1_img">إختر على الاقل صورة واحده للإعلان</string>
     <string name="approved">تم إعتماد</string>

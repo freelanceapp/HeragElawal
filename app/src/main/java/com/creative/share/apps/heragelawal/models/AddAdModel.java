@@ -31,7 +31,7 @@ public class AddAdModel extends BaseObservable implements Serializable{
     private int cat_pos;
     private int sub_cat_pos;
     private int ad_type_pos;
-    private int city_pos;
+    private String city_name;
 
     private List<AdImageVideoModel> images = new ArrayList<>();
 
@@ -333,11 +333,13 @@ public class AddAdModel extends BaseObservable implements Serializable{
         this.ad_type_pos = ad_type_pos;
     }
 
-    public int getCity_pos() {
-        return city_pos;
+
+
+    public String getCity_name() {
+        return city_name;
     }
 
-    public void setCity_pos(int city_pos) {
-        this.city_pos = city_pos;
+    public void setCity_name(String city_name) {
+        this.city_name = city_name;
     }
 }
