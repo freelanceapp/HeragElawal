@@ -82,7 +82,6 @@ public class Fragment_Code_Verification extends Fragment {
         {
            userModel = (UserModel) bundle.getSerializable(TAG);
 
-           Log.e("user_id",userModel.getId()+"__");
         }
 
         startCounter();
@@ -197,15 +196,13 @@ public class Fragment_Code_Verification extends Fragment {
 
                 int AllSeconds = (int) (millisUntilFinished / 1000);
                 int seconds= AllSeconds%60;
-
-
                 binding.btnResend.setText("00:"+seconds);
             }
 
             @Override
             public void onFinish() {
                 canResend = true;
-                binding.btnConfirm.setText(getString(R.string.resend));
+                binding.btnResend.setText(getString(R.string.resend));
             }
         }.start();
     }

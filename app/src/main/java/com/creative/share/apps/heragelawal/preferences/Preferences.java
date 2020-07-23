@@ -3,6 +3,7 @@ package com.creative.share.apps.heragelawal.preferences;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.creative.share.apps.heragelawal.models.AddAdModel;
 import com.creative.share.apps.heragelawal.models.ChatUserModel;
 import com.creative.share.apps.heragelawal.models.UserModel;
 import com.google.gson.Gson;
@@ -51,6 +52,25 @@ public class Preferences {
         SharedPreferences preferences = context.getSharedPreferences("userPref",Context.MODE_PRIVATE);
         String userDataGson = preferences.getString("user_data","");
         return new Gson().fromJson(userDataGson,UserModel.class);
+    }
+
+
+
+    public void create_update_addAdsData(Context context , AddAdModel addAdModel)
+    {
+        SharedPreferences preferences = context.getSharedPreferences("adsPref",Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        Gson gson = new Gson();
+        String adsDataGson = gson.toJson(addAdModel);
+        editor.putString("ad_data",adsDataGson);
+        editor.apply();
+    }
+
+    public AddAdModel getAddAdsData(Context context)
+    {
+        SharedPreferences preferences = context.getSharedPreferences("adsPref",Context.MODE_PRIVATE);
+        String adsDataGson = preferences.getString("ad_data","");
+        return new Gson().fromJson(adsDataGson,AddAdModel.class);
     }
 
 

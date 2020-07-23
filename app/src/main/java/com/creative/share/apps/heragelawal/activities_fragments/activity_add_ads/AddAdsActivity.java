@@ -5,6 +5,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
@@ -208,6 +209,8 @@ public class AddAdsActivity extends AppCompatActivity  implements  OnMapReadyCal
             adImageVideoModelList.remove(binding.pager.getCurrentItem());
             addAdModel.setImages(adImageVideoModelList);
             binding.setAddAdModel(addAdModel);
+            preferences.create_update_addAdsData(this,addAdModel);
+
             if (adImageVideoModelList.size()>0)
             {
                 sliderAddAdAdapter = new SliderAddAdAdapter(this,adImageVideoModelList);
@@ -232,6 +235,35 @@ public class AddAdsActivity extends AppCompatActivity  implements  OnMapReadyCal
         });
         //////////////////////////////////////////////////////
 
+        if (preferences.getAddAdsData(this)!=null){
+            addAdModel = preferences.getAddAdsData(this);
+            binding.setAddAdModel(addAdModel);
+            binding.edtAddress.setText(addAdModel.getAddress());
+            binding.edtName.setText(addAdModel.getAd_name());
+            binding.edtPrice.setText(addAdModel.getAd_price());
+            binding.edtDetails.setText(addAdModel.getAd_details());
+
+            try {
+                binding.spinnerCategory.setSelection(addAdModel.getCat_pos());
+            }catch (ArrayIndexOutOfBoundsException e){
+                binding.spinnerCategory.setSelection(0);
+
+            }
+
+            try {
+                binding.spinnerSubSubCategory.setSelection(addAdModel.getSub_cat_pos());
+            }catch (ArrayIndexOutOfBoundsException e){
+                binding.spinnerSubSubCategory.setSelection(0);
+
+            }
+
+            try {
+                binding.spinnerType.setSelection(addAdModel.getAd_type_pos());
+            }catch (ArrayIndexOutOfBoundsException e){
+                binding.spinnerType.setSelection(0);
+
+            }
+        }
 
 
 
@@ -253,12 +285,15 @@ public class AddAdsActivity extends AppCompatActivity  implements  OnMapReadyCal
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
+                addAdModel.setCat_pos(i);
                 if (i==0)
                 {
                     clearSpinnerData();
                     addAdModel.setMain_cat_id(0);
                     addAdModel.setCat_id(0);
                     binding.setAddAdModel(addAdModel);
+                    preferences.create_update_addAdsData(AddAdsActivity.this,addAdModel);
+
 
                 }else
                 {
@@ -267,6 +302,8 @@ public class AddAdsActivity extends AppCompatActivity  implements  OnMapReadyCal
                     addAdModel.setMain_cat_id(subCategoryModelList.get(i).getParent_id());
                     addAdModel.setCat_id(cat_id);
                     binding.setAddAdModel(addAdModel);
+                    preferences.create_update_addAdsData(AddAdsActivity.this,addAdModel);
+
                     getFormData(cat_id);
 
                 }
@@ -283,14 +320,19 @@ public class AddAdsActivity extends AppCompatActivity  implements  OnMapReadyCal
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
+                addAdModel.setAd_type_pos(i);
                 if (i==0)
                 {
                     addAdModel.setAd_type_id(0);
                     binding.setAddAdModel(addAdModel);
+                    preferences.create_update_addAdsData(AddAdsActivity.this,addAdModel);
+
                 }else
                     {
                         addAdModel.setAd_type_id(typeModelList.get(i).getType_id());
                         binding.setAddAdModel(addAdModel);
+                        preferences.create_update_addAdsData(AddAdsActivity.this,addAdModel);
+
                     }
             }
 
@@ -328,14 +370,21 @@ public class AddAdsActivity extends AppCompatActivity  implements  OnMapReadyCal
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
 
+                addAdModel.setSub_cat_pos(i);
+
                 if (i==0)
                 {
                     addAdModel.setSub_cat_id(0);
                     binding.setAddAdModel(addAdModel);
+                    preferences.create_update_addAdsData(AddAdsActivity.this,addAdModel);
+
+
                 }else
                 {
                     addAdModel.setSub_cat_id(subSubCategoryModelList.get(i).getSub_id());
                     binding.setAddAdModel(addAdModel);
+                    preferences.create_update_addAdsData(AddAdsActivity.this,addAdModel);
+
                 }
             }
 
@@ -406,8 +455,6 @@ public class AddAdsActivity extends AppCompatActivity  implements  OnMapReadyCal
             }
         });
 
-
-
         dialogCity.getWindow().getAttributes().windowAnimations = R.style.dialog_congratulation_animation;
         dialogCity.getWindow().setBackgroundDrawableResource(R.drawable.dialog_window_bg);
         dialogCity.setCanceledOnTouchOutside(false);
@@ -476,6 +523,8 @@ public class AddAdsActivity extends AppCompatActivity  implements  OnMapReadyCal
                 adImageVideoModelList.remove(i);
                 addAdModel.setImages(adImageVideoModelList);
                 binding.setAddAdModel(addAdModel);
+                preferences.create_update_addAdsData(AddAdsActivity.this,addAdModel);
+
                 return video_uri;
             }
         }
@@ -1046,6 +1095,8 @@ public class AddAdsActivity extends AppCompatActivity  implements  OnMapReadyCal
         addAdModel.setLat(lat);
         addAdModel.setLng(lng);
         binding.setAddAdModel(addAdModel);
+        preferences.create_update_addAdsData(AddAdsActivity.this,addAdModel);
+
 
         if (marker == null) {
             marker = mMap.addMarker(new MarkerOptions().position(new LatLng(lat, lng)).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
@@ -1079,6 +1130,8 @@ public class AddAdsActivity extends AppCompatActivity  implements  OnMapReadyCal
                                 binding.edtAddress.setText(address);
                                 addAdModel.setAddress(address);
                                 binding.setAddAdModel(addAdModel);
+                                preferences.create_update_addAdsData(AddAdsActivity.this,addAdModel);
+
 
                             }
                         } else {
@@ -1124,6 +1177,8 @@ public class AddAdsActivity extends AppCompatActivity  implements  OnMapReadyCal
                                 binding.edtAddress.setText(address);
                                 addAdModel.setAddress(address);
                                 binding.setAddAdModel(addAdModel);
+                                preferences.create_update_addAdsData(AddAdsActivity.this,addAdModel);
+
                                 AddMarker(response.body().getCandidates().get(0).getGeometry().getLocation().getLat(), response.body().getCandidates().get(0).getGeometry().getLocation().getLng());
                             }
                         } else {
@@ -1286,12 +1341,29 @@ public class AddAdsActivity extends AppCompatActivity  implements  OnMapReadyCal
 
         }else if (requestCode ==read_req&&resultCode== Activity.RESULT_OK&&data!=null)
         {
-            Uri uri = data.getData();
-            String path = Common.getImagePath(this,uri);
-            adImageVideoModelList.add(new AdImageVideoModel(false,uri.toString()));
+
+            if (data.getClipData()==null){
+                Uri uri = data.getData();
+                String path = Common.getImagePath(this,uri);
+                adImageVideoModelList.add(new AdImageVideoModel(false,uri.toString()));
+
+            }else {
+
+                for (int index =0;index<data.getClipData().getItemCount();index++){
+
+                    ClipData.Item item = data.getClipData().getItemAt(index);
+                    Uri uri = item.getUri();
+                    String path = Common.getImagePath(this,uri);
+                    adImageVideoModelList.add(new AdImageVideoModel(false,uri.toString()));
+
+                }
+            }
+
 
             addAdModel.setImages(adImageVideoModelList);
             binding.setAddAdModel(addAdModel);
+            preferences.create_update_addAdsData(AddAdsActivity.this,addAdModel);
+
             setAdapterData();
             closeSheet();
 
@@ -1305,6 +1377,8 @@ public class AddAdsActivity extends AppCompatActivity  implements  OnMapReadyCal
             adImageVideoModelList.add(new AdImageVideoModel(false,getUriFromBitmap(bitmap).toString()));
             addAdModel.setImages(adImageVideoModelList);
             binding.setAddAdModel(addAdModel);
+            preferences.create_update_addAdsData(AddAdsActivity.this,addAdModel);
+
 
             setAdapterData();
             closeSheet();
@@ -1331,6 +1405,7 @@ public class AddAdsActivity extends AppCompatActivity  implements  OnMapReadyCal
 
             addAdModel.setImages(adImageVideoModelList);
             binding.setAddAdModel(addAdModel);
+            preferences.create_update_addAdsData(AddAdsActivity.this,addAdModel);
 
             setAdapterData();
             closeSheet();
@@ -1346,6 +1421,7 @@ public class AddAdsActivity extends AppCompatActivity  implements  OnMapReadyCal
 
                 addAdModel.setOptionModelList(this.optionModelList);
                 binding.setAddAdModel(addAdModel);
+                preferences.create_update_addAdsData(this,addAdModel);
 
                 binding.tvFilter.setText(R.string.all_filter_ched);
             }
@@ -1403,6 +1479,7 @@ public class AddAdsActivity extends AppCompatActivity  implements  OnMapReadyCal
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
 
+                intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE,true);
                 intent.setAction(Intent.ACTION_OPEN_DOCUMENT);
                 intent.addFlags(Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION);
             }else

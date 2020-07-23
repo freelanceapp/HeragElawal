@@ -265,7 +265,6 @@ public class FireBaseMessaging extends FirebaseMessagingService {
 
     private void LoadChatImage(MessageModel messageModel, String sound_path,int type) {
 
-        Log.e("load_image","dddddddddddddddddddddd");
 
         Target target = new Target() {
             @RequiresApi(api = Build.VERSION_CODES.O)
@@ -487,10 +486,6 @@ public class FireBaseMessaging extends FirebaseMessagingService {
     }
 
 
-    private int getCurrentUser_id()
-    {
-        return preferences.getUserData(this).getId();
-    }
 
     private int getChatUser_id()
     {
@@ -503,6 +498,11 @@ public class FireBaseMessaging extends FirebaseMessagingService {
                 return -1;
 
             }
+    }
+
+    private int getCurrentUser_id()
+    {
+        return preferences.getUserData(this).getId();
     }
 
     private String getSession()
