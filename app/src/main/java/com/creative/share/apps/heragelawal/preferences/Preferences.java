@@ -58,7 +58,7 @@ public class Preferences {
 
     public void create_update_addAdsData(Context context , AddAdModel addAdModel)
     {
-        SharedPreferences preferences = context.getSharedPreferences("adsPref",Context.MODE_PRIVATE);
+        SharedPreferences preferences = context.getSharedPreferences("heraj_ads_pref",Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         Gson gson = new Gson();
         String adsDataGson = gson.toJson(addAdModel);
@@ -68,7 +68,7 @@ public class Preferences {
 
     public AddAdModel getAddAdsData(Context context)
     {
-        SharedPreferences preferences = context.getSharedPreferences("adsPref",Context.MODE_PRIVATE);
+        SharedPreferences preferences = context.getSharedPreferences("heraj_ads_pref",Context.MODE_PRIVATE);
         String adsDataGson = preferences.getString("ad_data","");
         return new Gson().fromJson(adsDataGson,AddAdModel.class);
     }
@@ -140,7 +140,7 @@ public class Preferences {
         editor2.apply();
 
 
-        SharedPreferences preferences3 = context.getSharedPreferences("adsPref",Context.MODE_PRIVATE);
+        SharedPreferences preferences3 = context.getSharedPreferences("heraj_ads_pref",Context.MODE_PRIVATE);
         SharedPreferences.Editor editor3 = preferences3.edit();
         editor3.clear();
         editor3.apply();
@@ -150,7 +150,7 @@ public class Preferences {
 
     public void clearAddAds(Context context)
     {
-        SharedPreferences preferences3 = context.getSharedPreferences("adsPref",Context.MODE_PRIVATE);
+        SharedPreferences preferences3 = context.getSharedPreferences("heraj_ads_pref",Context.MODE_PRIVATE);
         SharedPreferences.Editor editor3 = preferences3.edit();
         editor3.clear();
         editor3.apply();
