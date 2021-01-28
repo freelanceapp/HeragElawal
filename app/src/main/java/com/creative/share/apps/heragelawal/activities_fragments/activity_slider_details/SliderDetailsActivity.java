@@ -104,6 +104,7 @@ public class SliderDetailsActivity extends AppCompatActivity implements Listener
             ad_id = intent.getIntExtra("ad_id",0);
 
         }
+
     }
 
     private void initView()
